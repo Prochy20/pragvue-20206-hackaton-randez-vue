@@ -18,7 +18,7 @@ Stavíme to na PragVue Hackathon 2026, sólo, pár hodin čistého času. Cílem
 - Požadavek zadání: UI ve Vue, funkční user journey, loading / empty / success / error stavy, smysluplné využití AI.
 - Jazyk UI i AI výstupů: **angličtina**. Dokumentace pro vývoj (tento soubor) česky, README pro porotu anglicky (až na konci).
 - Škála: jeden event má max. 40–50 lidí.
-- Provoz: `localhost` z notebooku (Postgres v docker-compose), případně vlastní Coolify. Dockerfile zatím neřešíme.
+- Provoz: vývoj na `localhost` (Postgres v docker-compose), demo na vlastním **Coolify** (Nixpacks, bez Dockerfilu, viz README). Dockerfile neřešíme.
 
 ## Rozhodnutí
 
@@ -26,7 +26,7 @@ Stavíme to na PragVue Hackathon 2026, sólo, pár hodin čistého času. Cílem
 
 - **Nuxt 4** + **Nuxt UI v4** (Tailwind v4 uvnitř) + TypeScript, správce balíčků **pnpm**.
 - Backend = Nitro server routes (`server/api/*`) ve stejném projektu. Žádný oddělený backend, žádné CORS.
-- **Databáze:** **Postgres** (`docker-compose.yml`, jen DB služba; appka běží lokálně `pnpm dev`) + **Drizzle ORM** (`pg`). Schéma v `server/db/schema.ts`, `pnpm db:push` (bez migračních souborů). JSON sloupce `jsonb`. *(Původně SQLite přes Nitro database – změněno ve fázi 3.)*
+- **Databáze:** **Postgres** (`docker-compose.yml`, jen DB služba; appka běží lokálně `pnpm dev`) + **Drizzle ORM** (`pg`). Schéma v `server/db/schema.ts`, migrace `pnpm db:generate <name>` do `server/db/migrations/`, aplikují se při startu serveru. *(Do fáze 6 `db:push` bez migrací.)* JSON sloupce `jsonb`. *(Původně SQLite přes Nitro database – změněno ve fázi 3.)*
 - **Auth organizátorů:** `nuxt-auth-utils` (email + heslo, session cookie).
 - **AI:** Claude API, model `claude-sonnet-5-5` na generování profilu i matching. Strukturovaný výstup (tool use / JSON schema), nikdy parsování volného textu. API klíč v `.env` jako `NUXT_ANTHROPIC_API_KEY`, přes `runtimeConfig`, nikdy neopouští server.
 - Node 22.15, pnpm 11.
@@ -93,7 +93,7 @@ Login / signup, seznam vlastních eventů, založení eventu, editor dotazníku,
 
 ### Seed
 
-`pnpm seed` založí demo organizátora a event „PragVue 2026 (demo)“ s výchozím dotazníkem a ~15 vymyšlenými účastníky. Tituly, tagliny a emoji jsou **předpečené** ve statickém JSONu (okamžité, zadarmo). Matching při demu běží živě přes AI.
+`pnpm seed` (**jen lokálně, na testování**) založí demo organizátora a event „PragVue 2026 (demo)“ s výchozím dotazníkem a 15 vymyšlenými účastníky. Profily jsou **předpečené** ve statickém JSONu (jednou vygenerované skutečným promptem, `pnpm seed:profiles`). Demo samotné běží na Coolify s reálným publikem, bez seedu.
 
 ## Ne-scope
 

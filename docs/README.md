@@ -31,4 +31,4 @@ Zdroj pravdy pro celý projekt je [`/intent.md`](../intent.md). Každá fáze z 
 | 3 | Registrace + AI titul | ✅ hotovo | [phase-3-registration](phase-3-registration/) |
 | 4 | Matching round | ✅ hotovo | [phase-4-matching](phase-4-matching/) |
 | 5 | Živá zeď | ✅ hotovo | [phase-5-wall](phase-5-wall/) |
-| 6 | Seed + doladění stavů | 🔨 stavba | [phase-6-seed-polish](phase-6-seed-polish/) |
+| 6 | Seed + doladění stavů | ✅ postaveno (čeká proklik + deploy) | [phase-6-seed-polish](phase-6-seed-polish/) |

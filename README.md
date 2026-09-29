@@ -62,7 +62,7 @@ pnpm install
 cp .env.example .env        # fill in NUXT_SESSION_PASSWORD (32+ chars) and NUXT_ANTHROPIC_API_KEY
 docker compose up -d        # Postgres on :5432
 pnpm dev                    # http://localhost:3000, applies database migrations on start
-pnpm seed                   # optional: demo event with 15 attendees (while the dev server has created the schema)
+pnpm seed                   # optional, after pnpm dev has started once: demo event with 15 attendees
 ```
 
 `pnpm seed` (local only) creates the organizer `demo@rendez-vue.dev` / `demo1234` and the event **PragVue 2026 (demo)** at `/e/pragvue-2026-demo`, with 15 fictional attendees and no rounds yet. Running it again resets that event. Their profiles were generated once by the real profile prompt (`pnpm seed:profiles`) and are stored in `scripts/seed-data/`, so seeding is instant and free.

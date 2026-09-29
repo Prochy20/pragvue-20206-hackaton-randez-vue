@@ -19,3 +19,14 @@ Append-only.
 
 11. **Seed a generátor jsou samostatné Node skripty** (`node --experimental-strip-types`), ne Nitro tasky: tahle verze `nuxi` nemá `task run`. Heslo hashuje přímo `@adonisjs/hash` Scrypt s výchozími parametry, stejně jako `hashPassword` z `nuxt-auth-utils` (přidaná devDependency ve stejné verzi). `generateProfile` dostal volitelný `apiKey`, aby šel volat mimo Nitro.
 12. **Migrace se hledají v `server/db/migrations` relativně k `process.cwd()`.** Nixpacks spouští server z kořene repa, zdrojáky tam jsou.
+
+## 2026-09-29 – stavba
+
+13. **Odchylky ze stavby:**
+    - Seed firmy jsou fiktivní (Crumb Grocery, Old Town Bank…), aby si vymyšlené incidenty nepřipisovaly skutečné značky.
+    - `generate-seed-profiles.ts` zkouší každý profil až 4× – validace občas shodí `weakness` > 30 znaků (u Evy dvakrát za sebou). **Totéž hrozí živé registraci** (→ `failed` + „Try again“), zatím neřešeno.
+    - Migrační Nitro plugin je async a Nitro na něj nečeká; první request hned po startu teoreticky předběhne migraci. Na Coolify ho kryje health check.
+    - Token se po 404 profilu maže jen když v localStorage je právě tenhle token (cizí mrtvý odkaz nesmaže vlastní profil).
+    - `?redirect=` pouští jen cesty `/…` (ne `//` ani `/\`), odkaz login ↔ signup ho nese dál.
+    - Hláška „questionnaire changed“ je sdílená konstanta `QUESTIONNAIRE_CHANGED`; klient podle ní znovu načte event a začne kvíz od první otázky (chyba se ukáže i na ní).
+    - Admin prázdný stav eventů: „No events yet. Create your first one to get started.“ (formulář je na desktopu vedle, ne nad).

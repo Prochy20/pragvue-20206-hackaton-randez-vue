@@ -1,14 +1,36 @@
 # Fáze 6 – Seed + doladění stavů: status
 
-**Stav:** vygrilováno 2026-09-29, stavba běží.
+**Stav:** postaveno 2026-09-29. Lint + typecheck čisté, seed a produkční build ověřené. **Čeká na proklik UI a deploy na Coolify uživatelem** (T7).
 
 ## Úkoly
 
 - [x] T0 – docs
-- [ ] T1 – migrace
-- [ ] T2 – site URL
-- [ ] T3 – seed
-- [ ] T4 – sweep stavů
-- [ ] T5 – produkční build
-- [ ] T6 – README, HANDOFF
+- [x] T1 – migrace (baseline `0000_baseline`, plugin `server/plugins/migrate.ts`, lokální DB označená)
+- [x] T2 – `NUXT_PUBLIC_SITE_URL` (`useSiteOrigin`)
+- [x] T3 – seed (`pnpm seed`, `pnpm seed:profiles`)
+- [x] T4 – sweep stavů (10 bodů)
+- [x] T5 – produkční build nad prázdnou DB
+- [x] T6 – README, intent.md, HANDOFF
 - [ ] T7 – proklik + deploy uživatelem
+
+## Ověření
+
+| Kritérium | Výsledek |
+|---|---|
+| `pnpm seed` 2× po sobě, 15 lidí s tituly, bez kola, login demo účtu | ✅ curl |
+| Prod build nad prázdnou DB: tabulky + 1 migrace, signup, event; restart bez chyb | ✅ |
+| QR na zdi bere `NUXT_PUBLIC_SITE_URL` | ✅ curl SSR |
+| `/foo`, `/e/x/p/y/extra` → themed 404 | ✅ curl |
+| Admin bez loginu → `/login?redirect=…` | ✅ curl |
+| Registrace se starým dotazníkem → 400 `QUESTIONNAIRE_CHANGED` | ✅ curl |
+| Klientské chování (reset kvízu, stale token, refresh hláška, zeď 404, logout, error page tlačítko) | ⚠️ proklik uživatelem |
+
+## Proklik (T7)
+
+- `pnpm seed` → login `demo@rendez-vue.dev` / `demo1234` → `/e/pragvue-2026-demo/admin`, spustit kolo s otevřenou zdí.
+- Odhlášení → otevřít admin link → po loginu zpět na admin.
+- Registrace rozpracovaná v jednom tabu, v adminu změnit dotazník, odeslat → kvíz od začátku s hláškou.
+- Smazat účastníka v adminu → jeho profil = 404 → landing už nenabízí „welcome back“.
+- Zastavit `docker compose stop postgres` na chvíli → admin ukáže „Couldn't refresh, retrying…“, zeď `● reconnecting`.
+- `/cokoliv` → themed 404, `cd ~ →`.
+- Deploy na Coolify podle README, `NUXT_PUBLIC_SITE_URL` nastavit.
