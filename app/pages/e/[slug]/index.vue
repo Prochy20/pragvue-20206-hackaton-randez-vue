@@ -23,12 +23,30 @@ const submitError = ref<string>()
 const installDone = ref(false)
 
 // localStorage only exists on the client, so the returning check runs after mount.
+// The stored token is verified first, so a profile the organizer deleted doesn't get a "welcome back".
 const returning = ref<{ name: string, profileUrl: string }>()
-onMounted(() => {
+const checkingReturning = ref(false)
+onMounted(async () => {
   const stored = tokens.get(slug.value)
-  if (stored) {
-    returning.value = { name: stored.name, profileUrl: `/e/${slug.value}/p/${stored.token}` }
+  if (!stored) {
+    return
   }
+  checkingReturning.value = true
+  let name = stored.name
+  try {
+    name = (await $fetch<PublicProfile>(`/api/events/${slug.value}/p/${stored.token}`)).name
+  } catch (error) {
+    if (apiErrorStatus(error) === 404) {
+      if (tokens.get(slug.value)?.token === stored.token) {
+        tokens.remove(slug.value)
+      }
+      checkingReturning.value = false
+      return
+    }
+    // Network trouble: trust the device and keep offering the profile.
+  }
+  returning.value = { name, profileUrl: `/e/${slug.value}/p/${stored.token}` }
+  checkingReturning.value = false
 })
 
 function forget() {
@@ -113,6 +131,7 @@ async function submit() {
       v-else-if="step === 'landing'"
       :event="event"
       :returning="returning"
+      :checking="checkingReturning"
       @start="step = 'about'"
       @forget="forget"
     />

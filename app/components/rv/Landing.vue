@@ -3,6 +3,8 @@ defineProps<{
   event: PublicEvent
   // Set when this device already registered for the event.
   returning?: { name: string, profileUrl: string }
+  // Stored registration still being verified: hold the intro and CTA back instead of flipping them later.
+  checking?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -37,11 +39,15 @@ const emit = defineEmits<{
   <p
     v-else
     class="mt-3 text-[17px] leading-normal text-pretty text-rv-text-2"
+    :class="{ invisible: checking }"
   >
     Answer {{ event.questionnaire.length + 2 }} slightly unhinged questions. Get a title. Meet one person at {{ event.name }} you'll actually want to talk to.
   </p>
 
-  <div class="mt-auto flex flex-col gap-3">
+  <div
+    class="mt-auto flex flex-col gap-3"
+    :class="{ invisible: checking }"
+  >
     <template v-if="returning">
       <RvButton :to="returning.profileUrl">
         cd ~/my-profile →
