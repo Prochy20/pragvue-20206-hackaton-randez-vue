@@ -13,6 +13,18 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-06-30',
 
+  nitro: {
+    experimental: {
+      database: true
+    },
+    database: {
+      default: {
+        connector: 'node-sqlite',
+        options: { path: '.data/db.sqlite' }
+      }
+    }
+  },
+
   eslint: {
     config: {
       stylistic: {
