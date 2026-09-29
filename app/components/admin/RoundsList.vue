@@ -5,6 +5,10 @@ const props = defineProps<{
   slug: string
 }>()
 
+const emit = defineEmits<{
+  count: [count: number]
+}>()
+
 const api = useAdminApi(() => props.slug)
 const toast = useToast()
 
@@ -20,6 +24,7 @@ async function refresh() {
     const [nextRounds, event] = await Promise.all([api.getRounds(), api.getEvent()])
     rounds.value = nextRounds
     participantCount.value = event.participantCount
+    emit('count', event.participantCount)
     loadError.value = undefined
   } catch (error) {
     loadError.value = apiErrorMessage(error, 'Couldn\'t load rounds')

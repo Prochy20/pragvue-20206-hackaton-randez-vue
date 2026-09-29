@@ -57,6 +57,18 @@ function onParticipantCount(count: number) {
     event.value.participantCount = count
   }
 }
+
+// Participants and Rounds poll on their own and emit the count; the questionnaire tab needs this one.
+usePolling(async () => {
+  if (state.value !== 'ready' || tab.value !== 'questionnaire') {
+    return
+  }
+  try {
+    onParticipantCount((await api.getEvent()).participantCount)
+  } catch (error) {
+    await redirectIfLoggedOut(error)
+  }
+})
 </script>
 
 <template>
@@ -138,6 +150,7 @@ function onParticipantCount(count: number) {
       <AdminRoundsList
         v-if="tab === 'rounds'"
         :slug="event.slug"
+        @count="onParticipantCount"
       />
     </div>
   </UContainer>
