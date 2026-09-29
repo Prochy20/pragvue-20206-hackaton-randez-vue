@@ -124,6 +124,12 @@ onBeforeUnmount(() => {
   if (timer) clearInterval(timer)
 })
 
+// Trios get a third of the card per member: the avatar sits above the name and
+// the title is left out, so the names fit and the reason keeps its room.
+function isTrio(group: WallGroup) {
+  return group.members.length > 2
+}
+
 function avatarText(member: WallMember) {
   if (member.removed || !member.name) return '?'
   return member.emoji || initials(member.name)
@@ -156,36 +162,52 @@ function avatarText(member: WallMember) {
         >
           <div
             class="grid shrink-0 gap-[clamp(8px,0.6vw,14px)]"
-            :class="group.members.length > 2 ? 'grid-cols-3' : 'grid-cols-2'"
+            :class="isTrio(group) ? 'grid-cols-3' : 'grid-cols-2'"
           >
             <div
               v-for="(member, m) in group.members"
               :key="m"
-              class="flex min-w-0 items-center gap-[clamp(8px,0.6vw,14px)]"
+              class="flex min-w-0"
+              :class="isTrio(group)
+                ? 'flex-col items-start gap-[clamp(4px,0.4vw,8px)]'
+                : 'items-center gap-[clamp(8px,0.6vw,14px)]'"
             >
               <div
-                class="
-                  flex size-[clamp(40px,3vw,64px)] shrink-0 items-center
-                  justify-center rounded-xl
-                "
-                :class="member.removed
-                  ? 'border border-dashed border-rv-border-2 font-mono-rv text-[clamp(16px,1.2vw,24px)] font-bold text-rv-muted'
-                  : member.emoji
-                    ? 'border border-rv-green bg-rv-surface-3 font-emoji text-[clamp(22px,1.7vw,34px)]'
-                    : 'bg-rv-green font-mono-rv text-[clamp(15px,1.1vw,22px)] font-bold text-rv-bg'"
+                class="flex shrink-0 items-center justify-center rounded-xl"
+                :class="[
+                  isTrio(group) ? 'size-[clamp(26px,2vw,44px)]' : 'size-[clamp(40px,3vw,64px)]',
+                  member.removed
+                    ? 'border border-dashed border-rv-border-2 font-mono-rv font-bold text-rv-muted'
+                    : member.emoji
+                      ? 'border border-rv-green bg-rv-surface-3 font-emoji'
+                      : 'bg-rv-green font-mono-rv font-bold text-rv-bg',
+                  isTrio(group)
+                    ? member.emoji && !member.removed ? 'text-[clamp(15px,1.15vw,24px)]' : 'text-[clamp(11px,0.8vw,16px)]'
+                    : member.removed
+                      ? 'text-[clamp(16px,1.2vw,24px)]'
+                      : member.emoji ? 'text-[clamp(22px,1.7vw,34px)]' : 'text-[clamp(15px,1.1vw,22px)]'
+                ]"
                 aria-hidden="true"
               >
                 {{ avatarText(member) }}
               </div>
-              <div class="min-w-0">
+              <div
+                class="min-w-0"
+                :class="isTrio(group) && 'w-full'"
+              >
                 <p
-                  class="line-clamp-2 text-[clamp(15px,1.05vw,22px)] leading-[1.15] font-bold break-words"
-                  :class="member.removed && 'text-rv-muted'"
+                  class="line-clamp-2 leading-[1.15] font-bold"
+                  :class="[
+                    isTrio(group)
+                      ? 'text-[clamp(14px,0.95vw,20px)] wrap-normal hyphens-none'
+                      : 'text-[clamp(15px,1.05vw,22px)] break-words',
+                    member.removed && 'text-rv-muted'
+                  ]"
                 >
                   {{ member.removed ? '(removed)' : member.name }}
                 </p>
                 <p
-                  v-if="!member.removed && member.title"
+                  v-if="!member.removed && member.title && !isTrio(group)"
                   class="truncate font-mono-rv text-[clamp(11px,0.75vw,15px)] text-rv-muted"
                 >
                   {{ member.title }}
