@@ -127,7 +127,7 @@ const metWho = computed(() => active.value.map(member => member.first.toLowerCas
       // ICEBREAKER
     </p>
     <p class="text-[17px] leading-[1.35] font-semibold text-pretty">
-      "{{ match.icebreaker }}"
+      “{{ match.icebreaker }}”
     </p>
   </div>
 

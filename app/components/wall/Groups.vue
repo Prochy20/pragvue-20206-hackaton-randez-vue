@@ -176,7 +176,7 @@ function avatarText(member: WallMember) {
               // ICEBREAKER
             </p>
             <p class="line-clamp-4 text-[clamp(16px,1.15vw,24px)] leading-[1.3] font-semibold text-pretty">
-              "{{ group.icebreaker }}"
+              “{{ group.icebreaker }}”
             </p>
           </div>
         </article>
