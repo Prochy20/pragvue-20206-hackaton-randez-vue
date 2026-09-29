@@ -80,6 +80,8 @@ export function toPublicProfile(event: EventRow, row: ParticipantRow): PublicPro
     peerDependency: row.peerDependency,
     dependencies: row.dependencies,
     aiStatus: row.aiStatus,
-    event: { slug: event.slug, name: event.name }
+    event: { slug: event.slug, name: event.name },
+    match: null,
+    latestRoundNumber: null
   }
 }

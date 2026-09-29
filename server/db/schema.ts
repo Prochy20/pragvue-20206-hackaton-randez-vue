@@ -1,5 +1,6 @@
 import { index, integer, jsonb, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
 import type { Answer } from '../../shared/types/admin'
+import type { DiffLine } from '../../shared/types/participant'
 import type { HereFor } from '../../shared/utils/registration'
 import type { Questionnaire } from '../../shared/utils/questionnaire'
 
@@ -57,5 +58,6 @@ export const pairs = pgTable('pairs', {
   roundId: uuid().notNull().references(() => rounds.id, { onDelete: 'cascade' }),
   participantIds: jsonb().$type<string[]>().notNull(),
   reason: text().notNull(),
+  diff: jsonb().$type<DiffLine[]>().notNull().default([]),
   icebreaker: text().notNull()
 }, table => [index().on(table.roundId)])

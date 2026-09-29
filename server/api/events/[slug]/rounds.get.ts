@@ -28,6 +28,7 @@ export default defineEventHandler(async (event): Promise<AdminRound[]> => {
       .map(pair => ({
         id: pair.id,
         reason: pair.reason,
+        diff: pair.diff,
         icebreaker: pair.icebreaker,
         members: pair.participantIds.map((id) => {
           const member = memberById.get(id)

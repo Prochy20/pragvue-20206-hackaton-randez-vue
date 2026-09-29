@@ -1,4 +1,5 @@
 import type { Questionnaire } from '../utils/questionnaire'
+import type { DiffLine } from './participant'
 
 export interface Answer {
   questionId: string
@@ -45,6 +46,7 @@ export interface AdminPair {
   id: string
   members: AdminPairMember[]
   reason: string
+  diff: DiffLine[]
   icebreaker: string
 }
 
