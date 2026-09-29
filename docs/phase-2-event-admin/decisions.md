@@ -25,3 +25,11 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 19. **Limity: 1–15 otázek, label 3–200, choice 2–6 možností po 1–60 znacích, placeholder max 100, vše trim.** – 15 otázek hlídá i velikost matching promptu.
 20. **Stavba: server sám, admin UI paralelní subagent po zafixování kontraktu (typy + endpointy) ve specu.**
 21. **Žádný learning mode – všechen kód píše Claude.** – Volba uživatele.
+
+## 2026-09-29 – stavba
+
+22. **`readBodyWith(event, schema)` v `server/utils/validation.ts` místo `readValidatedBody`.** – h3 při zod chybě vrací jako `message` syrový JSON issues; náš helper dá první čitelnou zprávu do `statusMessage` (issues v `data`). UI ji ukazuje v toastu / alertu.
+23. **`@types/node` (v22) jako devDependency.** – `node:crypto` v `server/utils/admin.ts` jinak neprojde typecheckem.
+24. **`pnpm typecheck` nepouštět souběžně s běžícím `pnpm dev`, nebo počítat s restartem.** – Během stavby se dev server zasekl na „Restarting Nuxt…“ (503), nejspíš kvůli souběžné regeneraci `.nuxt`; pomohl restart.
+25. **Admin UI – drobnosti navíc (subagent):** `ParticipantsTable` emituje `count` a stránka tím aktualizuje `participantCount` (badge tabu + alert v editoru); editor je `v-show` (neuložené změny přežijí přepnutí tabu), Participants/Rounds `v-if` (polling běží jen namountované); nejde smazat poslední otázku ani jít pod 2 možnosti; nevalidní karta dostane červený ring; accordion kol `type="multiple"` s počtem párů v hlavičce. Helpery `apiErrorStatus`, `apiErrorMessage`, `usePolling`, `formatRelativeTime` v `app/composables/useAdminApi.ts`.
+26. **Uživatel nechce browser automatizaci** – ověřuje se curl / lint / typecheck, UI prokliká uživatel sám.
