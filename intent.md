@@ -18,7 +18,7 @@ Stavíme to na PragVue Hackathon 2026, sólo, pár hodin čistého času. Cílem
 - Požadavek zadání: UI ve Vue, funkční user journey, loading / empty / success / error stavy, smysluplné využití AI.
 - Jazyk UI i AI výstupů: **angličtina**. Dokumentace pro vývoj (tento soubor) česky, README pro porotu anglicky (až na konci).
 - Škála: jeden event má max. 40–50 lidí.
-- Provoz: vývoj na `localhost` (Postgres v docker-compose), demo na vlastním **Coolify** (Nixpacks, bez Dockerfilu, viz README). Dockerfile neřešíme.
+- Provoz: vývoj na `localhost` (Postgres v docker-compose), demo na vlastním **Coolify** (Docker Compose: `docker-compose.prod.yml` + `Dockerfile`, viz README).
 
 ## Rozhodnutí
 

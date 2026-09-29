@@ -60,3 +60,8 @@ Append-only.
     - **Hláška „questions changed“** zmizí po přechodu za první otázku (`watch(quizIndex)`), jiné chyby odeslání zůstávají.
     - **`error.vue` pro 401/403:** 401 → „Permission denied.“ + `npm login →` (`?redirect=` jen u stránek, ne u `/api/*`), 403 → „Access denied.“. SSR stránka 401 nevyhodí, stránka se ukáže jen při otevření chráněného `/api/*` v prohlížeči.
     - Avatary na stránce matche zůstávají s iniciálami (záměr, beze změny).
+18. **Deploy přes Docker Compose místo Nixpacks (mění #7, doplňuje #12)** – přání uživatele. `Dockerfile` (multi-stage, `node:22-alpine`, pnpm 12) + `docker-compose.prod.yml` (app + Postgres 17, volume `pgdata-prod`). `docker-compose.yml` zůstává jen pro lokální vývoj.
+    - Tajemství generuje Coolify přes magic proměnné (`SERVICE_USER/PASSWORD_POSTGRES`, `SERVICE_PASSWORD_64_SESSION`), `NUXT_PUBLIC_SITE_URL` = `SERVICE_URL_APP_3000`. Ručně jen `NUXT_ANTHROPIC_API_KEY` (`${…:?}` blokuje deploy, když chybí).
+    - App má jen `expose: 3000`, žádné `ports:` – na serveru už port 3000 něco používá a Coolify proxy jde přes interní síť.
+    - Migrace se kopírují do image do `/app/server/db/migrations`, `WORKDIR /app` → #12 platí beze změny. Healthcheck `wget /api/health`.
+    - Ověřeno lokálně (`-p rendez-vue-prodtest`, port override 3100): build, healthy, 5 tabulek z migrace, signup, event, QR s `NUXT_PUBLIC_SITE_URL`, themed 404.
