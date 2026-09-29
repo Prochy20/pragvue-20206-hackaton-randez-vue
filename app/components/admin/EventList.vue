@@ -5,10 +5,7 @@ const { data: events, status, error, refresh } = useFetch<OrganizerEvent[]>('/ap
 </script>
 
 <template>
-  <section
-    v-if="status === 'pending' || error || events.length"
-    class="space-y-4"
-  >
+  <section class="space-y-4">
     <h2 class="text-lg font-semibold text-highlighted">
       Your events
     </h2>
@@ -29,6 +26,13 @@ const { data: events, status, error, refresh } = useFetch<OrganizerEvent[]>('/ap
       :title="apiErrorMessage(error, 'Couldn\'t load your events')"
       :actions="[{ label: 'Try again', color: 'error', variant: 'outline', onClick: () => refresh() }]"
     />
+
+    <p
+      v-else-if="events.length === 0"
+      class="rounded-lg border border-dashed border-default p-6 text-center text-muted"
+    >
+      No events yet. Create your first one to get started.
+    </p>
 
     <div
       v-else

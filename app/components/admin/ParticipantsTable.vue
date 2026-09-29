@@ -28,6 +28,7 @@ async function refresh() {
     emit('count', participants.value.length)
   } catch (error) {
     loadError.value = apiErrorMessage(error, 'Couldn\'t load participants')
+    await redirectIfLoggedOut(error)
   }
 }
 
@@ -57,6 +58,8 @@ async function confirmRemove() {
     await refresh()
   } catch (error) {
     toast.add({ title: 'Couldn\'t remove participant', description: apiErrorMessage(error), color: 'error' })
+    // Already gone (removed in another tab) or not: either way show the real list.
+    await refresh()
   } finally {
     removing.value = false
   }
@@ -118,6 +121,14 @@ const columns: TableColumn<AdminParticipant>[] = [{
 
 <template>
   <div>
+    <p
+      v-if="loadError && participants"
+      class="mb-2 flex items-center gap-1.5 text-sm text-warning"
+    >
+      <UIcon name="i-lucide-refresh-cw-off" />
+      Couldn't refresh, retrying…
+    </p>
+
     <UAlert
       v-if="loadError && !participants"
       color="error"

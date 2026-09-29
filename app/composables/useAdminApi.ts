@@ -49,3 +49,10 @@ export function formatRelativeTime(iso: string): string {
   }
   return 'just now'
 }
+
+// Background admin refreshes: an expired session sends the organizer back to login.
+export async function redirectIfLoggedOut(error: unknown) {
+  if (apiErrorStatus(error) === 401) {
+    await navigateTo({ path: '/login', query: { redirect: useRoute().fullPath } })
+  }
+}

@@ -23,6 +23,7 @@ async function refresh() {
     loadError.value = undefined
   } catch (error) {
     loadError.value = apiErrorMessage(error, 'Couldn\'t load rounds')
+    await redirectIfLoggedOut(error)
   }
 }
 
@@ -80,6 +81,14 @@ const items = computed(() => (rounds.value ?? []).map(round => ({
         Matching everyone… this can take up to a minute.
       </p>
     </div>
+
+    <p
+      v-if="loadError && rounds"
+      class="mb-2 flex items-center gap-1.5 text-sm text-warning"
+    >
+      <UIcon name="i-lucide-refresh-cw-off" />
+      Couldn't refresh, retrying…
+    </p>
 
     <UAlert
       v-if="loadError && !rounds"
