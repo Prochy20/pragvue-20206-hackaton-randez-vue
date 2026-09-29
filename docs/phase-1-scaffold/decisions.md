@@ -15,3 +15,8 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 9. **Layout: `app.vue` (UApp + NuxtLayout), `layouts/default.vue` (admin: UHeader + color mode), `layouts/bare.vue` (prázdný obal), placeholder `pages/index.vue`.** – Minimum; vizuál účastnické části až ve fázi 3.
 10. **Z šablony pryč demo obsah, `.github/`, renovate. ESLint a `typecheck` zůstávají. Doplnit `packageManager` a `engines.node >= 22.13`.** – ESLint drží kód čistý bez brzdění; CI na hackathonu netřeba. `node:sqlite` je bez flagu od 22.13.
 11. **`GET /api/health` zůstává i do dalších fází** jako smoke test. Používá `sqlite_master` (jediné SQLite-specifické SQL, vědomě).
+
+## 2026-09-29 – stavba
+
+12. **pnpm 12 (`packageManager: pnpm@12.6.0` ze šablony) místo lokálního 11.5.2.** – Šablona už pnpm 12 vyžaduje; uživatel pnpm na stroji bumpne. *Zamítnuto:* downgrade `packageManager` na 11.5.2.
+13. **`.gitignore` nahrazen verzí ze šablony.** – Naše původní byla jeho podmnožina.

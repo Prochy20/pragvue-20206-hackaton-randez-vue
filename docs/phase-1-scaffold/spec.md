@@ -27,7 +27,7 @@ Zkopírovat obsah (včetně dotfiles) do rootu repa, **kromě** `.gitignore` a `
 
 - Smazat demo stránky a komponenty (ponechat jen to, co vyžaduje `app.vue`).
 - Smazat `.github/`, `renovate.json` (pokud existují).
-- `package.json`: `"name": "icebreaker"`, `"packageManager": "pnpm@11.5.2"`, `"engines": { "node": ">=22.13" }`. Ponechat skripty `dev`, `build`, `preview`, `lint`, `typecheck` (doplnit, pokud chybí: `"typecheck": "nuxt typecheck"`).
+- `package.json`: `"name": "icebreaker"`, `"packageManager": "pnpm@12.6.0" (ze šablony; uživatel bumpne pnpm lokálně)`, `"engines": { "node": ">=22.13" }`. Ponechat skripty `dev`, `build`, `preview`, `lint`, `typecheck` (doplnit, pokud chybí: `"typecheck": "nuxt typecheck"`).
 - ESLint config ponechat.
 
 ## T3 – Databáze
