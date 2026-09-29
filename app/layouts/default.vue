@@ -11,12 +11,8 @@ async function logout() {
   <div>
     <UHeader to="/">
       <template #title>
-        <span class="flex items-center gap-2">
-          <UIcon
-            name="i-lucide-snowflake"
-            class="size-5 text-primary"
-          />
-          Icebreaker
+        <span class="font-grotesk text-lg font-bold tracking-tight">
+          Rendez-<span class="text-primary">Vue</span>
         </span>
       </template>
 

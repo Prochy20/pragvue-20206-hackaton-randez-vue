@@ -35,11 +35,14 @@ async function onSubmit(event: FormSubmitEvent<Credentials>) {
 <template>
   <UContainer class="grid gap-12 py-16 sm:py-24 lg:grid-cols-2 lg:items-center">
     <div class="max-w-xl">
-      <h1 class="text-4xl font-bold tracking-tight text-highlighted sm:text-5xl">
-        Break the ice, with a little help from AI
+      <h1 class="font-grotesk text-5xl font-bold tracking-tight text-highlighted sm:text-6xl">
+        Rendez-<span class="text-primary">Vue</span>
       </h1>
-      <p class="mt-4 text-lg text-muted">
-        Attendees fill in a playful questionnaire, get a witty title, and get matched with people actually worth talking to.
+      <p class="mt-3 font-mono-rv text-lg">
+        <span class="text-rv-pink">$</span> npm i friends
+      </p>
+      <p class="mt-6 text-lg text-muted">
+        Attendees answer a few slightly unhinged questions, get an AI-generated title, and get matched with one person worth talking to. You run the event.
       </p>
     </div>
 

@@ -17,7 +17,7 @@ const event = ref<AdminEvent>()
 
 const api = useAdminApi(slug)
 
-useSeoMeta({ title: () => event.value ? `${event.value.name} · Admin · Icebreaker` : 'Admin · Icebreaker' })
+useSeoMeta({ title: () => event.value ? `${event.value.name} · Admin · Rendez-Vue` : 'Admin · Rendez-Vue' })
 
 const tab = computed<Tab>({
   get: () => TABS.includes(route.query.tab as Tab) ? route.query.tab as Tab : 'questionnaire',

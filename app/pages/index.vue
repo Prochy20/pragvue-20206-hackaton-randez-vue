@@ -25,11 +25,14 @@ async function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
 <template>
   <UContainer class="py-16 sm:py-24">
     <div class="max-w-2xl">
-      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-highlighted">
-        Break the ice, with a little help from AI
+      <p class="font-mono-rv text-sm text-muted">
+        <span class="text-rv-pink">$</span> rendez-vue events
+      </p>
+      <h1 class="mt-2 font-grotesk text-4xl font-bold tracking-tight text-highlighted sm:text-5xl">
+        Your events
       </h1>
       <p class="mt-4 text-lg text-muted">
-        Attendees fill in a playful questionnaire, get a witty title, and get matched with people actually worth talking to.
+        Create an event, tweak the questions, share the registration link.
       </p>
     </div>
 

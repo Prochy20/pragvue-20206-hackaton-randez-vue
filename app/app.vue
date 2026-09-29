@@ -12,8 +12,8 @@ useHead({
 })
 
 useSeoMeta({
-  title: 'Icebreaker',
-  description: 'AI-powered conference icebreaker: playful profiles and matches worth talking to.'
+  title: 'Rendez-Vue',
+  description: '$ npm i friends — a playful questionnaire, an AI title, and one person at the conference worth talking to.'
 })
 </script>
 

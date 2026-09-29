@@ -1,2 +1,55 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+/* Rendez-Vue participant design tokens (see docs/design_handoff_rendez_vue). */
+@theme {
+  --font-grotesk: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono-rv: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-rv-bg: oklch(0.17 0.012 150);
+  --color-rv-surface: oklch(0.21 0.014 150);
+  --color-rv-surface-2: oklch(0.22 0.014 150);
+  --color-rv-surface-3: oklch(0.26 0.016 150);
+  --color-rv-track: oklch(0.28 0.02 150);
+  --color-rv-code: oklch(0.13 0.01 150);
+  --color-rv-border: oklch(0.33 0.02 150);
+  --color-rv-border-2: oklch(0.40 0.02 150);
+  --color-rv-text: oklch(0.95 0.01 150);
+  --color-rv-text-2: oklch(0.82 0.015 150);
+  --color-rv-muted: oklch(0.70 0.02 150);
+  --color-rv-green: oklch(0.86 0.19 150);
+  --color-rv-pink: oklch(0.78 0.17 350);
+  --color-rv-yellow: oklch(0.85 0.15 85);
+  --color-rv-card-muted: oklch(0.45 0.02 150);
+  --color-rv-card-light-2: oklch(0.90 0.012 150);
+  --color-rv-card-light-3: oklch(0.88 0.02 150);
+  --color-rv-ghost-1: oklch(0.24 0.015 150);
+  --color-rv-ghost-2: oklch(0.27 0.016 150);
+
+  --animate-rv-blink: rv-blink 1s steps(1) infinite;
+  --animate-rv-fade-in: rv-fade-in 0.3s ease-out both;
+}
+
+@keyframes rv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes rv-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@theme {
+  --animate-rv-card-in: rv-card-in 0.25s ease-out both;
+}
+
+@keyframes rv-card-in {
+  from {
+    opacity: 0.6;
+    transform: scale(0.95) translateY(12px);
+  }
+}
