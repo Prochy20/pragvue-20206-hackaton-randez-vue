@@ -76,8 +76,8 @@ No Dockerfile is needed. Coolify builds the repo with Nixpacks.
 1. Add a **PostgreSQL** resource in Coolify and copy its internal connection URL.
 2. Add the app from the Git repository (build pack: Nixpacks).
    - Build command: `pnpm build`
-   - Start command: `node .output/server/index.mjs`
-   - Port: `3000`, health check path: `/api/health`
+   - Start command: `node .output/server/index.mjs`, run from the repository root (the Nixpacks default)
+   - Port: `3000` (the server listens on `PORT`, default `3000`), health check path: `/api/health`
 3. Set environment variables:
 
 | Variable | Required | |
@@ -88,7 +88,7 @@ No Dockerfile is needed. Coolify builds the repo with Nixpacks.
 | `NUXT_PUBLIC_SITE_URL` | recommended | public URL, e.g. `https://rendez-vue.example.com`, used for share links and the wall QR code (the request origin can be wrong behind a proxy) |
 | `NIXPACKS_NODE_VERSION` | if needed | `22` |
 
-Migrations in `server/db/migrations` run automatically when the server starts, so deploying is enough. Don't run `pnpm seed` against production.
+Migrations in `server/db/migrations` run automatically when the server starts, so deploying is enough. They are not bundled into `.output`: the server reads them from `server/db/migrations` relative to its working directory, so start it from the repository root. If the server logs `Can't find meta/_journal.json`, it was started from the wrong directory and the database was left unmigrated. Don't run `pnpm seed` against production.
 
 If the Nixpacks build fails to install pnpm (the repo pins `pnpm@12` in `packageManager`), set the install command to `npm i -g pnpm@12 && pnpm install --frozen-lockfile`.
 
