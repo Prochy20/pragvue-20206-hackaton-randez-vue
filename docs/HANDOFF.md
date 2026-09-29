@@ -28,6 +28,7 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 - AI: `claude-sonnet-5-5` **neumí vynucený `tool_choice`** → structured outputs (`client.beta.messages.parse` + `betaZodOutputFormat`), vzory `server/utils/ai-profile.ts` a `ai-match.ts`.
 - **Kód píše Claude celý.** Browser jen přes Playwright MCP, když to uživatel povolí (výstup `.playwright-mcp/` je v `.gitignore`). Jinak ověřovat curl / lint / typecheck.
 - Commity: conventional, anglicky, malé, **bez zmínky o AI/Claude**. Větev `master`.
+- Remote `origin`: fetch z GitHubu (`Prochy20/pragvue-20206-hackaton-randez-vue`, z něj nasazuje Coolify), push do GitHubu i `git.pragvue.cz/martin.prochazka/rendez-vue` (HTTPS, přihlášení v Keychain). `git push` jde do obou.
 
 ## Prompt pro novou session
 
