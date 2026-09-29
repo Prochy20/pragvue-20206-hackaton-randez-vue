@@ -31,6 +31,37 @@ onMounted(() => {
 })
 onBeforeUnmount(() => observer?.disconnect())
 
+// The reason takes whatever height the card has left, so its line clamp follows
+// the room instead of a fixed count: short pages show the full text, dense ones
+// still ellipsize. The wrapper's height comes from the grid row, not the text.
+let reasonObserver: ResizeObserver | null = null
+const reasonEls = new Set<HTMLElement>()
+
+function fitReason(wrapper: HTMLElement, height: number) {
+  const text = wrapper.firstElementChild as HTMLElement | null
+  if (!text) return
+  const lineHeight = Number.parseFloat(getComputedStyle(text).lineHeight)
+  if (!lineHeight) return
+  text.style.setProperty('-webkit-line-clamp', String(Math.max(1, Math.floor((height + 1) / lineHeight))))
+}
+
+function trackReason(el: unknown) {
+  if (!(el instanceof HTMLElement)) return
+  reasonObserver ??= new ResizeObserver((entries) => {
+    for (const entry of entries) fitReason(entry.target as HTMLElement, entry.contentRect.height)
+  })
+  // Pages re-render with fresh elements; drop the ones that left the DOM.
+  for (const old of reasonEls) {
+    if (old.isConnected) continue
+    reasonObserver.unobserve(old)
+    reasonEls.delete(old)
+  }
+  if (reasonEls.has(el)) return
+  reasonEls.add(el)
+  reasonObserver.observe(el)
+}
+onBeforeUnmount(() => reasonObserver?.disconnect())
+
 const minCardWidth = computed(() => Math.max(300, size.value.viewport * 0.2))
 const minCardHeight = computed(() => Math.max(260, size.value.viewport * 0.18))
 
@@ -162,13 +193,18 @@ function avatarText(member: WallMember) {
             </div>
           </div>
 
-          <p class="line-clamp-3 shrink-0 text-[clamp(14px,0.95vw,20px)] leading-[1.35] text-pretty text-rv-text-2">
-            {{ group.reason }}
-          </p>
+          <div
+            :ref="trackReason"
+            class="min-h-0 flex-1 overflow-hidden"
+          >
+            <p class="line-clamp-3 text-[clamp(14px,0.95vw,20px)] leading-[1.35] text-pretty text-rv-text-2">
+              {{ group.reason }}
+            </p>
+          </div>
 
           <div
             class="
-              mt-auto flex min-h-0 flex-col gap-1.5 rounded-[14px] bg-rv-pink
+              flex shrink-0 flex-col gap-1.5 rounded-[14px] bg-rv-pink
               p-[clamp(12px,0.9vw,20px)] text-rv-bg
             "
           >
