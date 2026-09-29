@@ -55,12 +55,13 @@ function setOption(index: number, value: string) {
 <template>
   <UCard :class="invalid ? 'ring-2 ring-error' : ''">
     <div class="flex flex-col gap-4">
-      <div class="flex items-start gap-3">
+      <!-- Phones: number + actions on the first row, the fields full width below. -->
+      <div class="flex flex-wrap items-start gap-3 sm:flex-nowrap">
         <span class="mt-1.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
           {{ index + 1 }}
         </span>
 
-        <div class="flex flex-1 flex-col gap-3 sm:flex-row">
+        <div class="order-last flex w-full flex-col gap-3 sm:order-none sm:w-auto sm:flex-1 sm:flex-row">
           <USelect
             :model-value="question.type"
             :items="typeItems"
@@ -76,7 +77,7 @@ function setOption(index: number, value: string) {
           />
         </div>
 
-        <div class="flex shrink-0 items-center">
+        <div class="ml-auto flex shrink-0 items-center sm:ml-0">
           <UButton
             icon="i-lucide-arrow-up"
             color="neutral"

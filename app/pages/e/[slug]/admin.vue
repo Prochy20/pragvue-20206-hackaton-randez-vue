@@ -24,10 +24,11 @@ const tab = computed<Tab>({
   set: value => router.replace({ query: { ...route.query, tab: value } })
 })
 
+// `short` replaces the label on phones, where three full labels plus icons get truncated.
 const tabItems = computed<TabsItem[]>(() => [
-  { label: 'Questionnaire', icon: 'i-lucide-list-checks', value: 'questionnaire' },
-  { label: 'Participants', icon: 'i-lucide-users', value: 'participants', badge: event.value?.participantCount || undefined },
-  { label: 'Rounds', icon: 'i-lucide-shuffle', value: 'rounds' }
+  { label: 'Questionnaire', short: 'Questions', icon: 'i-lucide-list-checks', value: 'questionnaire' },
+  { label: 'Participants', short: 'People', icon: 'i-lucide-users', value: 'participants', badge: event.value?.participantCount || undefined },
+  { label: 'Rounds', short: 'Rounds', icon: 'i-lucide-shuffle', value: 'rounds' }
 ])
 
 async function load() {
@@ -132,8 +133,14 @@ usePolling(async () => {
         v-model="tab"
         :items="tabItems"
         :content="false"
+        :ui="{ leadingIcon: 'max-sm:hidden' }"
         class="w-full"
-      />
+      >
+        <template #default="{ item }">
+          <span class="sm:hidden">{{ item.short }}</span>
+          <span class="max-sm:hidden">{{ item.label }}</span>
+        </template>
+      </UTabs>
 
       <AdminQuestionnaireEditor
         v-show="tab === 'questionnaire'"

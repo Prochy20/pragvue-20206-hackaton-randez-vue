@@ -143,7 +143,7 @@ onBeforeRouteLeave(() => {
       @click="addQuestion"
     />
 
-    <div class="sticky bottom-0 z-10 -mx-4 flex items-center justify-end gap-2 border-t border-default bg-default/90 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-lg sm:border">
+    <div class="sticky bottom-0 z-10 -mx-4 flex flex-wrap items-center justify-end gap-2 border-t border-default bg-default/90 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-lg sm:border">
       <span
         v-if="dirty"
         class="mr-auto text-sm text-muted"
