@@ -9,7 +9,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "db:push": "drizzle-kit push"
+    "db:generate": "drizzle-kit generate --name"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
