@@ -15,7 +15,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Server-only; set via NUXT_DATABASE_URL and NUXT_ANTHROPIC_API_KEY. Checked lazily on first use.
     databaseUrl: '',
-    anthropicApiKey: ''
+    anthropicApiKey: '',
+    public: {
+      // Optional NUXT_PUBLIC_SITE_URL, e.g. https://rendez-vue.example.com
+      siteUrl: ''
+    }
   },
 
   compatibilityDate: '2026-06-30',

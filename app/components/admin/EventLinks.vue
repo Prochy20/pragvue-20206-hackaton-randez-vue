@@ -6,7 +6,7 @@ const props = defineProps<{
 
 const toast = useToast()
 
-const origin = useRequestURL().origin
+const origin = useSiteOrigin()
 
 const links = computed(() => [
   { label: 'Registration', icon: 'i-lucide-clipboard-pen', url: `${origin}/e/${props.slug}` },

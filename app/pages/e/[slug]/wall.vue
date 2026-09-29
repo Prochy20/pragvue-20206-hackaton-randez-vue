@@ -3,7 +3,8 @@ definePageMeta({ layout: 'bare' })
 
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
-const joinUrl = computed(() => `${useRequestURL().origin}/e/${slug.value}`)
+const origin = useSiteOrigin()
+const joinUrl = computed(() => `${origin}/e/${slug.value}`)
 
 const { data, error } = await useFetch<WallData>(() => `/api/events/${slug.value}/wall`)
 
