@@ -1,9 +1,6 @@
 import { asc, eq, max } from 'drizzle-orm'
 import { pairs, participants, rounds } from '~~/server/db/schema'
 
-// Events with a round in progress; a single server process is enough for the prototype.
-const running = new Set<string>()
-
 async function generateWithRetry(input: MatchInput) {
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
@@ -17,10 +14,9 @@ async function generateWithRetry(input: MatchInput) {
 
 export default defineEventHandler(async (event): Promise<AdminRound> => {
   const row = await requireAdminEvent(event)
-  if (running.has(row.id)) {
+  if (!startRound(row.id)) {
     throw createError({ statusCode: 409, statusMessage: 'A round is already running' })
   }
-  running.add(row.id)
 
   try {
     const db = useDb()
@@ -55,6 +51,6 @@ export default defineEventHandler(async (event): Promise<AdminRound> => {
     const [result] = await loadAdminRounds(row.id, roundId)
     return result!
   } finally {
-    running.delete(row.id)
+    finishRound(row.id)
   }
 })
