@@ -26,7 +26,7 @@ Zdroj pravdy pro celý projekt je [`/intent.md`](../intent.md). Každá fáze z 
 
 | # | Fáze | Stav | Složka |
 |---|---|---|---|
-| 1 | Scaffold | vygrilováno, čeká na stavbu | [phase-1-scaffold](phase-1-scaffold/) |
+| 1 | Scaffold | ✅ hotovo | [phase-1-scaffold](phase-1-scaffold/) |
 | 2 | Event + admin | – | – |
 | 3 | Registrace + AI titul | – | – |
 | 4 | Matching round | – | – |
