@@ -10,7 +10,9 @@ const { data, error } = await useFetch<WallData>(() => `/api/events/${slug.value
 
 useSeoMeta({ title: () => data.value ? `${data.value.event.name} · Live wall` : 'Live wall' })
 
-const notFound = computed(() => !data.value && error.value?.statusCode === 404)
+// gone: the event was deleted while the wall was open.
+const gone = ref(false)
+const notFound = computed(() => gone.value || (!data.value && error.value?.statusCode === 404))
 
 // Poll every 4 s without overlapping requests. The projector is always visible, so no pause on hidden tabs.
 const reconnecting = ref(false)
@@ -23,8 +25,14 @@ async function poll() {
   try {
     data.value = await $fetch<WallData>(`/api/events/${slug.value}/wall`)
     reconnecting.value = false
-  } catch {
-    reconnecting.value = true
+  } catch (e) {
+    if (apiErrorStatus(e) === 404) {
+      gone.value = true
+      reconnecting.value = false
+      clearInterval(pollTimer)
+    } else {
+      reconnecting.value = true
+    }
   } finally {
     inFlight = false
   }
