@@ -73,8 +73,11 @@ function formatAttendee(input: ProfileInput) {
 }
 
 // Returns null on any failure (missing key, API error, refusal, invalid output); the caller stores ai_status = failed.
-export async function generateProfile(input: ProfileInput): Promise<GeneratedProfile | null> {
-  const apiKey = useRuntimeConfig().anthropicApiKey
+// apiKey defaults to runtime config; scripts outside Nitro pass it explicitly.
+export async function generateProfile(
+  input: ProfileInput,
+  apiKey = useRuntimeConfig().anthropicApiKey
+): Promise<GeneratedProfile | null> {
   if (!apiKey) {
     console.warn('[ai] NUXT_ANTHROPIC_API_KEY is not set, skipping profile generation')
     return null

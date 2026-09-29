@@ -9,7 +9,9 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "db:generate": "drizzle-kit generate --name"
+    "db:generate": "drizzle-kit generate --name",
+    "seed": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/seed.ts",
+    "seed:profiles": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/generate-seed-profiles.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
@@ -25,6 +27,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@adonisjs/hash": "9.1.1",
     "@nuxt/eslint": "^1.17.0",
     "@types/node": "^22.20.4",
     "@types/pg": "^8.23.1",
