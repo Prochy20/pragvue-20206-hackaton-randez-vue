@@ -18,3 +18,10 @@ Append-only.
 12. **`git commit -m "met …"` = jen toast `[main 4f2a9c1] met …`, nic se neukládá.**
 13. **Admin Rounds: aktivní tlačítko s loadingem, kola od nejnovějšího, skupiny se jmény (`(removed)`), reason, diff, icebreaker; failed = červený badge + hláška, „Run again“ je stejné tlačítko.**
 14. **Stavba paralelně třemi agenty** (server / účastnické UI / admin UI) nad sdíleným kontraktem (typy + schéma), který vznikl první.
+
+## 2026-09-29 – stavba
+
+15. **Admin Rounds bere počet účastníků z `getEvent()` při každém pollingu (5 s), ne jako prop z `admin.vue`.** – Stránka načte počet jen jednou, tlačítko by zůstalo disabled po registracích až do reloadu. V UI „groups“ místo „pairs“ (trojice).
+16. **Profil a match stránka:** polling přes nový `useVisiblePolling` (jen viditelný tab, bez překryvu požadavků; `usePolling` už existuje v adminu), výsledek pollingu nahradí profil tiše a jen při `aiStatus = ok`. Viděná kola v localStorage `icebreaker:seen-rounds` (`useSeenRounds`, max. 50).
+17. **Odchylky 08 od specu:** potvrzení commitu je inline terminálový blok s řádky obrazovky 09 (`[main <hash>] met tomáš` / `1 friend committed, 0 small talks deleted`), ne toast; hash deterministicky z `roundId + token`. Obrazovka 07 bez čísla „214“ (API nemá počet účastníků). „spot tomáš by: …“ s křestním jménem (kvůli trojici). Reason jako text pod mini kartami. Smazaní členové: karta `?` / `(removed)` / `uninstalled`, v diffu `removed`, když zmizeli všichni, H1 „Your match left.“ bez commit tlačítka. Titul na mini kartě fallback na roli.
+18. **Server:** `generateMatch` v `server/utils/ai-match.ts` (vlastní klient, `max_tokens` 16000), `server/utils/match.ts` sdílí mapper kol (`loadAdminRounds`), `previousPairs` (trojice → 3 dvojice, jen z `ok` kol) a `loadProfileMatch`. `toPublicProfile` bere stav matche jako 3. argument. Číslo kola se počítá ve stejné transakci jako INSERT. Minimální délky navíc ke specu: reason a icebreaker ≥ 10 znaků, diff text ≥ 2. **Company se do matching promptu neposílá** (vtipy o zaměstnavateli). V promptu je explicitně počet dvojic / trojic. Zámek kola je in-memory per proces (jedna instance stačí).
