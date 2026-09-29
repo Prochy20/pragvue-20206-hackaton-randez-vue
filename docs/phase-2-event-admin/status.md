@@ -1,6 +1,6 @@
 # Fáze 2 – Event + admin: status
 
-**Stav:** postaveno 2026-09-29; API ověřené curlem, **UI čeká na ruční proklik uživatelem**.
+**Stav:** postaveno 2026-09-29; API ověřené curlem, UI proklikané v rámci Playwright prokliku fáze 6.
 
 ## Úkoly
 
@@ -9,7 +9,7 @@
 - [x] T2 – `feat(api): add event and admin endpoints`
 - [x] T3 – `feat(ui): add create event form`
 - [x] T4 – `feat(ui): add admin page with questionnaire editor, participants and rounds` (subagent) + `chore: add node types`
-- [ ] T5 – ruční ověření UI v prohlížeči (uživatel)
+- [x] T5 – ověření UI v prohlížeči (pokryté Playwright proklikem fáze 6, admin se mezitím změnil na login místo klíče)
 
 ## Ověření
 

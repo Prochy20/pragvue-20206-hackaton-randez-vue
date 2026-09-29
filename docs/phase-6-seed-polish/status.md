@@ -11,7 +11,8 @@
 - [x] T4 – sweep stavů (10 bodů)
 - [x] T5 – produkční build nad prázdnou DB
 - [x] T6 – README, intent.md, HANDOFF
-- [ ] T7 – proklik + deploy uživatelem
+- [ ] T7 – proklik ✅ + deploy uživatelem
+- [x] T8 – screenshoty pro README (`docs/screenshots/`, Playwright nad seedem po kole 1: mobil 390×844 @2x, zeď 1920×1080, DevTools skryté)
 
 ## Ověření
 

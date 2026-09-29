@@ -2,7 +2,7 @@
 
 Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 
-**Poslední update:** 2026-09-29, fáze 6 postavená, proklikaná přes Playwright (2 kola + dořešené kontroly), nálezy opravené. Zbývá deploy na Coolify.
+**Poslední update:** 2026-09-29, fáze 6 postavená, proklikaná přes Playwright (2 kola + dořešené kontroly), nálezy opravené, screenshoty hotové. Zbývá deploy na Coolify.
 
 ## Kde jsme
 
@@ -12,10 +12,9 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
   - `NUXT_PUBLIC_SITE_URL` pro odkazy a QR (`useSiteOrigin`).
   - AI profil: při překročení délkových limitů jeden retry, pak ořez na hranici slova (#14).
   - Nálezy z prokliku opravené, souhrn v `decisions.md` #15 a #17. Prod build nad prázdnou DB ověřený, README doplněné.
-  - Anglické `README.md` pro porotu. Screenshoty dodá uživatel do `docs/screenshots/` (`registration/profile/match/wall.png`).
+  - Anglické `README.md` pro porotu. Screenshoty v `docs/screenshots/` (`registration/profile/match/wall.png`) nafocené Playwrightem nad seedem po kole 1. QR na zdi ukazuje `localhost:3000`, po deployi je lze přefotit s prod URL.
 - Otevřené (checklist v [phase-6-seed-polish/status.md](phase-6-seed-polish/status.md)):
   - **Deploy na Coolify uživatelem** podle README (`NUXT_PUBLIC_SITE_URL` nastavit, start z kořene repa).
-  - Screenshoty pro README.
 - Na zdi se u trojic nezobrazuje AI titul pod jménem (#17), jinak se nevejde důvod.
 
 ## Co musí nová session vědět
