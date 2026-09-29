@@ -33,6 +33,8 @@ const textAnswer = computed({
     }
   }
 })
+// Submit errors show on the final step, and on the first card after a questionnaire reset (any question type).
+const showError = computed(() => !!props.error && (finished.value || isLast.value || index.value === 0))
 const textMissing = computed(() => !!question.value?.required && !textAnswer.value.trim())
 
 function onChoice(value: string | null) {
@@ -115,17 +117,17 @@ function back() {
   />
 
   <div
-    v-if="finished || question?.type === 'text'"
+    v-if="showError || finished || question?.type === 'text'"
     class="mt-auto flex flex-col gap-2.5 pt-2"
   >
     <p
-      v-if="error && (finished || isLast || index === 0)"
+      v-if="showError"
       class="font-mono-rv text-xs text-rv-pink"
       role="alert"
     >
       npm ERR! {{ error }}
     </p>
-    <template v-if="finished || isLast">
+    <template v-if="finished || (isLast && question?.type === 'text')">
       <RvButton
         size="lg"
         :disabled="textMissing"
@@ -138,7 +140,7 @@ function back() {
       </p>
     </template>
     <RvButton
-      v-else
+      v-else-if="question?.type === 'text'"
       :disabled="textMissing"
       @click="next"
     >
