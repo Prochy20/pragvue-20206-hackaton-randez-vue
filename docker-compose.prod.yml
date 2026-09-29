@@ -1,0 +1,42 @@
+# Production stack for Coolify (build pack: Docker Compose). Local development uses docker-compose.yml.
+# SERVICE_* variables are Coolify magic variables: generated once and kept across deployments.
+services:
+  app:
+    build: .
+    # Internal only, no host port: Coolify's proxy reaches the container over the compose network.
+    expose:
+      - '3000'
+    environment:
+      NUXT_DATABASE_URL: postgres://${SERVICE_USER_POSTGRES}:${SERVICE_PASSWORD_POSTGRES}@postgres:5432/icebreaker
+      NUXT_SESSION_PASSWORD: ${SERVICE_PASSWORD_64_SESSION}
+      NUXT_ANTHROPIC_API_KEY: ${NUXT_ANTHROPIC_API_KEY:?}
+      # Public origin for share links and the wall QR code; routes the generated domain to port 3000.
+      NUXT_PUBLIC_SITE_URL: ${SERVICE_URL_APP_3000}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:3000/api/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${SERVICE_USER_POSTGRES}
+      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_POSTGRES}
+      POSTGRES_DB: icebreaker
+    volumes:
+      - pgdata-prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d icebreaker']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata-prod:
