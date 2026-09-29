@@ -1,5 +1,26 @@
+<script setup lang="ts">
+useHead({
+  meta: [
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+  ],
+  link: [
+    { rel: 'icon', href: '/favicon.ico' }
+  ],
+  htmlAttrs: {
+    lang: 'en'
+  }
+})
+
+useSeoMeta({
+  title: 'Icebreaker',
+  description: 'AI-powered conference icebreaker: playful profiles and matches worth talking to.'
+})
+</script>
+
 <template>
   <UApp>
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>
