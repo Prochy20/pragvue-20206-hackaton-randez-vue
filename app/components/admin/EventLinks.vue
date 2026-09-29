@@ -26,7 +26,15 @@ async function copy(text: string) {
 <template>
   <div class="space-y-4">
     <div>
-      <p class="text-sm font-medium text-primary">
+      <UButton
+        to="/"
+        label="All events"
+        icon="i-lucide-arrow-left"
+        color="neutral"
+        variant="link"
+        class="-ml-2.5"
+      />
+      <p class="mt-2 text-sm font-medium text-primary">
         Event admin
       </p>
       <h1 class="mt-1 text-3xl font-bold tracking-tight text-highlighted sm:text-4xl">

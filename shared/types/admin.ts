@@ -53,3 +53,10 @@ export interface AdminRound {
   createdAt: string
   pairs: AdminPair[]
 }
+
+export interface OrganizerEvent {
+  slug: string
+  name: string
+  participantCount: number
+  createdAt: string
+}

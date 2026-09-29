@@ -8,7 +8,7 @@
 - [x] T1 – `chore(db): switch to postgres with drizzle`
 - [x] T2 – `feat(auth): add organizer accounts`
 - [x] T3 – `refactor(admin): authorize by session instead of admin key`
-- [ ] T4 – „Your events“, „← All events“, `rel` fix
+- [x] T4 – `feat(ui): list organizer events` + `fix(ui): add noopener noreferrer to external links`
 - [ ] T5 – kontrakt účastníka
 - [ ] T6 – AI profil
 - [ ] T7 – veřejné API účastníka

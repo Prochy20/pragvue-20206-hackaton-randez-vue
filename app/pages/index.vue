@@ -33,52 +33,50 @@ async function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
       </p>
     </div>
 
-    <UCard class="mt-12 max-w-md">
-      <template #header>
-        <h2 class="text-lg font-semibold text-highlighted">
-          Create event
-        </h2>
-      </template>
+    <div class="mt-12 grid items-start gap-8 lg:grid-cols-2">
+      <UCard class="w-full">
+        <template #header>
+          <h2 class="text-lg font-semibold text-highlighted">
+            Create event
+          </h2>
+        </template>
 
-      <UForm
-        :schema="createEventSchema"
-        :state="state"
-        class="space-y-4"
-        @submit="onSubmit"
-      >
-        <UFormField
-          label="Event name"
-          name="name"
+        <UForm
+          :schema="createEventSchema"
+          :state="state"
+          class="space-y-4"
+          @submit="onSubmit"
         >
-          <UInput
-            v-model="state.name"
-            placeholder="PragVue 2026"
-            autofocus
-            class="w-full"
+          <UFormField
+            label="Event name"
+            name="name"
+          >
+            <UInput
+              v-model="state.name"
+              placeholder="PragVue 2026"
+              autofocus
+              class="w-full"
+            />
+          </UFormField>
+
+          <UAlert
+            v-if="error"
+            color="error"
+            variant="subtle"
+            icon="i-lucide-circle-alert"
+            :title="error"
           />
-        </UFormField>
 
-        <UAlert
-          v-if="error"
-          color="error"
-          variant="subtle"
-          icon="i-lucide-circle-alert"
-          :title="error"
-        />
+          <UButton
+            type="submit"
+            label="Create event"
+            icon="i-lucide-plus"
+            :loading="loading"
+          />
+        </UForm>
+      </UCard>
 
-        <UButton
-          type="submit"
-          label="Create event"
-          icon="i-lucide-plus"
-          :loading="loading"
-        />
-      </UForm>
-
-      <template #footer>
-        <p class="text-sm text-muted">
-          You'll get a private admin link – no account needed.
-        </p>
-      </template>
-    </UCard>
+      <AdminEventList />
+    </div>
   </UContainer>
 </template>
