@@ -20,6 +20,14 @@ const about = ref<StepOneState>({ name: '', role: '', company: '', hereFor: [] }
 const answers = ref<Record<string, string>>({})
 const quizIndex = ref(0)
 const submitError = ref<string>()
+const QUESTIONS_CHANGED_MSG = 'questions changed while you were answering, please go through them again'
+// The reset notice only makes sense on the first card; drop it once the participant moves on,
+// so the second pass doesn't read as already failed.
+watch(quizIndex, (index) => {
+  if (index > 0 && submitError.value === QUESTIONS_CHANGED_MSG) {
+    submitError.value = undefined
+  }
+})
 const installDone = ref(false)
 
 // localStorage only exists on the client, so the returning check runs after mount.
@@ -92,7 +100,7 @@ async function submit() {
       await refresh()
       answers.value = {}
       quizIndex.value = 0
-      submitError.value = 'questions changed while you were answering, please go through them again'
+      submitError.value = QUESTIONS_CHANGED_MSG
       step.value = 'quiz'
       return
     }
