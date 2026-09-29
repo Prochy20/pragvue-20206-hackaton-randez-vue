@@ -6,15 +6,16 @@ import type { Questionnaire } from '#shared/utils/questionnaire'
 type Tab = 'questionnaire' | 'participants' | 'rounds'
 const TABS: Tab[] = ['questionnaire', 'participants', 'rounds']
 
+definePageMeta({ middleware: 'auth' })
+
 const route = useRoute()
 const router = useRouter()
 
 const slug = computed(() => String(route.params.slug))
-const adminKey = ref<string>()
-const state = ref<'loading' | 'forbidden' | 'not-found' | 'error' | 'ready'>('loading')
+const state = ref<'loading' | 'not-found' | 'error' | 'ready'>('loading')
 const event = ref<AdminEvent>()
 
-const api = useAdminApi(slug, adminKey)
+const api = useAdminApi(slug)
 
 useSeoMeta({ title: () => event.value ? `${event.value.name} · Admin · Icebreaker` : 'Admin · Icebreaker' })
 
@@ -29,33 +30,17 @@ const tabItems = computed<TabsItem[]>(() => [
   { label: 'Rounds', icon: 'i-lucide-shuffle', value: 'rounds' }
 ])
 
-const origin = useRequestURL().origin
-const adminUrl = computed(() => {
-  return `${origin}/e/${slug.value}/admin?key=${encodeURIComponent(adminKey.value ?? '')}`
-})
-
 async function load() {
-  const keys = useAdminKeys()
-  let key = typeof route.query.key === 'string' && route.query.key ? route.query.key : undefined
-  if (!key) {
-    key = keys.get(slug.value)
-    if (key) {
-      await router.replace({ query: { ...route.query, key } })
-    }
-  }
-  if (!key) {
-    state.value = 'forbidden'
-    return
-  }
-  adminKey.value = key
-
   try {
     event.value = await api.getEvent()
-    keys.save(slug.value, key)
     state.value = 'ready'
   } catch (error) {
     const status = apiErrorStatus(error)
-    state.value = status === 403 ? 'forbidden' : status === 404 ? 'not-found' : 'error'
+    if (status === 401) {
+      await navigateTo('/login')
+      return
+    }
+    state.value = status === 404 ? 'not-found' : 'error'
   }
 }
 
@@ -91,22 +76,20 @@ function onParticipantCount(count: number) {
     </div>
 
     <div
-      v-else-if="state !== 'ready' || !event || !adminKey"
+      v-else-if="state !== 'ready' || !event"
       class="mx-auto flex max-w-md flex-col items-center py-16 text-center"
     >
       <UIcon
-        :name="state === 'not-found' ? 'i-lucide-search-x' : state === 'forbidden' ? 'i-lucide-shield-x' : 'i-lucide-triangle-alert'"
+        :name="state === 'not-found' ? 'i-lucide-search-x' : 'i-lucide-triangle-alert'"
         class="size-12 text-muted"
       />
       <h1 class="mt-4 text-2xl font-semibold text-highlighted">
-        {{ state === 'not-found' ? 'Event not found' : state === 'forbidden' ? 'Invalid admin link' : 'Something went wrong' }}
+        {{ state === 'not-found' ? 'Event not found' : 'Something went wrong' }}
       </h1>
       <p class="mt-2 text-muted">
         {{ state === 'not-found'
-          ? 'There is no event at this address.'
-          : state === 'forbidden'
-            ? 'Check the link you got when creating the event.'
-            : 'We couldn\'t load the event. Try again in a moment.' }}
+          ? 'There is no event of yours at this address.'
+          : 'We couldn\'t load the event. Try again in a moment.' }}
       </p>
       <div class="mt-6 flex gap-2">
         <UButton
@@ -117,7 +100,7 @@ function onParticipantCount(count: number) {
         />
         <UButton
           to="/"
-          label="Back to home"
+          label="All events"
           color="neutral"
           variant="outline"
         />
@@ -131,7 +114,6 @@ function onParticipantCount(count: number) {
       <AdminEventLinks
         :name="event.name"
         :slug="event.slug"
-        :admin-url="adminUrl"
       />
 
       <UTabs
@@ -144,7 +126,6 @@ function onParticipantCount(count: number) {
       <AdminQuestionnaireEditor
         v-show="tab === 'questionnaire'"
         :slug="event.slug"
-        :admin-key="adminKey"
         :questionnaire="event.questionnaire"
         :participant-count="event.participantCount"
         @saved="onSaved"
@@ -152,13 +133,11 @@ function onParticipantCount(count: number) {
       <AdminParticipantsTable
         v-if="tab === 'participants'"
         :slug="event.slug"
-        :admin-key="adminKey"
         @count="onParticipantCount"
       />
       <AdminRoundsList
         v-if="tab === 'rounds'"
         :slug="event.slug"
-        :admin-key="adminKey"
       />
     </div>
   </UContainer>

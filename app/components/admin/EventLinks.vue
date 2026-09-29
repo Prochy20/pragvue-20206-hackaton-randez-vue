@@ -2,18 +2,15 @@
 const props = defineProps<{
   name: string
   slug: string
-  adminUrl: string
 }>()
 
 const toast = useToast()
-const showBookmark = ref(true)
 
 const origin = useRequestURL().origin
 
 const links = computed(() => [
   { label: 'Registration', icon: 'i-lucide-clipboard-pen', url: `${origin}/e/${props.slug}` },
-  { label: 'Live wall', icon: 'i-lucide-presentation', url: `${origin}/e/${props.slug}/wall` },
-  { label: 'Admin', icon: 'i-lucide-shield', url: props.adminUrl }
+  { label: 'Live wall', icon: 'i-lucide-presentation', url: `${origin}/e/${props.slug}/wall` }
 ])
 
 async function copy(text: string) {
@@ -37,18 +34,7 @@ async function copy(text: string) {
       </h1>
     </div>
 
-    <UAlert
-      v-if="showBookmark"
-      color="warning"
-      variant="subtle"
-      icon="i-lucide-bookmark"
-      title="Bookmark this page – it's the only way back to your admin."
-      :actions="[{ label: 'Copy admin link', icon: 'i-lucide-copy', color: 'warning', variant: 'outline', onClick: () => copy(adminUrl) }]"
-      close
-      @update:open="showBookmark = $event"
-    />
-
-    <div class="grid gap-3 sm:grid-cols-3">
+    <div class="grid gap-3 sm:grid-cols-2">
       <UCard
         v-for="link in links"
         :key="link.label"

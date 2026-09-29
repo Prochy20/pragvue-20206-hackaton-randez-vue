@@ -5,7 +5,6 @@ import type { AdminParticipant } from '#shared/types/admin'
 
 const props = defineProps<{
   slug: string
-  adminKey: string
 }>()
 
 const emit = defineEmits<{
@@ -16,7 +15,7 @@ const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
 
 const toast = useToast()
-const api = useAdminApi(() => props.slug, () => props.adminKey)
+const api = useAdminApi(() => props.slug)
 
 const participants = ref<AdminParticipant[]>()
 const loadError = ref<string>()

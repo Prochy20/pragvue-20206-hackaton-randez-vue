@@ -7,7 +7,7 @@
 - [x] T0 – `docs: add phase 3 docs`
 - [x] T1 – `chore(db): switch to postgres with drizzle`
 - [x] T2 – `feat(auth): add organizer accounts`
-- [ ] T3 – admin ze session místo klíče
+- [x] T3 – `refactor(admin): authorize by session instead of admin key`
 - [ ] T4 – „Your events“, „← All events“, `rel` fix
 - [ ] T5 – kontrakt účastníka
 - [ ] T6 – AI profil

@@ -1,11 +1,11 @@
 import { events } from '~~/server/db/schema'
 
 export default defineEventHandler(async (event): Promise<CreatedEvent> => {
+  const { user } = await requireUserSession(event)
   const { name } = await readBodyWith(event, createEventSchema)
   const slug = await uniqueSlug(name)
-  const adminKey = generateAdminKey()
 
-  await useDb().insert(events).values({ slug, name, adminKey, questionnaire: createDefaultQuestionnaire() })
+  await useDb().insert(events).values({ slug, name, ownerId: user.id, questionnaire: createDefaultQuestionnaire() })
 
-  return { slug, adminKey }
+  return { slug }
 })

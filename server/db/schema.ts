@@ -16,7 +16,7 @@ export const events = pgTable('events', {
   id: id(),
   slug: text().notNull().unique(),
   name: text().notNull(),
-  adminKey: text().notNull(),
+  ownerId: uuid().notNull().references(() => users.id, { onDelete: 'cascade' }),
   questionnaire: jsonb().$type<Questionnaire>().notNull(),
   createdAt: createdAt()
 })

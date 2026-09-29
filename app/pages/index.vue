@@ -2,18 +2,18 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { FetchError } from 'ofetch'
 
+definePageMeta({ middleware: 'auth' })
+
 const state = reactive<Partial<CreateEventInput>>({ name: '' })
 const loading = ref(false)
 const error = ref<string>()
-const adminKeys = useAdminKeys()
 
 async function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
   loading.value = true
   error.value = undefined
   try {
-    const { slug, adminKey } = await $fetch<CreatedEvent>('/api/events', { method: 'POST', body: event.data })
-    adminKeys.save(slug, adminKey)
-    await navigateTo({ path: `/e/${slug}/admin`, query: { key: adminKey } })
+    const { slug } = await $fetch<CreatedEvent>('/api/events', { method: 'POST', body: event.data })
+    await navigateTo(`/e/${slug}/admin`)
   } catch (e) {
     const fetchError = e as FetchError
     error.value = fetchError.data?.statusMessage ?? 'Something went wrong. Please try again.'

@@ -9,7 +9,6 @@ export interface Answer {
 
 export interface CreatedEvent {
   slug: string
-  adminKey: string
 }
 
 export interface AdminEvent {

@@ -4,7 +4,6 @@ import { MAX_QUESTIONS, questionnaireSchema } from '#shared/utils/questionnaire'
 
 const props = defineProps<{
   slug: string
-  adminKey: string
   questionnaire: Questionnaire
   participantCount: number
 }>()
@@ -14,7 +13,7 @@ const emit = defineEmits<{
 }>()
 
 const toast = useToast()
-const api = useAdminApi(() => props.slug, () => props.adminKey)
+const api = useAdminApi(() => props.slug)
 
 const clone = (questionnaire: Questionnaire): Questionnaire => structuredClone(toRaw(questionnaire))
 

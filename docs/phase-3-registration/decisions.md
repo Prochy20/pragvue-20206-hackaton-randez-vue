@@ -50,3 +50,5 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 27. **`isUuid()` v `server/utils/validation.ts` před dotazy podle id.** – Postgres na nevalidní uuid hází chybu → 500; chceme 404.
 28. **ESLint ignoruje `docs/**`.** – Design handoff obsahuje `support.js` (1500 lint chyb).
 29. **`drizzle.config.ts` načítá `.env` přes `process.loadEnvFile()`.** – drizzle-kit `.env` sám nečte.
+30. **Schéma změny, které drizzle-kit považuje za možné přejmenování (drop + add sloupce), dělat ručně přes `psql` + `pnpm db:push --force`.** – `drizzle-kit push` se jinak ptá interaktivně a bez TTY spadne.
+31. **Admin EventLinks bez karty „Admin“ a bez alertu „Bookmark this page“.** – Admin URL už není tajemství ani jediná cesta zpět.

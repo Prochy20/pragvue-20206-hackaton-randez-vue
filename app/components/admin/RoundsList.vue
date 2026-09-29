@@ -3,10 +3,9 @@ import type { AdminRound } from '#shared/types/admin'
 
 const props = defineProps<{
   slug: string
-  adminKey: string
 }>()
 
-const api = useAdminApi(() => props.slug, () => props.adminKey)
+const api = useAdminApi(() => props.slug)
 
 const rounds = ref<AdminRound[]>()
 const loadError = ref<string>()

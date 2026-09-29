@@ -1,21 +1,16 @@
-import { randomBytes } from 'node:crypto'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import type { H3Event } from 'h3'
 import { events } from '~~/server/db/schema'
 
-export function generateAdminKey() {
-  return randomBytes(24).toString('base64url')
-}
-
-// Loads the event from the [slug] route param and checks the x-admin-key header.
+// Loads the event from the [slug] route param; only its owner gets it, anyone else a 404.
 export async function requireAdminEvent(event: H3Event) {
+  const { user } = await requireUserSession(event)
   const slug = getRouterParam(event, 'slug') ?? ''
-  const row = await useDb().query.events.findFirst({ where: eq(events.slug, slug) })
+  const row = await useDb().query.events.findFirst({
+    where: and(eq(events.slug, slug), eq(events.ownerId, user.id))
+  })
   if (!row) {
     throw createError({ statusCode: 404, statusMessage: 'Event not found' })
-  }
-  if (getHeader(event, 'x-admin-key') !== row.adminKey) {
-    throw createError({ statusCode: 403, statusMessage: 'Invalid admin key' })
   }
   return row
 }
