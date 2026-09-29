@@ -7,7 +7,7 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 ## Kde jsme
 
 - Fáze 1–5 ✅, **6 postavená + proklikaná**:
-  - `pnpm seed` (jen lokálně): `demo@rendez-vue.dev` / `demo1234`, event `pragvue-2026-demo`, 15 lidí s předpečenými profily, bez kola. `pnpm seed:profiles` je přegeneruje skutečným promptem.
+  - `pnpm seed` (jen lokálně): `demo@rendez-vue.dev` / `demo1234`, event `pragvue-2026-demo`, 15 lidí s předpečenými profily, bez kola. `pnpm seed:profiles` je přegeneruje skutečným promptem. `pnpm db:reset` = TRUNCATE všech tabulek + `pnpm seed` (jen pro `localhost` DB).
   - Migrace místo `db:push`: `server/db/migrations/`, aplikuje je `server/plugins/migrate.ts` při startu, `/api/health` na ně čeká a při selhání vrací 503 (#16). Server se musí spouštět z kořene repa. Nová migrace: `pnpm db:generate <name>`.
   - `NUXT_PUBLIC_SITE_URL` pro odkazy a QR (`useSiteOrigin`).
   - AI profil: při překročení délkových limitů jeden retry, pak ořez na hranici slova (#14).
