@@ -15,7 +15,7 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
   - Anglické `README.md` pro porotu. Screenshoty dodá uživatel do `docs/screenshots/` (`registration/profile/match/wall.png`).
 - Otevřené (checklist v [phase-6-seed-polish/status.md](phase-6-seed-polish/status.md)):
   - **Deploy na Coolify uživatelem** podle README (`NUXT_PUBLIC_SITE_URL` nastavit, start z kořene repa).
-  - 2 ruční kontroly: hláška „questions changed“ zmizí po 1. otázce; `/api/events` odhlášeně → „Permission denied.“.
+  - 2 kontroly, které Playwrightu zablokoval hlídač oprávnění (uživatel povolí Playwright nástroje, pak zkusit znovu přes Playwright): hláška „questions changed“ zmizí po 1. otázce; `/api/events` odhlášeně → „Permission denied.“.
   - Screenshoty pro README.
 - Na zdi se u trojic nezobrazuje AI titul pod jménem (#17), jinak se nevejde důvod.
 
@@ -34,5 +34,5 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 ## Prompt pro novou session
 
 ```
-Pokračujeme na Icebreakeru (Rendez-Vue). Přečti docs/HANDOFF.md. Dořešíme nálezy z deploye na Coolify a ručních kontrol fáze 6 (napíšu je).
+Pokračujeme na Icebreakeru (Rendez-Vue). Přečti docs/HANDOFF.md. Dořeš přes Playwright 2 zbývající kontroly fáze 6 ze status.md (Playwright nástroje mám povolené), pak mi pomoz s deployem na Coolify.
 ```
