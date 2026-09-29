@@ -60,6 +60,7 @@ async function copy(text: string) {
             <a
               :href="link.url"
               target="_blank"
+              rel="noopener noreferrer"
               class="block truncate text-xs text-muted hover:text-default"
             >{{ link.url }}</a>
           </div>
