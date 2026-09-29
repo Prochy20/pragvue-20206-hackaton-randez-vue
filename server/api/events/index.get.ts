@@ -2,7 +2,7 @@ import { count, desc, eq } from 'drizzle-orm'
 import { events, participants } from '~~/server/db/schema'
 
 export default defineEventHandler(async (event): Promise<OrganizerEvent[]> => {
-  const { user } = await requireUserSession(event)
+  const { user } = await requireOrganizer(event)
 
   const rows = await useDb().select({
     slug: events.slug,

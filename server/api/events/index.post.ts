@@ -1,7 +1,7 @@
 import { events } from '~~/server/db/schema'
 
 export default defineEventHandler(async (event): Promise<CreatedEvent> => {
-  const { user } = await requireUserSession(event)
+  const { user } = await requireOrganizer(event)
   const { name } = await readBodyWith(event, createEventSchema)
   const slug = await uniqueSlug(name)
 
