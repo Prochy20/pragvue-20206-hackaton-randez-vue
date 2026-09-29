@@ -65,7 +65,12 @@ export function profileColumns(profile: GeneratedProfile | null) {
     : { title: null, tagline: null, emoji: null, specialMove: null, weakness: null, peerDependency: null, dependencies: [], aiStatus: 'failed' as const }
 }
 
-export function toPublicProfile(event: EventRow, row: ParticipantRow): PublicProfile {
+// matchState comes from loadProfileMatch.
+export function toPublicProfile(
+  event: EventRow,
+  row: ParticipantRow,
+  matchState: Pick<PublicProfile, 'match' | 'latestRoundNumber'>
+): PublicProfile {
   return {
     number: row.number,
     name: row.name,
@@ -81,7 +86,6 @@ export function toPublicProfile(event: EventRow, row: ParticipantRow): PublicPro
     dependencies: row.dependencies,
     aiStatus: row.aiStatus,
     event: { slug: event.slug, name: event.name },
-    match: null,
-    latestRoundNumber: null
+    ...matchState
   }
 }

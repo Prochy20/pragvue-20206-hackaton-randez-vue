@@ -23,5 +23,5 @@ export default defineEventHandler(async (event): Promise<PublicProfile> => {
     .where(eq(participants.id, participant.id))
     .returning()
 
-  return toPublicProfile(row, updated!)
+  return toPublicProfile(row, updated!, await loadProfileMatch(row, updated!))
 })
