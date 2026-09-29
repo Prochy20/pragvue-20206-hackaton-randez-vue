@@ -5,7 +5,7 @@
 ## Úkoly
 
 - [x] T0 – `docs: add phase 3 docs`
-- [ ] T1 – Postgres + Drizzle, přepis stávajících dotazů
+- [x] T1 – `chore(db): switch to postgres with drizzle`
 - [ ] T2 – auth (signup / login / logout)
 - [ ] T3 – admin ze session místo klíče
 - [ ] T4 – „Your events“, „← All events“, `rel` fix

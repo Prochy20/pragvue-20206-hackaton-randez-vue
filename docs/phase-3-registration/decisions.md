@@ -43,3 +43,10 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 
 24. **Vizuál účastnického FE dělá Claude Design, uživatel dodá handoff.** Otevřené do té doby: forma dotazníku (jedna stránka vs. wizard), podoba loadingu, rozložení profilu.
 25. **Teď funkční holé UI na Nuxt UI.** Logika (fetch, localStorage, stavy) ve stránkách a composables, prezentace v `app/components/participant/*` → přestylování = výměna komponent. Předběžně: jedna stránka s otázkami, loading overlay s rotujícími hláškami (statický seznam na klientu). *Zamítnuto:* čekat na design s FE nebo s celou fází.
+
+## 2026-09-29 – stavba
+
+26. **Timestampy v Drizzle `mode: 'date'` (ne `'string'`), API vrací `.toISOString()`.** – `pg` v string módu vrací `2026-09-29 09:11:23.17+00`, ne ISO; klient to parsuje přes `new Date()`.
+27. **`isUuid()` v `server/utils/validation.ts` před dotazy podle id.** – Postgres na nevalidní uuid hází chybu → 500; chceme 404.
+28. **ESLint ignoruje `docs/**`.** – Design handoff obsahuje `support.js` (1500 lint chyb).
+29. **`drizzle.config.ts` načítá `.env` přes `process.loadEnvFile()`.** – drizzle-kit `.env` sám nečte.

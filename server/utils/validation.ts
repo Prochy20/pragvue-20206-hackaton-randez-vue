@@ -10,3 +10,10 @@ export async function readBodyWith<T extends z.ZodType>(event: H3Event, schema: 
   }
   return result.data
 }
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+// Postgres rejects malformed uuids with an error; check first so lookups can 404 instead.
+export function isUuid(value: string | undefined): value is string {
+  return !!value && UUID_RE.test(value)
+}

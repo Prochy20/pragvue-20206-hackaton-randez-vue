@@ -12,23 +12,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
-    // Server-only; set via NUXT_ANTHROPIC_API_KEY. Checked lazily at AI call time.
+    // Server-only; set via NUXT_DATABASE_URL and NUXT_ANTHROPIC_API_KEY. Checked lazily on first use.
+    databaseUrl: '',
     anthropicApiKey: ''
   },
 
   compatibilityDate: '2026-06-30',
-
-  nitro: {
-    experimental: {
-      database: true
-    },
-    database: {
-      default: {
-        connector: 'node-sqlite',
-        options: { path: '.data/db.sqlite' }
-      }
-    }
-  },
 
   eslint: {
     config: {
