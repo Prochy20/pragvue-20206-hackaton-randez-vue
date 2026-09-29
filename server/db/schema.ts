@@ -43,7 +43,7 @@ export const participants = pgTable('participants', {
   dependencies: jsonb().$type<string[]>().notNull(),
   aiStatus: text().$type<'ok' | 'failed'>().notNull(),
   createdAt: createdAt()
-}, table => [index().on(table.eventId)])
+}, table => [index().on(table.eventId), unique().on(table.eventId, table.number)])
 
 export const rounds = pgTable('rounds', {
   id: id(),

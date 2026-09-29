@@ -1,4 +1,4 @@
-import { count, eq } from 'drizzle-orm'
+import { eq, max, sql } from 'drizzle-orm'
 import { participants } from '~~/server/db/schema'
 
 export default defineEventHandler(async (event): Promise<RegistrationResult> => {
@@ -18,20 +18,25 @@ export default defineEventHandler(async (event): Promise<RegistrationResult> => 
     takenTitles: await takenTitles(row.id)
   })
 
-  const db = useDb()
-  const [registered] = await db.select({ count: count() }).from(participants).where(eq(participants.eventId, row.id))
   const token = generateParticipantToken()
 
-  await db.insert(participants).values({
-    eventId: row.id,
-    token,
-    number: (registered?.count ?? 0) + 1,
-    name: input.name,
-    role: input.role,
-    company,
-    hereFor: input.hereFor,
-    answers,
-    ...profileColumns(profile)
+  // Concurrent registrations to one event serialize on the lock, so numbers never repeat.
+  // max() instead of count(), because deleted participants leave gaps.
+  await useDb().transaction(async (tx) => {
+    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${row.id}))`)
+    const [last] = await tx.select({ number: max(participants.number) }).from(participants).where(eq(participants.eventId, row.id))
+
+    await tx.insert(participants).values({
+      eventId: row.id,
+      token,
+      number: (last?.number ?? 0) + 1,
+      name: input.name,
+      role: input.role,
+      company,
+      hereFor: input.hereFor,
+      answers,
+      ...profileColumns(profile)
+    })
   })
 
   return { token, aiStatus: profile ? 'ok' : 'failed' }
