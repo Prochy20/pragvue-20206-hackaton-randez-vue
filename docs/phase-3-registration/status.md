@@ -6,7 +6,7 @@
 
 - [x] T0 – `docs: add phase 3 docs`
 - [x] T1 – `chore(db): switch to postgres with drizzle`
-- [ ] T2 – auth (signup / login / logout)
+- [x] T2 – `feat(auth): add organizer accounts`
 - [ ] T3 – admin ze session místo klíče
 - [ ] T4 – „Your events“, „← All events“, `rel` fix
 - [ ] T5 – kontrakt účastníka

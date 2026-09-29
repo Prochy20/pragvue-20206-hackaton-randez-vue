@@ -5,6 +5,13 @@ import type { Questionnaire } from '../../shared/utils/questionnaire'
 const id = () => uuid().primaryKey().defaultRandom()
 const createdAt = () => timestamp({ withTimezone: true }).notNull().defaultNow()
 
+export const users = pgTable('users', {
+  id: id(),
+  email: text().notNull().unique(),
+  passwordHash: text().notNull(),
+  createdAt: createdAt()
+})
+
 export const events = pgTable('events', {
   id: id(),
   slug: text().notNull().unique(),
