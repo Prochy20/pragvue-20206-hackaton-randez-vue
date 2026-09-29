@@ -24,7 +24,7 @@ const sizes = computed(() => ({
     head: 'items-center gap-[0.7vw]',
     avatar: 'size-[2.8vw] rounded-[0.7vw] text-[1.05vw]',
     emoji: 'text-[1.6vw]',
-    name: 'text-[clamp(15px,1.3vw,26px)]',
+    name: 'text-[clamp(14px,1.2vw,24px)]',
     title: 'text-[clamp(12px,1vw,20px)] line-clamp-2'
   },
   sm: {
@@ -62,7 +62,7 @@ const sizes = computed(() => ({
         </template>
       </div>
       <h2
-        class="w-full min-w-0 truncate leading-[1.15] font-bold"
+        class="line-clamp-2 w-full min-w-0 leading-[1.15] font-bold break-words"
         :class="sizes.name"
       >
         {{ participant.name }}
