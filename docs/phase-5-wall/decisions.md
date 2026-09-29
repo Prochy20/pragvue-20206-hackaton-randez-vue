@@ -22,3 +22,7 @@ Append-only.
 13. **Zeď vidí běžící kolo:** in-memory zámek `running` se přesouvá z `rounds.post.ts` do `server/utils/match.ts` (`startRound` / `finishRound` / `isRoundRunning`), endpoint vrací `matching: boolean`. Mezititulek pak začne `installing friends…` už během AI callu a po dokončení přejde na `✓ K friends paired`. Na demu tím nevznikne 5–30 s ticha.
 14. **Klíč účastníka na zdi = jeho `number`** (pořadí v eventu, veřejné už na profilové kartě), ne uuid.
 15. **Polling 4 s přes nový lehký loop ve stránce** (bez `document.hidden` pauzy, projektor je vždy vidět; bez překryvu požadavků). `usePolling` z adminu nerozlišuje chybu, `useVisiblePolling` pauzuje skrytý tab – zeď potřebuje `reconnecting` stav.
+
+## 2026-09-29 – stavba
+
+16. **Oprava z fáze 3: čísla účastníků.** `count + 1` dávalo duplicity při souběžných registracích (4 paralelní registrace testovacích dat) a po smazání účastníka. Nově `max(number) + 1` v transakci se `pg_advisory_xact_lock(hashtext(eventId))` + unikátní `(event_id, number)`. Duplicity v `pragvue-2026` přečíslované podle pořadí. Constraint přidán ručně SQL (drizzle-kit push se neinteraktivně ptá na truncate), `db:push` pak bez změn.
