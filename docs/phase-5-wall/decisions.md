@@ -26,3 +26,11 @@ Append-only.
 ## 2026-09-29 – stavba
 
 16. **Oprava z fáze 3: čísla účastníků.** `count + 1` dávalo duplicity při souběžných registracích (4 paralelní registrace testovacích dat) a po smazání účastníka. Nově `max(number) + 1` v transakci se `pg_advisory_xact_lock(hashtext(eventId))` + unikátní `(event_id, number)`. Duplicity v `pragvue-2026` přečíslované podle pořadí. Constraint přidán ručně SQL (drizzle-kit push se neinteraktivně ptá na truncate), `db:push` pak bez změn.
+17. **Odchylky ze stavby:**
+    - Zeď předpokládá 16:9 (vw jednotky).
+    - Mřížka má pevné tiery: ≤ 12 → 4×3, ≤ 30 → 6×5, ≤ 56 → 8×7, jinak 10 sloupců.
+    - Skupiny: max. 8 na stránku podle `ResizeObserver` kontejneru. Reset na stránku 1 řídí obsah, ne reference pole, protože polling posílá nové pole každé 4 s.
+    - Jiná chyba než 404 při prvním načtení → `npm ERR! wall offline, retrying…` a polling běží dál.
+    - Neznámý slug vrací stránku `404 event not found` s HTTP 200.
+    - Keyframes progress baru jsou v nescoped `<style>` v `RoundIntro.vue`.
+    - `WallGroups` se během `merged` overlaye nerenderuje, aby karty naběhly až po něm.

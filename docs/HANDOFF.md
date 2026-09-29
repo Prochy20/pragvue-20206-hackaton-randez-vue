@@ -2,18 +2,24 @@
 
 Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 
-**Poslední update:** 2026-09-29, fáze 4 hotová (proklik bez nálezů), jde se grilovat fáze 5.
+**Poslední update:** 2026-09-29, fáze 5 postavená, čeká na ruční proklik UI.
 
 ## Kde jsme
 
-- Fáze 1 ✅, 2 ✅, 3 ✅, 4 ✅ (admin spouští kolo → jeden AI call → dvojice / trojice s `reason`, `diff`, icebreakerem; účastník přes polling vidí `✓ match found` → obrazovky 07 → 08 na `/e/<slug>/p/<token>/match`; admin tab Rounds). Detaily v [phase-4-matching/status.md](phase-4-matching/status.md).
-- Proklik UI fáze 4 bez nálezů. Testovací event `t1-match-test` (5 lidí, 2 kola) zůstává jako data pro zeď.
-- Z fáze 3 opraveno po prokliku: dlouhé A/B možnosti se zalamují, plynulejší swipe (decisions #48–#49).
-- Další: **fáze 5 – živá zeď** (`/e/<slug>/wall`, polling, tituly → páry, tmavé téma). Zatím nevygrilovaná.
+- Fáze 1–4 ✅, **5 postavená**. `/e/<slug>/wall`, veřejný `GET /api/events/<slug>/wall`, polling 4 s:
+  - bez kola mřížka a QR panel;
+  - po kole skupiny abecedně, stránkované, a pruh nováčků;
+  - `installing friends…` během kola, pak mezititulek `git merge round-N`.
+  - Detaily v [phase-5-wall/status.md](phase-5-wall/status.md).
+- Otevřené: **T5 – uživatel prokliká zeď** na 1920×1080: `wall-grid-test` (mřížka), `t1-match-test` (skupiny + nováčci), `pragvue-2026` (13 lidí, 6 skupin), spuštění kola s otevřenou zdí (mezititulek). Nálezy opravit, zapsat do `decisions.md`.
+- Opraveno navíc: čísla účastníků byla při souběžné registraci a po smazání duplicitní. Teď advisory lock + unikátní `(event_id, number)` (fáze 5 #16).
+- Další: **fáze 6 – seed + doladění stavů** (seed skript, sweep empty/error/loading, anglické README). Zatím nevygrilovaná.
 
 ## Co musí nová session vědět
 
-- Čti `CLAUDE.md` → `intent.md` → `docs/README.md` → `phase-4-matching/` (`spec.md`, `decisions.md` #1–#18, `status.md`).
+- Čti `CLAUDE.md` → `intent.md` → `docs/README.md` → `phase-5-wall/` (`spec.md`, `decisions.md` #1–#17, `status.md`).
+- Zeď: stránka `app/pages/e/[slug]/wall.vue` drží stav (polling, mezititulek), komponenty `app/components/wall/*`, data `loadWall` a zámek kola (`startRound`/`finishRound`/`isRoundRunning`) v `server/utils/match.ts`.
+- `drizzle-kit push` se neinteraktivně ptá na truncate při novém unique constraintu → constraint přidat SQL přes `docker compose exec -T postgres psql -U icebreaker -d icebreaker`, pak push.
 - Profil stránka je teď `app/pages/e/[slug]/p/[token]/index.vue` (sourozenec `match.vue`). Polling účastníka `useVisiblePolling`, admin `usePolling`.
 - Po vytvoření nových `.vue` souborů za běhu dev serveru: když UI vypadá rozbitě, restart `pnpm dev` + smazat `node_modules/.cache/vite` + tvrdý reload (fáze 3 #47). Po fázi 4 už restartováno.
 - Běh: `docker compose up -d` → `pnpm db:push` → `pnpm dev --port 3000` (držet běžící). `.env`: `NUXT_DATABASE_URL`, `NUXT_SESSION_PASSWORD`, `NUXT_ANTHROPIC_API_KEY` (vyplněno).
@@ -25,5 +31,5 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 ## Prompt pro novou session
 
 ```
-Pokračujeme na Icebreakeru (Rendez-Vue). Přečti docs/HANDOFF.md. Nejdřív dořešíme nálezy z prokliku fáze 4 (napíšu je), pak spusť /grilling pro fázi 5 (Živá zeď).
+Pokračujeme na Icebreakeru (Rendez-Vue). Přečti docs/HANDOFF.md. Nejdřív dořešíme nálezy z prokliku fáze 5 – živé zdi (napíšu je), pak spusť /grilling pro fázi 6 (Seed + doladění stavů).
 ```
