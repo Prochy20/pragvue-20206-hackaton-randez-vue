@@ -6,6 +6,13 @@ const props = defineProps<{
 }>()
 
 const { fetch: refreshSession } = useUserSession()
+const route = useRoute()
+
+// Only same-site paths, so a crafted ?redirect= can't bounce the user off the site.
+const redirect = computed(() => {
+  const value = route.query.redirect
+  return typeof value === 'string' && /^\/(?![/\\])/.test(value) ? value : undefined
+})
 const loading = ref(false)
 const error = ref<string>()
 
@@ -24,7 +31,7 @@ async function onSubmit(event: FormSubmitEvent<Credentials>) {
   try {
     await $fetch(`/api/auth/${props.mode}`, { method: 'POST', body: event.data })
     await refreshSession()
-    await navigateTo('/')
+    await navigateTo(redirect.value ?? '/')
   } catch (e) {
     error.value = apiErrorMessage(e, 'Something went wrong. Please try again.')
     loading.value = false
@@ -68,7 +75,7 @@ async function onSubmit(event: FormSubmitEvent<Credentials>) {
         <template #footer>
           {{ copy.switchText }}
           <ULink
-            :to="copy.switchTo"
+            :to="{ path: copy.switchTo, query: redirect ? { redirect } : {} }"
             class="font-medium text-primary"
           >
             {{ copy.switchLabel }}

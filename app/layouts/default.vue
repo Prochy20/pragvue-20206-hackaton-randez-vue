@@ -1,9 +1,18 @@
 <script setup lang="ts">
 const { loggedIn, user, clear } = useUserSession()
+const toast = useToast()
+const loggingOut = ref(false)
 
 async function logout() {
-  await clear()
-  await navigateTo('/login')
+  loggingOut.value = true
+  try {
+    await clear()
+    await navigateTo('/login')
+  } catch {
+    toast.add({ title: 'Could not log out', description: 'Check your connection and try again.', color: 'error' })
+  } finally {
+    loggingOut.value = false
+  }
 }
 </script>
 
@@ -24,6 +33,7 @@ async function logout() {
             icon="i-lucide-log-out"
             color="neutral"
             variant="ghost"
+            :loading="loggingOut"
             @click="logout"
           />
         </template>
