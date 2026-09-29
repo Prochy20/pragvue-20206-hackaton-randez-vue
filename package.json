@@ -11,7 +11,8 @@
     "typecheck": "nuxt typecheck",
     "db:generate": "drizzle-kit generate --name",
     "seed": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/seed.ts",
-    "seed:profiles": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/generate-seed-profiles.ts"
+    "seed:profiles": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/generate-seed-profiles.ts",
+    "db:reset": "node --experimental-strip-types --no-warnings=ExperimentalWarning scripts/reset.ts && pnpm seed"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
