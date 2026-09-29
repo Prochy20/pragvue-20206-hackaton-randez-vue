@@ -56,7 +56,8 @@ function forget() {
 
 const installLines = computed<LogLine[]>(() => [
   { text: 'deprecated small-talk@1.0.0', tone: 'warn' },
-  { text: `resolving ${Object.keys(answers.value).length + 2} answers…` },
+  // Same count as the quiz counter (name and role are step 1, not questions).
+  { text: `resolving ${event.value?.questionnaire.length ?? 0} answers…` },
   { text: 'checking vibes…', tone: 'ok' },
   { text: 'humor: gentle mode enabled', tone: 'warn' },
   { text: 'installing title@latest…', tone: 'strong' }

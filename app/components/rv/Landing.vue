@@ -41,7 +41,7 @@ const emit = defineEmits<{
     class="mt-3 text-[17px] leading-normal text-pretty text-rv-text-2"
     :class="{ invisible: checking }"
   >
-    Answer {{ event.questionnaire.length + 2 }} slightly unhinged questions. Get a title. Meet one person at {{ event.name }} you'll actually want to talk to.
+    Answer {{ event.questionnaire.length }} slightly unhinged questions. Get a title. Meet one person at {{ event.name }} you'll actually want to talk to.
   </p>
 
   <div
