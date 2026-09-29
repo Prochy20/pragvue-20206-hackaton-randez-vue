@@ -54,6 +54,7 @@ const sizes = computed(() => ({
       >
         <span
           v-if="participant.emoji"
+          class="font-emoji font-normal"
           :class="sizes.emoji"
         >{{ participant.emoji }}</span>
         <template v-else>

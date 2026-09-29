@@ -134,13 +134,13 @@ function avatarText(member: WallMember) {
               <div
                 class="
                   flex size-[clamp(40px,3vw,64px)] shrink-0 items-center
-                  justify-center rounded-xl font-mono-rv font-bold
+                  justify-center rounded-xl
                 "
                 :class="member.removed
-                  ? 'border border-dashed border-rv-border-2 text-[clamp(16px,1.2vw,24px)] text-rv-muted'
+                  ? 'border border-dashed border-rv-border-2 font-mono-rv text-[clamp(16px,1.2vw,24px)] font-bold text-rv-muted'
                   : member.emoji
-                    ? 'border border-rv-green bg-rv-surface-3 text-[clamp(22px,1.7vw,34px)]'
-                    : 'bg-rv-green text-[clamp(15px,1.1vw,22px)] text-rv-bg'"
+                    ? 'border border-rv-green bg-rv-surface-3 font-emoji text-[clamp(22px,1.7vw,34px)]'
+                    : 'bg-rv-green font-mono-rv text-[clamp(15px,1.1vw,22px)] font-bold text-rv-bg'"
                 aria-hidden="true"
               >
                 {{ avatarText(member) }}

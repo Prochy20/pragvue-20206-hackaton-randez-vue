@@ -28,7 +28,7 @@ const more = computed(() => Math.max(0, props.participants.length - LIMIT))
         >
           <span
             v-if="participant.emoji"
-            class="text-[1.2vw]"
+            class="font-emoji text-[1.2vw] font-normal"
           >{{ participant.emoji }}</span>
           <template v-else>{{ initials(participant.name) }}</template>
         </span>

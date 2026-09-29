@@ -5,6 +5,8 @@
 @theme {
   --font-grotesk: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono-rv: "JetBrains Mono", ui-monospace, monospace;
+  /* AI-picked emoji: color emoji fonts first, otherwise a text font (e.g. JetBrains Mono) renders its own monochrome glyph. */
+  --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 
   --color-rv-bg: oklch(0.17 0.012 150);
   --color-rv-surface: oklch(0.21 0.014 150);

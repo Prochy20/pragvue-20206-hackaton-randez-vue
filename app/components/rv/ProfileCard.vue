@@ -17,7 +17,7 @@ defineProps<{
         {{ initials(profile.name) }}
         <span
           v-if="profile.emoji"
-          class="absolute top-2.5 right-3 text-2xl tracking-normal"
+          class="absolute top-2.5 right-3 font-emoji text-2xl font-normal tracking-normal"
           aria-hidden="true"
         >{{ profile.emoji }}</span>
       </div>
