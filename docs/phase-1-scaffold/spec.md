@@ -8,8 +8,8 @@ Viz [intent](intent.md) a [rozhodnutí](decisions.md). Úkoly jsou v pořadí co
 |---|---|---|---|---|
 | T1 | Scaffold šablony | – | vše generované | `chore: scaffold Nuxt UI starter` |
 | T2 | Úklid šablony + package.json | T1 | `app/pages/*`, `app/components/*`, `.github/`, `renovate.json`, `package.json` | `chore: remove template demo content and CI` |
-| T3 | DB: config, schéma, health | T2 | `server/plugins/database.ts`, `server/api/health.get.ts`, `nuxt.config.ts` (blok `nitro`) | `feat(db): add SQLite schema plugin and health endpoint` |
-| T4 | UI: layouty, barva, placeholder | T2 | `app/app.vue`, `app/app.config.ts`, `app/layouts/*`, `app/pages/index.vue` | `feat(ui): add base layouts and landing placeholder` |
+| T3 | DB: config, schéma, health | T2 | `server/utils/db.ts`, `server/plugins/database.ts`, `server/api/health.get.ts`, `nuxt.config.ts` (blok `nitro`) | `feat(db): add SQLite schema plugin and health endpoint` |
+| T4 | UI: layouty, barva, placeholder | T2 | `app/assets/css/main.css`, `app/app.vue`, `app/app.config.ts`, `app/layouts/*`, `app/pages/index.vue` | `feat(ui): add base layouts and landing placeholder` |
 | T5 | Env + runtimeConfig | T2 | `.env.example`, `nuxt.config.ts` (blok `runtimeConfig`) | `chore: add env example and runtime config` |
 
 T3, T4, T5 jsou nezávislé, ale **T3 a T5 sdílí `nuxt.config.ts`** – paralelně jen pokud každý edituje výhradně svůj blok, jinak sériově. Fáze je malá; paralelizace se nevyplatí, doporučeno sériově.
@@ -46,9 +46,9 @@ nitro: {
 },
 ```
 
-> Ověřit při stavbě přesný tvar `options` connectoru `node-sqlite` v db0 (Context7). Fallback: `better-sqlite3`.
+> Ověřeno, viz decisions #15.
 
-`server/plugins/database.ts` – při startu `useDatabase()` a pro každou tabulku `await db.exec(...)`:
+`server/utils/db.ts` – `ensureSchema()` memoizovaná promise (jedno `db.exec` se vším DDL) a `useDb()`, které ji awaitne a vrátí `useDatabase()`. **Všechny handlery používají `await useDb()`, nikdy přímo `useDatabase()`.** `server/plugins/database.ts` jen zavolá `ensureSchema()` při startu (Nitro async pluginy neawaituje – decisions #14). DDL:
 
 ```sql
 CREATE TABLE IF NOT EXISTS events (

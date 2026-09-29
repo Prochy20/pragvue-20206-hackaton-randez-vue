@@ -24,5 +24,8 @@
     "typescript": "^6.0.3",
     "vue-tsc": "^3.3.11"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=22.13"
+  }
 }

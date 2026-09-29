@@ -20,3 +20,6 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 
 12. **pnpm 12 (`packageManager: pnpm@12.6.0` ze šablony) místo lokálního 11.5.2.** – Šablona už pnpm 12 vyžaduje; uživatel pnpm na stroji bumpne. *Zamítnuto:* downgrade `packageManager` na 11.5.2.
 13. **`.gitignore` nahrazen verzí ze šablony.** – Naše původní byla jeho podmnožina.
+14. **Schéma přes memoizovanou `ensureSchema()` v `server/utils/db.ts`; handlery volají `await useDb()`, plugin ji jen spustí při startu.** – Ověřeno (nitropack 2.13.4): Nitro na async pluginy nečeká, takže DDL v pluginu by mohl závodit s prvním requestem. *Zamítnuto:* DDL jen v pluginu.
+15. **Ověřená fakta (nuxt 4.5.2 → Nitro 2 / db0 0.3.x):** connector `node-sqlite`, options `{ cwd?, path?, name? }`, `.data` se vytvoří sám, `db.exec` zvládne víc příkazů najednou, `` db.sql`…` `` vrací `{ rows }`, `useDatabase` je auto-import jen se zapnutým `experimental.database`. Connector je synchronní.
+16. **T2 navíc smaže `LICENSE` šablony a `routeRules` s prerenderem `/`; T4 vlastní i `app/assets/css/main.css` (zelená paleta a font šablony pryč).** – Zbytky šablony, které nejsou naše.
