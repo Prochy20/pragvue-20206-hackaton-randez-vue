@@ -30,3 +30,7 @@ Append-only.
     - `?redirect=` pouští jen cesty `/…` (ne `//` ani `/\`), odkaz login ↔ signup ho nese dál.
     - Hláška „questionnaire changed“ je sdílená konstanta `QUESTIONNAIRE_CHANGED`; klient podle ní znovu načte event a začne kvíz od první otázky (chyba se ukáže i na ní).
     - Admin prázdný stav eventů: „No events yet. Create your first one to get started.“ (formulář je na desktopu vedle, ne nad).
+
+## 2026-09-29 – po stavbě
+
+14. **Délkové limity AI profilu: jeden retry, pak ořez (volba uživatele).** Příčina `failed` z #13: model u `specialMove` / `weakness` míří těsně na 30 znaků a občas je přetáhne. Structured outputs délku vynutit neumí, takže validaci neprošel celý profil. Teď `generateProfile` při neúspěšné validaci zkusí generovat ještě jednou. Když neprojde ani druhý pokus, `repairLengths` ořízne délkové limity na serveru na hranici slova s `…` (title max 6 slov / 50 znaků, tagline 120, specialMove / weakness 30), kebab balíčky na hranici `-` (40) a `dependencies` na 4. Profil pak neskončí `failed` jen kvůli délce. Chyby API a refusal se neopakují, účastník by čekal dvakrát na totéž. Prompt teď u obou polí zdůrazňuje tvrdý limit. *Zamítnuto:* povolit v limitech rezervu (uživatel chce limity zachovat). Ověřeno živě: u Evy prošel druhý pokus až po ořezu (`debugger; and a calm cup of…`). Smyčka se 4 pokusy v `generate-seed-profiles.ts` zůstává, teď je jen pojistka navíc.

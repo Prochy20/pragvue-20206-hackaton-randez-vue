@@ -13,7 +13,7 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
   - Sweep stavů: `app/error.vue`, `?redirect=` po loginu, admin „couldn't refresh“ + 401 → login, prázdný seznam eventů, reset kvízu při změněném dotazníku, mazání mrtvého tokenu, 5xx text skrytý účastníkům, zeď 404, logout.
   - Anglické `README.md` pro porotu (deploy na Coolify, demo scénář). Screenshoty dodá uživatel do `docs/screenshots/` (`registration/profile/match/wall.png`).
 - Otevřené: **T7 – uživatel prokliká a nasadí na Coolify**, checklist v [phase-6-seed-polish/status.md](phase-6-seed-polish/status.md). Nálezy opravit, zapsat do `decisions.md`.
-- Známé riziko: AI profil občas neprojde validací (`weakness` > 30 znaků) → účastník vidí `failed` + „Try again“ (fáze 6 #13). Neřešeno.
+- AI profil přes délkový limit: jeden retry, pak ořez na hranici slova na serveru, takže kvůli délce už neskončí `failed` (fáze 6 #14).
 
 ## Co musí nová session vědět
 
