@@ -41,6 +41,35 @@ const generatedProfileSchema = z.object({
   dependencies: z.array(kebab).min(2).max(4)
 })
 
+type RawProfile = z.infer<typeof outputSchema>
+
+// Cuts text to max characters at the last separator that fits, marking the cut with an ellipsis.
+// A single over-long word is cut mid-word.
+function trimAtBoundary(value: string, max: number, separator = ' ', ellipsis = '…') {
+  const text = value.trim()
+  if (text.length <= max) return text
+  const room = text.slice(0, max - ellipsis.length + 1)
+  const cut = room.lastIndexOf(separator)
+  const head = (cut > 0 ? room.slice(0, cut) : room.slice(0, max - ellipsis.length))
+    .replace(/[\s,;:.\-–—]+$/, '')
+  return head + ellipsis
+}
+
+const trimKebab = (value: string) => trimAtBoundary(value.trim().toLowerCase(), 40, '-', '')
+
+// Last resort after the retry: force every length limit, so length alone never fails a profile.
+function repairLengths(raw: RawProfile): RawProfile {
+  return {
+    ...raw,
+    title: trimAtBoundary(raw.title.trim().split(/\s+/).slice(0, 6).join(' '), 50),
+    tagline: trimAtBoundary(raw.tagline, 120),
+    specialMove: trimAtBoundary(raw.specialMove, 30),
+    weakness: trimAtBoundary(raw.weakness, 30),
+    peerDependency: trimKebab(raw.peerDependency),
+    dependencies: raw.dependencies.slice(0, 4).map(trimKebab)
+  }
+}
+
 export type GeneratedProfile = z.infer<typeof generatedProfileSchema>
 
 const SYSTEM_PROMPT = `You write playful profiles for attendees of a developer conference app called Rendez-Vue, where everything is a terminal / npm joke.
@@ -51,8 +80,8 @@ Return:
 - title: a job-title style nickname, 2 to 6 words, at most 50 characters (e.g. "Tab Loyalist, First Class").
 - tagline: one sentence, at most 120 characters, the card's flavor text.
 - emoji: exactly one emoji that fits the person.
-- specialMove: at most 30 characters, e.g. "git reflog".
-- weakness: at most 30 characters, e.g. "Friday 16:58".
+- specialMove: a short punchline, at most 30 characters (hard limit, count them), e.g. "git reflog".
+- weakness: a short punchline, at most 30 characters (hard limit, count them), e.g. "Friday 16:58".
 - peerDependency: a kebab-case npm-style package name for the kind of person they'd click with, e.g. "another-tab-person".
 - dependencies: 2 to 4 kebab-case npm-style package names drawn from their answers, e.g. "coffee", "git-reflog".
 
@@ -72,7 +101,7 @@ function formatAttendee(input: ProfileInput) {
   return lines.filter(Boolean).join('\n')
 }
 
-// Returns null on any failure (missing key, API error, refusal, invalid output); the caller stores ai_status = failed.
+// Returns null on any failure (missing key, API error, refusal, output invalid beyond length); the caller stores ai_status = failed.
 // apiKey defaults to runtime config; scripts outside Nitro pass it explicitly.
 export async function generateProfile(
   input: ProfileInput,
@@ -84,6 +113,24 @@ export async function generateProfile(
   }
   client ??= new Anthropic({ apiKey, timeout: 20_000, maxRetries: 0 })
 
+  // Output over a limit is a sampling fluke: retry once, then trim instead of failing the profile.
+  // API errors and refusals are not retried, the participant would wait twice as long for the same failure.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const raw = await requestProfile(client, input)
+    if (!raw) return null
+
+    let result = generatedProfileSchema.safeParse(raw)
+    if (!result.success && attempt === 2) {
+      console.warn('[ai] profile failed validation again, trimming', result.error.issues)
+      result = generatedProfileSchema.safeParse(repairLengths(raw))
+    }
+    if (result.success) return result.data
+    console.warn('[ai] profile failed validation', result.error.issues)
+  }
+  return null
+}
+
+async function requestProfile(client: Anthropic, input: ProfileInput): Promise<RawProfile | null> {
   try {
     const response = await client.beta.messages.parse({
       model: MODEL,
@@ -102,12 +149,7 @@ export async function generateProfile(
       console.warn('[ai] no profile generated, stop_reason:', response.stop_reason)
       return null
     }
-    const result = generatedProfileSchema.safeParse(response.parsed_output)
-    if (!result.success) {
-      console.warn('[ai] profile failed validation', result.error.issues)
-      return null
-    }
-    return result.data
+    return response.parsed_output
   } catch (error) {
     console.error('[ai] profile generation failed', error instanceof Anthropic.APIError ? `${error.status} ${error.message}` : error)
     return null
