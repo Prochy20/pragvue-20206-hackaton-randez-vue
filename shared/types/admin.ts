@@ -23,6 +23,8 @@ export interface AdminEvent {
 export interface AdminParticipant {
   id: string
   name: string
+  role: string
+  company: string | null
   title: string | null
   tagline: string | null
   emoji: string | null

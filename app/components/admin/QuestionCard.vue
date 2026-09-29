@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Question } from '#shared/utils/questionnaire'
-import { MAX_OPTIONS } from '#shared/utils/questionnaire'
 
 defineProps<{
   index: number
@@ -19,7 +18,7 @@ const question = defineModel<Question>('question', { required: true })
 
 const typeItems = [
   { label: 'Short text', value: 'text' },
-  { label: 'Single choice', value: 'choice' }
+  { label: 'A/B choice', value: 'choice' }
 ]
 
 function setType(type: Question['type']) {
@@ -50,14 +49,6 @@ function setOption(index: number, value: string) {
   if (question.value.options) {
     question.value.options[index] = value
   }
-}
-
-function addOption() {
-  question.value.options?.push('')
-}
-
-function removeOption(index: number) {
-  question.value.options?.splice(index, 1)
 }
 </script>
 
@@ -131,41 +122,15 @@ function removeOption(index: number) {
         </template>
 
         <template v-else>
-          <div
-            v-for="(option, optionIndex) in question.options ?? []"
-            :key="optionIndex"
-            class="flex items-center gap-2"
-          >
-            <UIcon
-              name="i-lucide-circle"
-              class="size-4 shrink-0 text-dimmed"
-            />
+          <div class="grid gap-2 sm:grid-cols-2">
             <UInput
+              v-for="(option, optionIndex) in question.options ?? []"
+              :key="optionIndex"
               :model-value="option"
-              :placeholder="`Option ${optionIndex + 1}`"
-              class="flex-1"
-              :aria-label="`Option ${optionIndex + 1}`"
+              :placeholder="optionIndex === 0 ? 'Left option' : 'Right option'"
+              :icon="optionIndex === 0 ? 'i-lucide-arrow-left' : 'i-lucide-arrow-right'"
+              :aria-label="optionIndex === 0 ? 'Left option' : 'Right option'"
               @update:model-value="setOption(optionIndex, String($event))"
-            />
-            <UButton
-              icon="i-lucide-x"
-              color="neutral"
-              variant="ghost"
-              size="sm"
-              aria-label="Delete option"
-              :disabled="(question.options?.length ?? 0) <= 2"
-              @click="removeOption(optionIndex)"
-            />
-          </div>
-          <div>
-            <UButton
-              v-if="(question.options?.length ?? 0) < MAX_OPTIONS"
-              label="Add option"
-              icon="i-lucide-plus"
-              color="neutral"
-              variant="link"
-              size="sm"
-              @click="addOption"
             />
           </div>
         </template>

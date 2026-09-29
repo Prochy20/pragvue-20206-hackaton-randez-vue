@@ -81,7 +81,10 @@ const columns: TableColumn<AdminParticipant>[] = [{
 }, {
   accessorKey: 'name',
   header: 'Name',
-  cell: ({ row }) => h('span', { class: 'font-medium text-highlighted' }, row.original.name)
+  cell: ({ row }) => h('div', [
+    h('p', { class: 'font-medium text-highlighted' }, row.original.name),
+    h('p', { class: 'text-xs text-muted' }, [row.original.role, row.original.company].filter(Boolean).join(' · '))
+  ])
 }, {
   accessorKey: 'title',
   header: 'Title',

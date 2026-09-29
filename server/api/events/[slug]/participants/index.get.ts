@@ -7,6 +7,8 @@ export default defineEventHandler(async (event): Promise<AdminParticipant[]> => 
   const rows = await useDb().select({
     id: participants.id,
     name: participants.name,
+    role: participants.role,
+    company: participants.company,
     title: participants.title,
     tagline: participants.tagline,
     emoji: participants.emoji,

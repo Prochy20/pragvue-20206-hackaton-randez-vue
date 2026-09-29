@@ -1,5 +1,6 @@
 import { index, integer, jsonb, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
 import type { Answer } from '../../shared/types/admin'
+import type { HereFor } from '../../shared/utils/registration'
 import type { Questionnaire } from '../../shared/utils/questionnaire'
 
 const id = () => uuid().primaryKey().defaultRandom()
@@ -25,11 +26,20 @@ export const participants = pgTable('participants', {
   id: id(),
   eventId: uuid().notNull().references(() => events.id, { onDelete: 'cascade' }),
   token: text().notNull().unique(),
+  // Registration order within the event, shown as #042 on the card.
+  number: integer().notNull(),
   name: text().notNull(),
+  role: text().notNull(),
+  company: text(),
+  hereFor: jsonb().$type<HereFor[]>().notNull(),
   answers: jsonb().$type<Answer[]>().notNull(),
   title: text(),
   tagline: text(),
   emoji: text(),
+  specialMove: text(),
+  weakness: text(),
+  peerDependency: text(),
+  dependencies: jsonb().$type<string[]>().notNull(),
   aiStatus: text().$type<'ok' | 'failed'>().notNull(),
   createdAt: createdAt()
 }, table => [index().on(table.eventId)])

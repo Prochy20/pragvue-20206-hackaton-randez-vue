@@ -52,3 +52,19 @@ Append-only. Formát: **rozhodnutí** – proč. *Zamítnuto:* alternativy.
 29. **`drizzle.config.ts` načítá `.env` přes `process.loadEnvFile()`.** – drizzle-kit `.env` sám nečte.
 30. **Schéma změny, které drizzle-kit považuje za možné přejmenování (drop + add sloupce), dělat ručně přes `psql` + `pnpm db:push --force`.** – `drizzle-kit push` se jinak ptá interaktivně a bez TTY spadne.
 31. **Admin EventLinks bez karty „Admin“ a bez alertu „Bookmark this page“.** – Admin URL už není tajemství ani jediná cesta zpět.
+
+## 2026-09-29 – design handoff (Rendez-Vue)
+
+Handoff: [`docs/design_handoff_rendez_vue/`](../design_handoff_rendez_vue/README.md). Uživatel: „Design to ukazuje dobře, takže se mu přizpůsobme.“ Nahrazuje #24, #25 a části #13–#20.
+
+32. **Značka Rendez-Vue všude** (účastník i admin). Admin zůstává na Nuxt UI, `primary: 'green'`, název v headeru a na loginu. Repo a interní názvy `icebreaker`.
+33. **Fáze 3 = obrazovky 01–06** (landing, krok 1, kvíz swipe, kvíz free text, profil card / package.json). 07–08 fáze 4. 09 (druhý icebreaker, hodnocení) případně polish ve fázi 6, 10 (`npm ls`, ruční přidání, email) ne-scope.
+34. **Dotazník podle designu.** Krok 1 „The boring part“ = pevná pole mimo konfiguraci: `name` (povinné), `role` (povinné), `company` (volitelné), `here for` chipy (multi-select, pevné možnosti talks / new people / hiring / free coffee). Krok 2 „The weird part“ = otázky z konfigurace, jedna karta na otázku v pořadí adminu: choice = A/B swipe karta, text = free-text karta. *Zamítnuto:* povinné otázky dotazníku jako krok 1, choice se 3+ možnostmi.
+35. **Choice otázka má přesně 2 možnosti** (`MAX_OPTIONS = 2`), editor z fáze 2 přidávání / mazání možností skryje. Nepovinnou choice jde přeskočit (↑ skip), povinnou ne.
+36. **Textová odpověď max 140 znaků** (místo 200). Jméno, role, company max 60.
+37. **Nová výchozí sada: 8 A/B otázek + 2 free-text** (worst incident, how will people recognize you – `recognizeMe`, povinná).
+38. **Sloupce `participants`: `role`, `company`, `here_for` (jsonb), `number` (pořadí registrace v eventu → `#042`), `special_move`, `weakness`, `peer_dependency`, `dependencies` (jsonb).** Emoji zůstává (zeď, admin).
+39. **AI vrací `title`, `tagline` (= flavor text), `emoji`, `specialMove`, `weakness`, `peerDependency`, `dependencies` (2–4 kebab-case „balíčky“ z odpovědí).** `package.json` pohled se skládá na klientu: `name` = `@first/last`, `version` = `1.0.0-<role>`, `description` = tagline, `dependencies`, `peerDependencies`. Rarita (COMMON / RARE / LEGENDARY) deterministicky z tokenu. *Zamítnuto:* dependencies z odpovědí na klientu (odhalovalo by odpovědi, méně vtipné).
+40. **Loading po odeslání v terminálovém stylu obrazovky 07** s vlastními řádky, min. ~2,5 s. Chyba terminálovým hlasem `npm ERR! …` + `npm i friends --retry` (= regenerate).
+41. **CTA „find my match →“ se ve fázi 3 nahradí blokem „waiting for the next matching round…“.** Kola dál spouští admin; detaily fáze 4.
+42. **`/e/<slug>` = jedna stránka se stavy** (landing → krok 1 → kvíz → loading), profil `/e/<slug>/p/<token>`. „Welcome back“ na landingu ve stejném stylu. Čísla v textech skutečná (`~/<slug>`, počet otázek).

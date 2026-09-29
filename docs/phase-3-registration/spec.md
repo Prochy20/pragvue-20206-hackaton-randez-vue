@@ -234,3 +234,11 @@ Layout `bare`. Logika ve stránkách/composables, prezentace v `app/components/p
 ## Otevřené (čeká na design handoff)
 
 Forma dotazníku (jedna stránka vs. wizard), podoba loadingu, rozložení profilu, fonty a barvy účastnické části. Po handoffu: nový záznam v `decisions.md` a přestylování komponent v `app/components/participant/*`.
+
+## Revize po design handoffu (přebíjí T5–T8 výše)
+
+Viz decisions #32–#42. Hlavní rozdíly:
+- **T5:** `MAX_OPTIONS = 2`, nová výchozí sada (8 A/B + 2 text), `HERE_FOR_OPTIONS`, `registrationSchema` = `{ name, role, company?, hereFor[], answers: Record<questionId, string ≤ 140> }`; schéma DB rozšířené o `role`, `company`, `hereFor`, `number`, `specialMove`, `weakness`, `peerDependency`, `dependencies`; `PublicProfile` s těmito poli + `event { slug, name }`.
+- **T6:** AI tool vrací i `specialMove`, `weakness`, `peerDependency`, `dependencies`; vstup i role / company / here for.
+- **T8:** Rendez-Vue design tokeny (oklch) + fonty Space Grotesk / JetBrains Mono jen pro účastnickou část; komponenty `app/components/rv/*`; obrazovky 01–06, swipe přes pointer events + klávesy ←/→/↑, loading log, profil card ⇄ package.json, copy.
+- **Admin:** editor A/B (fixně 2 možnosti), Participants zobrazí roli; rebrand na Rendez-Vue + green.

@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 export const MAX_QUESTIONS = 15
-export const MAX_OPTIONS = 6
+// Choice questions are A/B swipe cards: exactly two options.
+export const MAX_OPTIONS = 2
 
 export const questionSchema = z.object({
   id: z.string().min(1),
@@ -12,15 +13,14 @@ export const questionSchema = z.object({
   options: z.array(z.string().trim()
     .min(1, 'Options can\'t be empty')
     .max(60, 'Options can have at most 60 characters'))
-    .min(2, 'Add at least 2 options')
-    .max(MAX_OPTIONS, `At most ${MAX_OPTIONS} options`)
+    .length(MAX_OPTIONS, 'A/B questions need exactly 2 options')
     .optional(),
   required: z.boolean(),
   placeholder: z.string().trim().max(100, 'Placeholder can have at most 100 characters').optional(),
   recognizeMe: z.boolean().optional()
 }).superRefine((question, ctx) => {
   if (question.type === 'choice' && !question.options) {
-    ctx.addIssue({ code: 'custom', path: ['options'], message: 'Add at least 2 options' })
+    ctx.addIssue({ code: 'custom', path: ['options'], message: 'A/B questions need exactly 2 options' })
   }
   if (question.type === 'text' && question.options) {
     ctx.addIssue({ code: 'custom', path: ['options'], message: 'Text questions have no options' })
