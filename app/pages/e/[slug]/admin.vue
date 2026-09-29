@@ -37,7 +37,7 @@ async function load() {
   } catch (error) {
     const status = apiErrorStatus(error)
     if (status === 401) {
-      await navigateTo('/login')
+      await redirectIfLoggedOut(error)
       return
     }
     state.value = status === 404 ? 'not-found' : 'error'

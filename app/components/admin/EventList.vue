@@ -2,6 +2,9 @@
 import type { OrganizerEvent } from '#shared/types/admin'
 
 const { data: events, status, error, refresh } = useFetch<OrganizerEvent[]>('/api/events', { default: () => [] })
+
+// Session gone (e.g. logged out in another tab): go to login instead of showing an error.
+watch(error, value => redirectIfLoggedOut(value), { immediate: true })
 </script>
 
 <template>

@@ -50,9 +50,14 @@ export function formatRelativeTime(iso: string): string {
   return 'just now'
 }
 
-// Background admin refreshes: an expired session sends the organizer back to login.
+// Admin requests: an expired session (e.g. logout in another tab) sends the organizer back to login.
+// The client session state is refetched first, otherwise the login page still sees a stale user and bounces to "/".
 export async function redirectIfLoggedOut(error: unknown) {
-  if (apiErrorStatus(error) === 401) {
-    await navigateTo({ path: '/login', query: { redirect: useRoute().fullPath } })
+  if (apiErrorStatus(error) !== 401) {
+    return
   }
+  const path = useRoute().fullPath
+  const { fetch: refreshSession } = useUserSession()
+  await refreshSession()
+  await navigateTo({ path: '/login', query: path === '/' ? {} : { redirect: path } })
 }
