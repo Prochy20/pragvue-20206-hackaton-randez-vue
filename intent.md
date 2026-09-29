@@ -52,7 +52,7 @@ Dotazník a odpovědi jsou JSON sloupce; otázky nenormalizujeme.
 ### Dotazník
 
 - Nastavuje **admin** per event. Typy otázek: **krátký text** a **výběr z možností** (single choice). Nic dalšího.
-- Při založení eventu je předvyplněný **výchozí sadou** (~8 otázek: role/stack, co tě teď baví, tabs vs spaces, nejhorší incident na produkci, „podle čeho mě poznáš“…), admin upravuje, maže, přidává.
+- Při založení eventu je předvyplněný **výchozí sadou** (8 A/B otázek k hackathonu a stylu práce + „jaký npm balíček bys smazal“ + povinné „podle čeho mě poznáš“, decisions fáze 6 #19), admin upravuje, maže, přidává.
 - **Jméno** je pevné povinné pole mimo konfiguraci.
 - Dotazník lze měnit **kdykoli**, i po registracích. Díky snapshotu otázky u odpovědi zůstávají staré profily čitelné pro AI i UI.
 
