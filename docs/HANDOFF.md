@@ -2,7 +2,7 @@
 
 Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 
-**Poslední update:** 2026-09-29, fáze 5 postavená, čeká na ruční proklik UI.
+**Poslední update:** 2026-09-29, fáze 5 hotová (proklik bez nálezů), další je grilling fáze 6.
 
 ## Kde jsme
 
@@ -11,7 +11,7 @@ Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
   - po kole skupiny abecedně, stránkované, a pruh nováčků;
   - `installing friends…` během kola, pak mezititulek `git merge round-N`.
   - Detaily v [phase-5-wall/status.md](phase-5-wall/status.md).
-- Otevřené: **T5 – uživatel prokliká zeď** na 1920×1080: `wall-grid-test` (mřížka), `t1-match-test` (skupiny + nováčci), `pragvue-2026` (13 lidí, 6 skupin), spuštění kola s otevřenou zdí (mezititulek). Nálezy opravit, zapsat do `decisions.md`.
+- T5 (proklik zdi) hotovo bez nálezů.
 - Opraveno navíc: čísla účastníků byla při souběžné registraci a po smazání duplicitní. Teď advisory lock + unikátní `(event_id, number)` (fáze 5 #16).
 - Další: **fáze 6 – seed + doladění stavů** (seed skript, sweep empty/error/loading, anglické README). Zatím nevygrilovaná.
 

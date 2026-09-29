@@ -1,6 +1,6 @@
 # Fáze 5 – Živá zeď: status
 
-**Stav:** postaveno 2026-09-29 (paralelně třemi agenty nad sdíleným kontraktem). API a SSR všech režimů ověřené curlem, lint + typecheck čisté. **UI čeká na ruční proklik uživatelem** (T5).
+**Stav:** ✅ hotovo 2026-09-29, proklik bez nálezů. Postaveno 2026-09-29 (paralelně třemi agenty nad sdíleným kontraktem). API a SSR všech režimů ověřené curlem, lint + typecheck čisté. **UI čeká na ruční proklik uživatelem** (T5).
 
 ## Úkoly
 
@@ -9,7 +9,7 @@
 - [x] T2 – stránka + mřížka
 - [x] T3 – skupiny + mezititulek
 - [x] T4 – ověření, HANDOFF
-- [ ] T5 – ruční proklik uživatelem
+- [x] T5 – ruční proklik uživatelem (2026-09-29, bez nálezů)
 
 ## Ověření (curl)
 
@@ -18,7 +18,7 @@
 | API: pořadí, `inLatestRound`, skupiny abecedně, 404 | ✅ |
 | SSR: prázdný stav, mřížka, skupiny, pruh nováčků, 404 | ✅ |
 | Během kola `matching: true`, souběžné kolo 409, po kole round na zdi | ✅ |
-| Mezititulek, fade-in, stránkování, rotace, reconnecting, vejde se na 1080p | ⚠️ jen v prohlížeči (uživatel) |
+| Mezititulek, fade-in, stránkování, rotace, reconnecting, vejde se na 1080p | ✅ proklik uživatelem |
 
 ## Testovací data
 
