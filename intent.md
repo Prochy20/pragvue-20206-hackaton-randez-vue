@@ -18,7 +18,7 @@ Stavíme to na PragVue Hackathon 2026, sólo, pár hodin čistého času. Cílem
 - Požadavek zadání: UI ve Vue, funkční user journey, loading / empty / success / error stavy, smysluplné využití AI.
 - Jazyk UI i AI výstupů: **angličtina**. Dokumentace pro vývoj (tento soubor) česky, README pro porotu anglicky (až na konci).
 - Škála: jeden event má max. 40–50 lidí.
-- Provoz: `localhost` z notebooku, případně vlastní Coolify. Dockerfile zatím neřešíme.
+- Provoz: `localhost` z notebooku (Postgres v docker-compose), případně vlastní Coolify. Dockerfile zatím neřešíme.
 
 ## Rozhodnutí
 
@@ -26,13 +26,15 @@ Stavíme to na PragVue Hackathon 2026, sólo, pár hodin čistého času. Cílem
 
 - **Nuxt 4** + **Nuxt UI v4** (Tailwind v4 uvnitř) + TypeScript, správce balíčků **pnpm**.
 - Backend = Nitro server routes (`server/api/*`) ve stejném projektu. Žádný oddělený backend, žádné CORS.
-- **Databáze:** Nitro experimental database (`nitro.experimental.database = true`, `useDatabase()`), **SQLite** přes connector `node-sqlite` (vestavěný `node:sqlite` z Node 22, nula závislostí). Soubor `.data/db.sqlite`. Schéma vytvoří `CREATE TABLE IF NOT EXISTS` v Nitro pluginu při startu. SQL držet dialektově nudné, aby šel později přepnout connector na Postgres (fallback pro `node-sqlite`: `better-sqlite3`).
+- **Databáze:** **Postgres** (`docker-compose.yml`, jen DB služba; appka běží lokálně `pnpm dev`) + **Drizzle ORM** (`pg`). Schéma v `server/db/schema.ts`, `pnpm db:push` (bez migračních souborů). JSON sloupce `jsonb`. *(Původně SQLite přes Nitro database – změněno ve fázi 3.)*
+- **Auth organizátorů:** `nuxt-auth-utils` (email + heslo, session cookie).
 - **AI:** Claude API, model `claude-sonnet-5-5` na generování profilu i matching. Strukturovaný výstup (tool use / JSON schema), nikdy parsování volného textu. API klíč v `.env` jako `NUXT_ANTHROPIC_API_KEY`, přes `runtimeConfig`, nikdy neopouští server.
 - Node 22.15, pnpm 11.
 
 ### Datový model
 
-- `events`: id, slug (z názvu), name, admin_key (náhodný tajný token), questionnaire (JSON), created_at.
+- `users`: id, email, password_hash, created_at.
+- `events`: id, slug (z názvu), name, owner_id (→ users), questionnaire (JSON), created_at.
 - `participants`: id, event_id, token (náhodný, identita účastníka), name, answers (JSON: pole `{ questionId, question, type, answer }` – **snapshot textu otázky**), title, tagline, emoji, ai_status (`ok` | `failed`), created_at.
 - `rounds`: id, event_id, number, status (`ok` | `failed`), created_at.
 - `pairs`: id, round_id, participant_ids (JSON pole, 2 nebo 3 členové), reason, icebreaker.
@@ -41,11 +43,11 @@ Dotazník a odpovědi jsou JSON sloupce; otázky nenormalizujeme.
 
 ### Přístup a identita
 
-- **Žádný login.**
-- Organizátor: při založení eventu dostane admin URL `/e/<slug>/admin?key=<admin_key>`.
+- **Organizátor má účet** (email + heslo, otevřená registrace na `/signup`, bez ověření emailu a resetu hesla). Admin eventu `/e/<slug>/admin` vidí jen přihlášený vlastník. Na `/` vidí svoje eventy. *(Původně „žádný login“ + admin klíč v URL – změněno ve fázi 3.)*
+- **Účastník bez loginu.**
 - Účastník: po registraci dostane token, uložený v localStorage a zároveň v URL (`/e/<slug>/p/<token>`), aby šel profil znovu otevřít.
 - Zeď `/e/<slug>/wall` je veřejná bez klíče.
-- `/` je rovnou organizátorská stránka „Create event“ s krátkým pitchem, bez samostatné landing page.
+- `/` je organizátorská stránka „Create event“ + „Your events“ (za loginem); `/login` má krátký pitch, bez samostatné landing page.
 
 ### Dotazník
 
@@ -82,7 +84,7 @@ Jméno protějšku, jeho titul + tagline + emoji, důvod párování, icebreaker
 
 ### Admin
 
-Založení eventu, editor dotazníku, seznam účastníků (s tituly, možnost smazat), seznam kol, tlačítko „Run matching round“, odkazy na registraci a zeď. Nic víc.
+Login / signup, seznam vlastních eventů, založení eventu, editor dotazníku, seznam účastníků (s tituly, možnost smazat), seznam kol, tlačítko „Run matching round“, odkazy na registraci a zeď. Nic víc.
 
 ### Vizuál
 
@@ -91,19 +93,19 @@ Založení eventu, editor dotazníku, seznam účastníků (s tituly, možnost s
 
 ### Seed
 
-`pnpm seed` založí event „PragVue 2026 (demo)“ s výchozím dotazníkem a ~15 vymyšlenými účastníky. Tituly, tagliny a emoji jsou **předpečené** ve statickém JSONu (okamžité, zadarmo). Matching při demu běží živě přes AI.
+`pnpm seed` založí demo organizátora a event „PragVue 2026 (demo)“ s výchozím dotazníkem a ~15 vymyšlenými účastníky. Tituly, tagliny a emoji jsou **předpečené** ve statickém JSONu (okamžité, zadarmo). Matching při demu běží živě přes AI.
 
 ## Ne-scope
 
-Testy, login/účty, uzavírání registrace, reset eventu, Dockerfile / docker-compose, čeština, embeddingy a vektorová DB, skupinky větší než 3, konfigurovatelné typy otázek nad rámec text + výběr, fotky účastníků, historie kol pro účastníka.
+Testy, účty účastníků, ověření emailu / reset hesla / OAuth, uzavírání registrace, reset a smazání eventu, Dockerfile a app služba v docker-compose, čeština, embeddingy a vektorová DB, skupinky větší než 3, konfigurovatelné typy otázek nad rámec text + výběr, fotky účastníků, historie kol pro účastníka.
 
 ## Fáze
 
 Každou fázi před stavbou znovu vygrilujeme (`/grilling`) a upřesníme. Výsledek grillování (intent fáze, log rozhodnutí, spec, status/handoff) žije v `docs/phase-N-<slug>/`, viz [`docs/README.md`](docs/README.md).
 
-1. **Scaffold**: Nuxt 4, Nuxt UI, SQLite (Nitro database), `.env` + `runtimeConfig`, základní layout, git init.
+1. **Scaffold**: Nuxt 4, Nuxt UI, SQLite (Nitro database; ve fázi 3 nahrazeno Postgresem), `.env` + `runtimeConfig`, základní layout, git init.
 2. **Event + admin**: založení eventu, editor dotazníku (text / výběr, výchozí sada), seznam účastníků, seznam kol, admin link.
-3. **Registrace + AI titul**: hravý účastnický FE, dotazník z konfigurace, loading / success / error, „Try again“, stránka profilu.
+3. **Registrace + AI titul**: přechod na Postgres + Drizzle, účty organizátorů, hravý účastnický FE, dotazník z konfigurace, loading / success / error, „Try again“, stránka profilu.
 4. **Matching round**: prompt, strukturovaný výstup, validace + retry, stránka účastníka s párem, stavy „waiting“.
 5. **Živá zeď**: tituly → páry, polling, tmavé téma, fade-in.
 6. **Seed + doladění stavů**: seed skript, sweep empty / error / loading stavů napříč appkou, anglické README pro porotu.

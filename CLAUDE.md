@@ -1,6 +1,6 @@
 # Icebreaker
 
-Hackathon prototype (PragVue 2026). Nuxt 4 + Nuxt UI v4 + Nitro SQLite + Claude API.
+Hackathon prototype (PragVue 2026). Nuxt 4 + Nuxt UI v4 + Postgres (Drizzle, docker-compose) + Claude API.
 
 ## Start here
 0. `docs/HANDOFF.md` – where we left off, what's next
