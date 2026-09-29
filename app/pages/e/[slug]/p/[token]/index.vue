@@ -102,6 +102,14 @@ const currentUrl = () => window.location.href
 
 const json = computed(() => profile.value ? packageJson(profile.value) : {})
 
+// Background refresh for the match block; silent, never touches state/view.
+useVisiblePolling(async () => {
+  try {
+    const result = await $fetch<PublicProfile>(endpoint.value)
+    if (state.value === 'ok' && result.aiStatus === 'ok') profile.value = result
+  } catch { /* keep the last known profile */ }
+}, 5000, computed(() => state.value === 'ok'))
+
 onMounted(load)
 onBeforeUnmount(() => clearTimeout(copiedTimer))
 </script>
@@ -227,7 +235,15 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
         npm ERR! copy failed
       </p>
 
-      <RvWaiting />
+      <RvMatchFound
+        v-if="profile.match"
+        :round-number="profile.match.roundNumber"
+        :to="`/e/${slug}/p/${token}/match`"
+      />
+      <RvWaiting
+        v-else
+        :latest-round="profile.latestRoundNumber"
+      />
 
       <p class="flex justify-center gap-1.5 font-mono-rv text-xs text-rv-muted">
         <button
