@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import type { FormSubmitEvent } from '@nuxt/ui'
+import type { FetchError } from 'ofetch'
+
+const state = reactive<Partial<CreateEventInput>>({ name: '' })
+const loading = ref(false)
+const error = ref<string>()
+const adminKeys = useAdminKeys()
+
+async function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
+  loading.value = true
+  error.value = undefined
+  try {
+    const { slug, adminKey } = await $fetch<CreatedEvent>('/api/events', { method: 'POST', body: event.data })
+    adminKeys.save(slug, adminKey)
+    await navigateTo({ path: `/e/${slug}/admin`, query: { key: adminKey } })
+  } catch (e) {
+    const fetchError = e as FetchError
+    error.value = fetchError.data?.statusMessage ?? 'Something went wrong. Please try again.'
+    loading.value = false
+  }
+}
+</script>
+
 <template>
   <UContainer class="py-16 sm:py-24">
     <div class="max-w-2xl">
@@ -16,14 +40,45 @@
         </h2>
       </template>
 
-      <div class="flex items-center gap-3">
+      <UForm
+        :schema="createEventSchema"
+        :state="state"
+        class="space-y-4"
+        @submit="onSubmit"
+      >
+        <UFormField
+          label="Event name"
+          name="name"
+        >
+          <UInput
+            v-model="state.name"
+            placeholder="PragVue 2026"
+            autofocus
+            class="w-full"
+          />
+        </UFormField>
+
+        <UAlert
+          v-if="error"
+          color="error"
+          variant="subtle"
+          icon="i-lucide-circle-alert"
+          :title="error"
+        />
+
         <UButton
+          type="submit"
           label="Create event"
           icon="i-lucide-plus"
-          disabled
+          :loading="loading"
         />
-        <span class="text-sm text-muted">Coming soon</span>
-      </div>
+      </UForm>
+
+      <template #footer>
+        <p class="text-sm text-muted">
+          You'll get a private admin link – no account needed.
+        </p>
+      </template>
     </UCard>
   </UContainer>
 </template>
