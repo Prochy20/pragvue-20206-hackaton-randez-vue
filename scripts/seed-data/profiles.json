@@ -1,39 +1,39 @@
 [
   {
-    "title": "Shipper of Reviewed Pixels",
-    "tagline": "Reads every line the AI wrote, ships the pretty UI, and keeps Fridays strictly deploy-free.",
-    "emoji": "🚢",
-    "specialMove": "console.log('here')",
-    "weakness": "is-odd",
-    "peerDependency": "another-friday-deploy-refuser",
+    "title": "Modulo Self-Reliance Officer",
+    "tagline": "Arrives in a green Vue hoodie, sticker-plastered laptop in tow, and does the remainder math without is-odd's help.",
+    "emoji": "🧃",
+    "specialMove": "console.log('here 2')",
+    "weakness": "Kofola cup running empty",
+    "peerDependency": "another-sticker-collector",
     "dependencies": [
-      "console-log",
+      "is-odd-rejection",
       "kofola",
-      "nuxt",
-      "pretty-ui"
+      "console-log",
+      "nuxt"
     ]
   },
   {
-    "title": "Friday Deploy Daredevil",
-    "tagline": "Reads the docs, reviews every line, then ships on a Friday anyway with a tote bag in hand.",
-    "emoji": "🚀",
+    "title": "Keeper of the Grudge Against node-cron",
+    "tagline": "Tall tote-bag carrier who has a deeply personal cron job to settle, and a debugger already attached.",
+    "emoji": "🛒",
     "specialMove": "debugger; on a Friday",
-    "weakness": "node-cron grudge",
-    "peerDependency": "another-docs-reader",
+    "weakness": "A 3 a.m. cron trigger",
+    "peerDependency": "someone-who-also-lost-to-cron",
     "dependencies": [
+      "node-cron-grudge",
       "debugger",
       "guinness",
-      "free-coffee",
-      "plain-vue"
+      "grocery-tote-bag"
     ]
   },
   {
-    "title": "Pitch Deck Package Maintainer",
-    "tagline": "Sketches on everything, pitches the rest, and has a better date picker in mind than the ones on npm.",
+    "title": "Date Picker Abolitionist",
+    "tagline": "Sketches the replacement on a napkin, a coaster, and possibly your sleeve before the first talk even starts.",
     "emoji": "🕶️",
-    "specialMove": "Live-demo a new library",
-    "weakness": "Any date picker",
-    "peerDependency": "another-pitch-person",
+    "specialMove": "Sketch a better calendar",
+    "weakness": "Every date picker, ever",
+    "peerDependency": "another-sketch-on-everything-person",
     "dependencies": [
       "yellow-glasses",
       "kofola",
@@ -42,171 +42,171 @@
     ]
   },
   {
-    "title": "Docs-First Cluster Whisperer",
-    "tagline": "Reads every line and every doc, then ships on a Friday anyway, because the cluster said it works.",
-    "emoji": "🚢",
-    "specialMove": "debugger; ship it",
-    "weakness": "A README that says TODO",
-    "peerDependency": "another-docs-reader",
+    "title": "Survivor of the left-pad Incident",
+    "tagline": "Was there when left-pad vanished, and now wears 'it works on my cluster' like a veteran's medal.",
+    "emoji": "🍺",
+    "specialMove": "debugger; on a Friday",
+    "weakness": "Anyone saying 'just is-odd it'",
+    "peerDependency": "another-left-pad-survivor",
     "dependencies": [
-      "real-backend",
-      "left-pad-survivor",
+      "left-pad",
       "guinness",
+      "debugger",
+      "works-on-my-cluster"
+    ]
+  },
+  {
+    "title": "Warden of the Mystery Lockfile",
+    "tagline": "Arrives in a red blazer with a 'We're hiring' sign, and would still like someone to explain those 400 transitive deps.",
+    "emoji": "🧧",
+    "specialMove": "Kofola-fueled debugger",
+    "weakness": "400 unexplained transitive…",
+    "peerDependency": "someone-who-reads-the-lockfile",
+    "dependencies": [
+      "kofola",
+      "debugger",
+      "nuxt",
+      "we-are-hiring-sign"
+    ]
+  },
+  {
+    "title": "Kofola-Fueled Force-Fixer",
+    "tagline": "Ran npm audit fix --force once and is still meeting the strangers it installed, somewhere near the stage.",
+    "emoji": "🥤",
+    "specialMove": "console.log('here 2')",
+    "weakness": "npm audit fix --force",
+    "peerDependency": "friendly-veteran-with-a-map",
+    "dependencies": [
+      "kofola",
+      "console-log",
+      "vue",
       "free-coffee"
     ]
   },
   {
-    "title": "Lockfile Diplomat in Red",
-    "tagline": "Pitches with confidence, reads the docs first, and hopes to merge with your career goals at PragVue.",
-    "emoji": "🧑‍💼",
-    "specialMove": "debugger; on every line",
-    "weakness": "400 unexplained transitive…",
-    "peerDependency": "open-to-work-nuxt-fan",
-    "dependencies": [
-      "kofola",
-      "nuxt",
-      "we-are-hiring-sign",
-      "read-the-docs"
-    ]
-  },
-  {
-    "title": "Vibe-Shipping Vue Purist",
-    "tagline": "Ships first, console.logs later, and is hunting for free coffee and friendly faces near the stage.",
-    "emoji": "🚀",
-    "specialMove": "console.log('here')",
-    "weakness": "npm audit fix --force",
-    "peerDependency": "friendly-veteran-with-spare-coffee",
-    "dependencies": [
-      "vue",
-      "kofola",
-      "console-log",
-      "pretty-ui"
-    ]
-  },
-  {
-    "title": "Live-Wire Pitch Architect",
-    "tagline": "Pitches the vision, vibes the code, and console.logs whatever is left, ideally over a Guinness.",
-    "emoji": "🎤",
-    "specialMove": "Pitch, vibe, ship",
-    "weakness": "A prototype without a backend",
+    "title": "Chief Rate-Limit Apologist",
+    "tagline": "Jokes about deleting express-rate-limit, then immediately begs the whole room to install it before the Friday deploy.",
+    "emoji": "🍺",
+    "specialMove": "console.log('here 2')",
+    "weakness": "Friday 16:58, no rollback",
     "peerDependency": "another-friday-deployer",
     "dependencies": [
-      "nuxt",
+      "express-rate-limit",
       "console-log",
       "guinness",
-      "express-rate-limit"
+      "nuxt"
     ]
   },
   {
-    "title": "Nuxt-Capped Ship Captain",
-    "tagline": "Vibes the code, logs the console, and ships it live before the Guinness settles.",
-    "emoji": "🚢",
-    "specialMove": "console.log('here')",
-    "weakness": "0 CZK sofa price bug",
-    "peerDependency": "hiring-manager-with-budget",
+    "title": "Bailiff of the Zero-Crown Sofa",
+    "tagline": "Has seen a sofa listed at 0 CZK in production and now checks every price formatter like a bouncer checks IDs.",
+    "emoji": "🛋️",
+    "specialMove": "console.log('why 0 CZK')",
+    "weakness": "Friday 16:58 deploys",
+    "peerDependency": "another-price-sanity-checker",
     "dependencies": [
       "nuxt",
       "console-log",
       "guinness",
-      "real-backend"
+      "price-formatter"
     ]
   },
   {
-    "title": "Double-Click Defense Pitcher",
-    "tagline": "Pitches the idea, reviews every line, and still asks what happens when the user clicks twice.",
-    "emoji": "🛡️",
-    "specialMove": "But what if they click twice?",
-    "weakness": "Friday deploys. Never. Ever.",
-    "peerDependency": "another-docs-first-skeptic",
+    "title": "Double-Click Interrogator",
+    "tagline": "Marta greets every shiny new button with one calm question: but what if the user clicks twice?",
+    "emoji": "🔍",
+    "specialMove": "But what if twice?",
+    "weakness": "is-odd needing is-even",
+    "peerDependency": "debounce-loving-frontend-dev",
     "dependencies": [
       "debugger",
       "kofola",
-      "vue",
+      "is-even",
       "is-odd"
     ]
   },
   {
-    "title": "Sticker Dispatch Evangelist",
-    "tagline": "Pitches first, figures out the library live, and leaves a trail of stickers wherever the demo goes.",
-    "emoji": "🎟️",
-    "specialMove": "console.log('it works')",
+    "title": "Sticker Dispenser With a Stage Scar",
+    "tagline": "Diego still hears a faint .env echo from that one live demo, and hands out stickers anyway to change the subject.",
+    "emoji": "🎤",
+    "specialMove": "console.log('here 2')",
     "weakness": "dotenv on stage",
-    "peerDependency": "another-live-demo-brave-soul",
+    "peerDependency": "someone-who-pours-guinness-slowly",
     "dependencies": [
-      "nuxt",
+      "dotenv-trauma",
       "console-log",
-      "sticker-pack",
-      "guinness"
+      "sticker-stash",
+      "nuxt"
     ]
   },
   {
-    "title": "Debugger-Driven Knitting Shipper",
-    "tagline": "Reads the docs, reviews every line, and purls a scarf between talks while the build passes.",
+    "title": "Timezone Survivor Who Knits",
+    "tagline": "Has untangled more UTC offsets than yarn, and only one of the two has ever behaved during a conference talk.",
     "emoji": "🧶",
-    "specialMove": "Step over, then ship",
-    "weakness": "Timezones, thanks to moment",
-    "peerDependency": "another-docs-first-shipper",
+    "specialMove": "Purl, then debugger",
+    "weakness": "moment().tz() surprises",
+    "peerDependency": "another-person-with-needles",
     "dependencies": [
-      "debugger",
+      "moment-grudge",
+      "knitting-needles",
       "kofola",
-      "real-backend",
-      "knitting-needles"
+      "debugger"
     ]
   },
   {
-    "title": "Two-Phone Ship-It Sprinter",
-    "tagline": "Vibes the code, ships the build, and debugs with console.log while both phones cling to 3% battery.",
+    "title": "Custodian of Two Dying Phones",
+    "tagline": "Arrives with two phones at 3% battery and still distrusts any postinstall script that phones home more than they do.",
     "emoji": "🔋",
     "specialMove": "console.log('here')",
-    "weakness": "postinstall phoning home",
-    "peerDependency": "portable-charger-buddy",
+    "weakness": "Two chargers, zero outlets",
+    "peerDependency": "someone-with-a-power-bank",
     "dependencies": [
-      "nuxt",
+      "two-phones-at-3-percent",
       "console-log",
       "guinness",
-      "pretty-ui"
+      "nuxt"
     ]
   },
   {
-    "title": "Front-Row Breakpoint Steward",
-    "tagline": "Reads the docs first, reviews every line, and keeps Fridays gloriously deploy-free, all in a green scarf.",
+    "title": "Front-Row Exorcist of AngularJS 1.x",
+    "tagline": "Spots the green scarf, grabs the front row, and quietly removes angular 1.x from every repo they own.",
     "emoji": "🧣",
-    "specialMove": "debugger; on every line",
-    "weakness": "Anything AngularJS 1.x",
-    "peerDependency": "another-docs-first-lead",
+    "specialMove": "git rm -rf angular@1",
+    "weakness": "Friday deploy request",
+    "peerDependency": "another-front-row-person",
     "dependencies": [
+      "angular-1x-removal",
+      "green-scarf",
       "debugger",
-      "kofola",
-      "vue",
-      "read-the-docs"
+      "vue"
     ]
   },
   {
-    "title": "Backlog Warden of Plain Vue",
-    "tagline": "Reads the docs, reviews every line, and still ships on Friday, with one Guinness and a very long issue list.",
-    "emoji": "🍺",
-    "specialMove": "console.log('shipped')",
-    "weakness": "Issue #1 through #4096",
-    "peerDependency": "fellow-issue-triager",
+    "title": "Backlog Lighthouse Keeper",
+    "tagline": "Would unpublish their own package to close the issues, then reopen one just to answer it over a Guinness.",
+    "emoji": "🏮",
+    "specialMove": "console.log('why')",
+    "weakness": "Issue #1 (still open)",
+    "peerDependency": "someone-who-closes-stale-issues",
     "dependencies": [
+      "github-issues",
       "guinness",
       "console-log",
-      "just-vue",
-      "read-the-docs"
+      "just-vue"
     ]
   },
   {
-    "title": "Docs-Reading Alien Pixel Pitcher",
-    "tagline": "Pitches the prototype, reads the docs, reviews every AI line, and will never, ever deploy on a Friday.",
+    "title": "Neon Alien Backpack Cartographer",
+    "tagline": "Wants lodash deleted from the internet because tree-shaking took everything else with it, and still says it calmly.",
     "emoji": "👽",
-    "specialMove": "console.log('pitch')",
-    "weakness": "Friday deploys. Ever.",
-    "peerDependency": "another-docs-first-nuxt-fan",
+    "specialMove": "console.log('here 2')",
+    "weakness": "Friday 16:58 deploy",
+    "peerDependency": "another-nuxt-loyalist",
     "dependencies": [
-      "nuxt",
+      "lodash-grudge",
+      "neon-alien-backpack",
       "console-log",
-      "kofola",
-      "neon-alien-backpack"
+      "nuxt"
     ]
   }
 ]
