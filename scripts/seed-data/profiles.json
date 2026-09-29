@@ -1,0 +1,212 @@
+[
+  {
+    "title": "Invisible Button Survivor",
+    "tagline": "Spaces, dark mode, no semicolons, and a firm no to Friday deploys since the checkout buttons vanished.",
+    "emoji": "🧑‍💻",
+    "specialMove": "console.log('here')",
+    "weakness": "Friday deploys",
+    "peerDependency": "another-friday-freeze-person",
+    "dependencies": [
+      "composition-api",
+      "coffee",
+      "console-log",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Tab-Indented Friday Deployer",
+    "tagline": "Ships on Fridays, breakpoints in hand, and still recovering from 40,000 very confusing 'test test ignore' emails.",
+    "emoji": "☕",
+    "specialMove": "debugger; on a Friday",
+    "weakness": "Crons that email 40k people",
+    "peerDependency": "another-tab-person-with-coffee",
+    "dependencies": [
+      "coffee",
+      "tabs",
+      "options-api",
+      "semicolons-always"
+    ]
+  },
+  {
+    "title": "Light Mode Layout Whisperer",
+    "tagline": "Sketches on everything, sips tea in a monorepo, and believes console.log solves most mysteries.",
+    "emoji": "🫖",
+    "specialMove": "console.log('why?')",
+    "weakness": "Half-clickable buttons",
+    "peerDependency": "another-light-mode-loyalist",
+    "dependencies": [
+      "tea",
+      "spaces",
+      "composition-api",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Cluster-Certified Friday Gambler",
+    "tagline": "Rotates certs with confidence, deploys on Fridays with bravery, and debugs with console.log like a true minimalist.",
+    "emoji": "🔥",
+    "specialMove": "kubectl rollout undo",
+    "weakness": "The wrong cluster context",
+    "peerDependency": "another-monorepo-believer",
+    "dependencies": [
+      "coffee",
+      "console-log",
+      "monorepo",
+      "tls-cert-rotator"
+    ]
+  },
+  {
+    "title": "Tabs-and-Tea Talent Scout",
+    "tagline": "Red blazer, hiring sign, and a debugger statement: she'll find your next teammate and never ship it on a Friday.",
+    "emoji": "🍵",
+    "specialMove": "debugger; on the hiring funnel",
+    "weakness": "Status pages during outages",
+    "peerDependency": "another-tab-person-who-is-hiring",
+    "dependencies": [
+      "tabs",
+      "tea",
+      "composition-api",
+      "polyrepo"
+    ]
+  },
+  {
+    "title": "Options API Space Cadet",
+    "tagline": "Runs on coffee and console.log, still deploys on Fridays, and has already survived one npm audit fix --force.",
+    "emoji": "☕",
+    "specialMove": "console.log('here')",
+    "weakness": "npm audit fix --force",
+    "peerDependency": "friendly-conference-veteran",
+    "dependencies": [
+      "coffee",
+      "console-log",
+      "options-api",
+      "dark-mode"
+    ]
+  },
+  {
+    "title": "Rate-Limitless Monorepo Chief",
+    "tagline": "Ships on Fridays, breakpoints with debugger, and lets tabs, light mode and zero semicolons do the talking.",
+    "emoji": "☕",
+    "specialMove": "debugger; (no semicolon)",
+    "weakness": "Unlimited free tier",
+    "peerDependency": "fellow-friday-deployer",
+    "dependencies": [
+      "coffee",
+      "tabs",
+      "composition-api",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Zero-CZK Sofa Liquidator",
+    "tagline": "Ships on Fridays, skips semicolons, and once sold a sofa for 0 CZK twenty-three times, all fueled by tea.",
+    "emoji": "🛋️",
+    "specialMove": "console.log('here')",
+    "weakness": "Sofa price of 0 CZK",
+    "peerDependency": "another-friday-deployer",
+    "dependencies": [
+      "tea",
+      "console-log",
+      "composition-api",
+      "polyrepo"
+    ]
+  },
+  {
+    "title": "Double-Click Doubt Detective",
+    "tagline": "Sips tea, pauses at the debugger, and asks what happens if the user clicks twice, because someone must.",
+    "emoji": "🕵️",
+    "specialMove": "debugger; on every edge case",
+    "weakness": "A 2021 bug promoted to feature",
+    "peerDependency": "another-what-if-asker",
+    "dependencies": [
+      "tea",
+      "debugger",
+      "options-api",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Sticker-Slinging Spaces Evangelist",
+    "tagline": "Runs on coffee and console.log, skips semicolons, and leaves a trail of stickers wherever the monorepo takes him.",
+    "emoji": "🧃",
+    "specialMove": "console.log('here')",
+    "weakness": "A public repo with .env",
+    "peerDependency": "someone-who-checks-gitignore",
+    "dependencies": [
+      "coffee",
+      "console-log",
+      "composition-api",
+      "sticker-stash"
+    ]
+  },
+  {
+    "title": "Timezone-Wary Knitting Engineer",
+    "tagline": "Spaces indented, semicolons always; and a scarf grows between talks while Thursday behaves like Thursday.",
+    "emoji": "🧶",
+    "specialMove": "debugger; on a hunch",
+    "weakness": "Black Friday, Thursday edition",
+    "peerDependency": "fellow-tea-and-yarn-person",
+    "dependencies": [
+      "tea",
+      "debugger",
+      "knitting-needles",
+      "polyrepo"
+    ]
+  },
+  {
+    "title": "Two-Phone Hotfix Whisperer",
+    "tagline": "Ships hotfixes in 9 minutes, waits 9 days for review, and keeps both phones alive at 3% out of pure optimism.",
+    "emoji": "🔋",
+    "specialMove": "console.log everywhere;",
+    "weakness": "App store review queue",
+    "peerDependency": "portable-charger-friend",
+    "dependencies": [
+      "coffee",
+      "console-log",
+      "composition-api",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Semicolon-Sealed Legacy Archaeologist",
+    "tagline": "Spaces, dark mode and a debugger statement: she reads 15-year-old comments so the rest of us don't have to.",
+    "emoji": "🧣",
+    "specialMove": "debugger;",
+    "weakness": "\"do not touch, nobody knows\"",
+    "peerDependency": "another-front-row-person",
+    "dependencies": [
+      "coffee",
+      "options-api",
+      "angularjs-comment-archaeology",
+      "polyrepo"
+    ]
+  },
+  {
+    "title": "Dist-Folder Disappearing Act Maintainer",
+    "tagline": "Ships patches with tabs, tea and console.log, and still keeps a smile about the great dist folder vanishing.",
+    "emoji": "🍵",
+    "specialMove": "console.log('why')",
+    "weakness": "npm publish on a Friday",
+    "peerDependency": "fellow-backlog-survivor",
+    "dependencies": [
+      "tabs",
+      "tea",
+      "console-log",
+      "monorepo"
+    ]
+  },
+  {
+    "title": "Composition API Monorepo Marshal",
+    "tagline": "Semicolons always, Fridays never, and a neon alien backpack watching over the tree-shaken analytics.",
+    "emoji": "👽",
+    "specialMove": "debugger; // always with semi",
+    "weakness": "Friday deploy requests",
+    "peerDependency": "another-light-mode-monorepo-fan",
+    "dependencies": [
+      "coffee",
+      "composition-api",
+      "monorepo",
+      "debugger"
+    ]
+  }
+]
