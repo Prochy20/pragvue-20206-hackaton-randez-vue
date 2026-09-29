@@ -68,7 +68,16 @@ async function submit() {
     await wait(400)
     await navigateTo(`/e/${slug.value}/p/${result.token}`)
   } catch (error) {
-    submitError.value = apiErrorMessage(error, 'install failed, check your connection')
+    if (apiErrorMessage(error) === QUESTIONNAIRE_CHANGED) {
+      // Reload the new questions and run the quiz again instead of failing the same way forever.
+      await refresh()
+      answers.value = {}
+      quizIndex.value = 0
+      submitError.value = 'questions changed while you were answering, please go through them again'
+      step.value = 'quiz'
+      return
+    }
+    submitError.value = userErrorMessage(error, 'install failed, check your connection')
     step.value = 'quiz'
   }
 }

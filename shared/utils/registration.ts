@@ -2,6 +2,9 @@ import { z } from 'zod'
 
 export const NAME_MAX = 60
 export const ANSWER_MAX = 140
+// Registration answers don't match the event's current questions (the organizer edited them meanwhile).
+export const QUESTIONNAIRE_CHANGED = 'The questionnaire changed, please reload'
+
 export const HERE_FOR_OPTIONS = ['talks', 'new people', 'hiring', 'free coffee'] as const
 
 const shortText = (label: string) => z.string().trim().max(NAME_MAX, `${label} can have at most ${NAME_MAX} characters`)

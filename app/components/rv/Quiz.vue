@@ -119,7 +119,7 @@ function back() {
     class="mt-auto flex flex-col gap-2.5 pt-2"
   >
     <p
-      v-if="error && (finished || isLast)"
+      v-if="error && (finished || isLast || index === 0)"
       class="font-mono-rv text-xs text-rv-pink"
       role="alert"
     >

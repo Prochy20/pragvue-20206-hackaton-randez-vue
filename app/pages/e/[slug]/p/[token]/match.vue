@@ -39,7 +39,7 @@ async function load() {
     if (apiErrorStatus(error) === 404) {
       state.value = 'not-found'
     } else {
-      loadError.value = apiErrorMessage(error, 'could not reach the registry')
+      loadError.value = userErrorMessage(error, 'could not reach the registry')
       state.value = 'error'
     }
     return

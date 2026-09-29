@@ -44,9 +44,13 @@ async function load() {
     show(await $fetch<PublicProfile>(endpoint.value))
   } catch (error) {
     if (apiErrorStatus(error) === 404) {
+      // Removed by the organizer: forget it, so the landing page stops offering "welcome back".
+      if (tokens.get(slug.value)?.token === token.value) {
+        tokens.remove(slug.value)
+      }
       state.value = 'not-found'
     } else {
-      loadError.value = apiErrorMessage(error, 'could not reach the registry')
+      loadError.value = userErrorMessage(error, 'could not reach the registry')
       state.value = 'error'
     }
   }

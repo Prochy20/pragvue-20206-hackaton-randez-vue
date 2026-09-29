@@ -38,7 +38,7 @@ export function buildAnswers(questionnaire: Questionnaire, input: Record<string,
       if (question.required) {
         const message = question.id in input
           ? `"${question.label}" is required`
-          : 'The questionnaire changed, please reload'
+          : QUESTIONNAIRE_CHANGED
         throw createError({ statusCode: 400, statusMessage: message })
       }
       continue
