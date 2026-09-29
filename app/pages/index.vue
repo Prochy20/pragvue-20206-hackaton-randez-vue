@@ -47,6 +47,7 @@ async function onSubmit(event: FormSubmitEvent<CreateEventInput>) {
         <UForm
           :schema="createEventSchema"
           :state="state"
+          :validate-on="['input', 'change']"
           class="space-y-4"
           @submit="onSubmit"
         >
