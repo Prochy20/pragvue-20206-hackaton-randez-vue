@@ -10,8 +10,9 @@ services:
       NUXT_DATABASE_URL: postgres://${SERVICE_USER_POSTGRES}:${SERVICE_PASSWORD_POSTGRES}@postgres:5432/icebreaker
       NUXT_SESSION_PASSWORD: ${SERVICE_PASSWORD_64_SESSION}
       NUXT_ANTHROPIC_API_KEY: ${NUXT_ANTHROPIC_API_KEY:?}
-      # Public origin for share links and the wall QR code; routes the generated domain to port 3000.
-      NUXT_PUBLIC_SITE_URL: ${SERVICE_URL_APP_3000}
+      # Public origin for share links and the wall QR code. Set it explicitly for a custom domain;
+      # otherwise the domain Coolify generates (routed to port 3000) is used.
+      NUXT_PUBLIC_SITE_URL: ${NUXT_PUBLIC_SITE_URL:-${SERVICE_URL_APP_3000}}
     depends_on:
       postgres:
         condition: service_healthy

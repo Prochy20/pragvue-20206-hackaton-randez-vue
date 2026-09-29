@@ -65,3 +65,5 @@ Append-only.
     - App má jen `expose: 3000`, žádné `ports:` – na serveru už port 3000 něco používá a Coolify proxy jde přes interní síť.
     - Migrace se kopírují do image do `/app/server/db/migrations`, `WORKDIR /app` → #12 platí beze změny. Healthcheck `wget /api/health`.
     - Ověřeno lokálně (`-p rendez-vue-prodtest`, port override 3100): build, healthy, 5 tabulek z migrace, signup, event, QR s `NUXT_PUBLIC_SITE_URL`, themed 404.
+    - **Po prvním deployi:** u ručně zadané domény Coolify `SERVICE_URL_APP_3000` nevyplnil, `siteUrl` byl v produkci prázdný. Compose teď bere `${NUXT_PUBLIC_SITE_URL:-${SERVICE_URL_APP_3000}}`, u vlastní domény se nastaví ručně.
+    - **Certifikát:** Let's Encrypt selhával, protože wildcard CNAME na apex `prochazka.vip` dědil AAAA na jiný hosting (Váš Hosting). Uživatel AAAA u apexu smazal, po restartu proxy se certifikát vydal.
