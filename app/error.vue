@@ -5,7 +5,14 @@ const props = defineProps<{
   error: NuxtError
 }>()
 
+const route = useRoute()
 const notFound = computed(() => props.error.statusCode === 404)
+
+// Participants have no business on "/" (organizer login), so inside an event go back to its landing.
+const home = computed(() => {
+  const match = route.path.match(/^\/e\/([^/]+)\/./)
+  return match ? `/e/${match[1]}` : '/'
+})
 
 useSeoMeta({ title: () => notFound.value ? 'Not found · Rendez-Vue' : 'Error · Rendez-Vue' })
 </script>
@@ -13,7 +20,7 @@ useSeoMeta({ title: () => notFound.value ? 'Not found · Rendez-Vue' : 'Error ·
 <template>
   <RvScreen>
     <RvPrompt>
-      $ cd {{ useRoute().path }}
+      $ cd {{ route.path }}
     </RvPrompt>
     <p class="font-mono-rv text-xs text-rv-pink">
       npm ERR! {{ error.statusCode || 500 }}
@@ -29,7 +36,7 @@ useSeoMeta({ title: () => notFound.value ? 'Not found · Rendez-Vue' : 'Error ·
     <div class="mt-auto">
       <RvButton
         variant="ghost"
-        @click="clearError({ redirect: '/' })"
+        @click="clearError({ redirect: home })"
       >
         cd ~ →
       </RvButton>
