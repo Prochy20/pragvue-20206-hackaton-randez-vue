@@ -6,13 +6,20 @@ const props = defineProps<{
 }>()
 
 const api = useAdminApi(() => props.slug)
+const toast = useToast()
 
 const rounds = ref<AdminRound[]>()
+const participantCount = ref<number>()
 const loadError = ref<string>()
+const running = ref(false)
+const open = ref<string[]>([])
 
+// Polls the event too, so the participant count behind the button stays fresh.
 async function refresh() {
   try {
-    rounds.value = await api.getRounds()
+    const [nextRounds, event] = await Promise.all([api.getRounds(), api.getEvent()])
+    rounds.value = nextRounds
+    participantCount.value = event.participantCount
     loadError.value = undefined
   } catch (error) {
     loadError.value = apiErrorMessage(error, 'Couldn\'t load rounds')
@@ -20,6 +27,27 @@ async function refresh() {
 }
 
 usePolling(refresh)
+
+// Unknown count (still loading) doesn't block; the server rejects with 400 anyway.
+const tooFew = computed(() => participantCount.value !== undefined && participantCount.value < 2)
+
+async function runRound() {
+  running.value = true
+  try {
+    const round = await api.runRound()
+    if (round.status === 'ok') {
+      toast.add({ title: `Round ${round.number} done`, color: 'success', icon: 'i-lucide-check' })
+    } else {
+      toast.add({ title: 'Matching failed', description: 'Run a new round.', color: 'error' })
+    }
+    open.value = [round.id]
+    await refresh()
+  } catch (error) {
+    toast.add({ title: 'Couldn\'t run round', description: apiErrorMessage(error), color: 'error' })
+  } finally {
+    running.value = false
+  }
+}
 
 const items = computed(() => (rounds.value ?? []).map(round => ({
   label: `Round ${round.number}`,
@@ -30,15 +58,28 @@ const items = computed(() => (rounds.value ?? []).map(round => ({
 
 <template>
   <div class="space-y-4">
-    <UTooltip text="Coming soon">
-      <span class="inline-block">
-        <UButton
-          label="Run matching round"
-          icon="i-lucide-shuffle"
-          disabled
-        />
-      </span>
-    </UTooltip>
+    <div>
+      <UTooltip
+        text="Need at least 2 participants"
+        :disabled="!tooFew"
+      >
+        <span class="inline-block">
+          <UButton
+            label="Run matching round"
+            icon="i-lucide-shuffle"
+            :loading="running"
+            :disabled="tooFew"
+            @click="runRound"
+          />
+        </span>
+      </UTooltip>
+      <p
+        v-if="running"
+        class="mt-2 text-sm text-muted"
+      >
+        Matching everyone… this can take up to a minute.
+      </p>
+    </div>
 
     <UAlert
       v-if="loadError && !rounds"
@@ -68,12 +109,13 @@ const items = computed(() => (rounds.value ?? []).map(round => ({
         class="size-10 text-dimmed"
       />
       <p class="mt-3 text-muted">
-        No matching rounds yet.
+        No rounds yet. Run the first one when people have registered.
       </p>
     </div>
 
     <UAccordion
       v-else
+      v-model="open"
       :items="items"
       type="multiple"
     >
@@ -86,16 +128,25 @@ const items = computed(() => (rounds.value ?? []).map(round => ({
             :label="item.round.status"
           />
           <span class="text-sm text-muted">{{ formatRelativeTime(item.round.createdAt) }}</span>
-          <span class="ml-auto pr-2 text-sm text-muted">{{ item.round.pairs.length }} {{ item.round.pairs.length === 1 ? 'pair' : 'pairs' }}</span>
+          <span
+            v-if="item.round.status === 'ok'"
+            class="ml-auto pr-2 text-sm text-muted"
+          >{{ item.round.pairs.length }} {{ item.round.pairs.length === 1 ? 'group' : 'groups' }}</span>
         </span>
       </template>
 
       <template #body="{ item }">
         <p
-          v-if="item.round.pairs.length === 0"
+          v-if="item.round.status === 'failed'"
+          class="text-error"
+        >
+          Matching failed. Run a new round.
+        </p>
+        <p
+          v-else-if="item.round.pairs.length === 0"
           class="text-muted"
         >
-          No pairs in this round.
+          No groups in this round.
         </p>
         <ul
           v-else
@@ -129,7 +180,19 @@ const items = computed(() => (rounds.value ?? []).map(round => ({
             <p class="mt-3 text-sm text-default">
               {{ pair.reason }}
             </p>
-            <blockquote class="mt-2 border-l-2 border-primary pl-3 text-sm text-highlighted italic">
+            <ul
+              v-if="pair.diff.length"
+              class="mt-3 rounded-md bg-elevated px-3 py-2 font-mono text-sm"
+            >
+              <li
+                v-for="(line, i) in pair.diff"
+                :key="i"
+                :class="line.sign === '+' ? 'text-success' : 'text-error'"
+              >
+                {{ line.sign }} {{ line.text }}
+              </li>
+            </ul>
+            <blockquote class="mt-3 border-l-2 border-primary pl-3 text-sm text-highlighted italic">
               {{ pair.icebreaker }}
             </blockquote>
           </li>

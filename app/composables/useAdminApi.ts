@@ -3,7 +3,7 @@ import type { Questionnaire } from '#shared/utils/questionnaire'
 
 // Thin wrapper over the admin endpoints; auth rides on the session cookie.
 export function useAdminApi(slug: MaybeRefOrGetter<string>) {
-  function request<T>(path: string, options: { method?: 'GET' | 'PUT' | 'DELETE', body?: Record<string, unknown> } = {}) {
+  function request<T>(path: string, options: { method?: 'GET' | 'POST' | 'PUT' | 'DELETE', body?: Record<string, unknown> } = {}) {
     return $fetch<T>(`/api/events/${encodeURIComponent(toValue(slug))}${path}`, options)
   }
 
@@ -13,7 +13,9 @@ export function useAdminApi(slug: MaybeRefOrGetter<string>) {
       request<{ questionnaire: Questionnaire }>('/questionnaire', { method: 'PUT', body: { questionnaire } }),
     getParticipants: () => request<AdminParticipant[]>('/participants'),
     deleteParticipant: (id: string) => request<null>(`/participants/${encodeURIComponent(id)}`, { method: 'DELETE' }),
-    getRounds: () => request<AdminRound[]>('/rounds')
+    getRounds: () => request<AdminRound[]>('/rounds'),
+    // Synchronous AI call on the server, can take up to a minute.
+    runRound: () => request<AdminRound>('/rounds', { method: 'POST' })
   }
 }
 
