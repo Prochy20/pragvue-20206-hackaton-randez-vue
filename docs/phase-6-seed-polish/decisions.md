@@ -51,3 +51,5 @@ Append-only.
     - **Uvozovky u icebreakerů** jsou „“ “. Tlačítko `git commit -m "…"` má rovné uvozovky (shell).
     - **Zeď:** jména se zalamují na 2 řádky. Důvod párování dostane volnou výšku karty: `ResizeObserver` spočítá počet řádků pro line-clamp, SSR fallback jsou 3 řádky. Na hustých kartách má přednost icebreaker a důvod může spadnout na 1 řádek.
     - `.playwright-mcp/` a `.claude/worktrees/` jsou v `.gitignore`.
+
+16. **Health check hlásí selhané migrace.** Nitro pluginy neawaituje, takže chyba migrace (např. server spuštěný mimo kořen repa → `Can't find meta/_journal.json`) byla jen unhandledRejection a `/api/health` dál vracel 200 nad DB bez tabulek. Plugin teď předá běh migrací do `server/utils/migrations.ts`, chybu zaloguje jako `[db] migration failed: …` a `/api/health` na výsledek počká: 200 až po úspěšných migracích a `select 1`, jinak 503. Tím odpadá i závod z #13 (health zelený před doběhnutím migrací). Bez `NUXT_DATABASE_URL` se migrace dál jen přeskočí. Ostatní endpointy na migrace nečekají. Ověřeno prod buildem: špatné cwd → 503, kořen repa → 200.
