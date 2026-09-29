@@ -11,6 +11,11 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    // Server-only; set via NUXT_ANTHROPIC_API_KEY. Checked lazily at AI call time.
+    anthropicApiKey: ''
+  },
+
   compatibilityDate: '2026-06-30',
 
   nitro: {
