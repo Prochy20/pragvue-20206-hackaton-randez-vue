@@ -2,12 +2,11 @@
 
 Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 
-**Poslední update:** 2026-09-29, fáze 3 postavená, čeká na ruční proklik UI.
+**Poslední update:** 2026-09-29, fáze 3 hotová (UI proklikané bez nálezů), další je grilling fáze 4.
 
 ## Kde jsme
 
-- Fáze 1 ✅, 2 ✅, **3 postavená** (Postgres + Drizzle, účty organizátorů, registrace účastníka s AI profilem, UI podle design handoffu Rendez-Vue, obrazovky 01–06). Detaily a ověření v [phase-3-registration/status.md](phase-3-registration/status.md).
-- Otevřené: **T9 – uživatel prokliká UI** (registrace už ověřena, že funguje) (registrace na `/e/pragvue-2026`, profil, retry, admin editor A/B, login/signup, Your events). Nálezy opravit, zapsat do `decisions.md`.
+- Fáze 1 ✅, 2 ✅, 3 ✅ (Postgres + Drizzle, účty organizátorů, registrace účastníka s AI profilem, UI podle design handoffu Rendez-Vue, obrazovky 01–06). Detaily a ověření v [phase-3-registration/status.md](phase-3-registration/status.md).
 - Další: **fáze 4 – Matching round** (obrazovky 07–08 z designu, admin tlačítko „Run matching round“, páry/trojice, validace + retry). Zatím nevygrilovaná.
 
 ## Co musí nová session vědět

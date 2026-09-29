@@ -1,6 +1,6 @@
 # Fáze 3 – Registrace + AI titul: status
 
-**Stav:** postaveno 2026-09-29 (vč. design handoffu Rendez-Vue, obrazovky 01–06). API ověřené curlem, lint + typecheck čisté. **UI čeká na ruční proklik uživatelem** (T9).
+**Stav:** postaveno 2026-09-29 (vč. design handoffu Rendez-Vue, obrazovky 01–06). API ověřené curlem, lint + typecheck čisté. UI proklikané uživatelem bez nálezů (T9). **Fáze hotová.**
 
 ## Úkoly
 
@@ -13,7 +13,7 @@
 - [x] T6 – `feat(ai): generate participant profile`
 - [x] T7 – `feat(api): add participant registration endpoints`
 - [x] T8 – `style: rebrand to Rendez-Vue and add design tokens` + `feat(ui): add participant registration flow` + `feat(ui): add participant profile page` (profil postavil subagent)
-- [ ] T9 – ruční proklik UI uživatelem, případné opravy vizuálu
+- [x] T9 – ruční proklik UI uživatelem, bez nálezů
 
 ## Ověření
 
