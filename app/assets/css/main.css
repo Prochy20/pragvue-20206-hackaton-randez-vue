@@ -44,7 +44,7 @@
 }
 
 @theme {
-  --animate-rv-card-in: rv-card-in 0.25s ease-out both;
+  --animate-rv-card-in: rv-card-in 0.25s ease-out backwards;
 }
 
 @keyframes rv-card-in {

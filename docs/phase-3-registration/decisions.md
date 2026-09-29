@@ -73,3 +73,8 @@ Handoff: [`docs/design_handoff_rendez_vue/`](../design_handoff_rendez_vue/README
 45. **Kvíz: index karty drží stránka (`v-model:index`)**, aby se po chybě odeslání vrátil na stejnou kartu. Když je poslední otázka A/B, po swipu se ukáže závěrečná karta „That's the weird part done.“ s CTA `$ npm i friends`. V hlavičce kvízu je navíc `← step 2/2` (zpět o kartu / na krok 1).
 46. **Landing: počet otázek = dotazník + 2** (jméno a role), s výchozí sadou tedy „12“ jako v designu.
 47. **Dev quirk: nové `.vue` soubory vytvořené za běhu `pnpm dev` nemusí dostat své Tailwind třídy do CSS v prohlížeči** (Vite přegeneruje jen `main.css?direct`). Projev: prvek bez výšky / pozadí. Řešení: restart dev serveru (+ smazat `node_modules/.cache/vite`) a tvrdý reload.
+
+## 2026-09-29 – nálezy z prokliku
+
+48. **A/B karta: dlouhé možnosti a otázky se nezkracují.** Možnosti se zalamují (`wrap-break-word`), velikost písma podle délky delší možnosti (≤9 znaků `text-xl`, ≤18 `text-base`, jinak `text-sm`), otázka podle délky (≤40 `text-4xl`, ≤90 `text-3xl`, jinak `text-2xl`). Karta má `min-h-105` a je v toku (ghost karty absolutně za ní), takže roste místo přetečení. *Zamítnuto:* `line-clamp` / tooltip (odpověď musí jít přečíst celá).
+49. **Plynulejší swipe:** `rv-card-in` má `fill-mode: backwards` místo `both` (s `both` animace po doběhnutí dál drží `transform` a přetahování přes ni jde na hlavním vlákně), karta má `will-change: transform` (stín se nepřekresluje při každém pohybu).

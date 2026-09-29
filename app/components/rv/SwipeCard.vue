@@ -16,6 +16,16 @@ const FLY_MS = 200
 const left = computed(() => props.question.options?.[0] ?? '')
 const right = computed(() => props.question.options?.[1] ?? '')
 
+// Options go up to 60 chars and labels up to 200, so shrink the type instead of truncating.
+const optionSize = computed(() => {
+  const longest = Math.max(left.value.length, right.value.length)
+  return longest <= 9 ? 'text-xl' : longest <= 18 ? 'text-base' : 'text-sm'
+})
+const labelSize = computed(() => {
+  const length = props.question.label.length
+  return length <= 40 ? 'text-4xl' : length <= 90 ? 'text-3xl' : 'text-2xl'
+})
+
 const dragX = ref(0)
 const dragging = ref(false)
 const flying = ref<'left' | 'right' | 'up' | null>(null)
@@ -98,7 +108,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
 </script>
 
 <template>
-  <div class="relative mt-5 h-105 flex-none">
+  <div class="relative mt-5 flex-none">
     <div
       v-if="remaining > 1"
       class="absolute inset-x-4.5 top-6 h-100 rotate-3 rounded-[22px] bg-rv-ghost-1"
@@ -109,7 +119,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
     />
 
     <div
-      class="absolute inset-x-0 top-0 flex h-105 animate-rv-card-in cursor-grab touch-none flex-col rounded-[22px] bg-rv-text p-6 text-rv-bg shadow-[0_12px_30px_rgba(0,0,0,.4)] select-none active:cursor-grabbing"
+      class="relative flex min-h-105 animate-rv-card-in cursor-grab touch-none flex-col rounded-[22px] bg-rv-text p-6 text-rv-bg shadow-[0_12px_30px_rgba(0,0,0,.4)] will-change-transform select-none active:cursor-grabbing"
       :style="cardStyle"
       @pointerdown="onPointerDown"
       @pointermove="onPointerMove"
@@ -119,26 +129,35 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
       <p class="font-mono-rv text-xs font-medium text-rv-card-muted">
         // question {{ String(number).padStart(2, '0') }}
       </p>
-      <h2 class="mt-3.5 text-4xl leading-none font-bold tracking-[-1px] text-balance">
+      <h2
+        class="mt-3.5 leading-none font-bold tracking-[-1px] text-balance"
+        :class="labelSize"
+      >
         {{ question.label }}
       </h2>
 
-      <div class="mt-auto grid grid-cols-2 gap-2.5">
+      <div class="mt-auto grid grid-cols-2 gap-2.5 pt-6">
         <button
           type="button"
-          class="flex h-24 flex-col justify-between rounded-[14px] bg-rv-pink p-3 text-left font-mono-rv transition active:scale-[.98]"
+          class="flex min-h-24 flex-col justify-between gap-3 rounded-[14px] bg-rv-pink p-3 text-left font-mono-rv transition active:scale-[.98]"
           @click="pick('left')"
         >
           <span class="text-xs font-bold">← swipe</span>
-          <span class="truncate text-xl font-bold">{{ left }}</span>
+          <span
+            class="leading-tight font-bold wrap-break-word hyphens-auto"
+            :class="optionSize"
+          >{{ left }}</span>
         </button>
         <button
           type="button"
-          class="flex h-24 flex-col items-end justify-between rounded-[14px] bg-rv-card-light-3 p-3 text-right font-mono-rv transition active:scale-[.98]"
+          class="flex min-h-24 flex-col items-end justify-between gap-3 rounded-[14px] bg-rv-card-light-3 p-3 text-right font-mono-rv transition active:scale-[.98]"
           @click="pick('right')"
         >
           <span class="text-xs font-bold">swipe →</span>
-          <span class="max-w-full truncate text-xl font-bold">{{ right }}</span>
+          <span
+            class="max-w-full leading-tight font-bold wrap-break-word hyphens-auto"
+            :class="optionSize"
+          >{{ right }}</span>
         </button>
       </div>
 
