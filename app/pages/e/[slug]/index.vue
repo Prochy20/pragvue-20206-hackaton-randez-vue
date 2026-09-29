@@ -166,7 +166,7 @@ async function submit() {
       prompt="$ npm i friends"
       :lines="installLines"
       :done="installDone"
-      footer="reading your incident report, respectfully"
+      footer="judging your npm takes, respectfully"
     >
       Compiling your<br><span class="text-rv-green">title</span>…
     </RvInstallLog>

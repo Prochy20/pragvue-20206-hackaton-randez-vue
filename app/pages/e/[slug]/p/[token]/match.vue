@@ -132,7 +132,7 @@ onMounted(load)
       v-else-if="state === 'installing'"
       prompt="$ npm install"
       :lines="INSTALL_LINES"
-      footer="comparing incident reports, respectfully"
+      footer="diffing your package.json files, respectfully"
       :done="installDone"
     >
       Looking for your<br><span class="text-rv-green">peerDependency</span>…

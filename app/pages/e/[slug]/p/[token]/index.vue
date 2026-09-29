@@ -191,7 +191,7 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
       v-else-if="state === 'retrying'"
       prompt="$ npm i friends --retry"
       :lines="RETRY_LINES"
-      footer="reading your incident report, respectfully"
+      footer="judging your npm takes, respectfully"
       :done="retryDone"
     >
       Compiling your<br><span class="text-rv-green">title</span>…
