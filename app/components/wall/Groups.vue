@@ -35,29 +35,30 @@ onBeforeUnmount(() => observer?.disconnect())
 // the room instead of a fixed count: short pages show the full text, dense ones
 // still ellipsize. The wrapper's height comes from the grid row, not the text.
 let reasonObserver: ResizeObserver | null = null
-const reasonEls = new Set<HTMLElement>()
 
 function fitReason(wrapper: HTMLElement, height: number) {
   const text = wrapper.firstElementChild as HTMLElement | null
   if (!text) return
   const lineHeight = Number.parseFloat(getComputedStyle(text).lineHeight)
   if (!lineHeight) return
-  text.style.setProperty('-webkit-line-clamp', String(Math.max(1, Math.floor((height + 1) / lineHeight))))
+  const lines = Math.floor((height + 1) / lineHeight)
+  // No room for a whole line: hide it rather than show a sliced one.
+  text.style.visibility = lines ? '' : 'hidden'
+  text.style.setProperty('-webkit-line-clamp', String(Math.max(1, lines)))
 }
 
 function trackReason(el: unknown) {
   if (!(el instanceof HTMLElement)) return
   reasonObserver ??= new ResizeObserver((entries) => {
-    for (const entry of entries) fitReason(entry.target as HTMLElement, entry.contentRect.height)
+    for (const entry of entries) {
+      const target = entry.target as HTMLElement
+      // Pages re-render with fresh elements; a removed one reports a last
+      // (zero) size, which is the moment to stop observing it.
+      if (!target.isConnected) reasonObserver?.unobserve(target)
+      else fitReason(target, entry.contentRect.height)
+    }
   })
-  // Pages re-render with fresh elements; drop the ones that left the DOM.
-  for (const old of reasonEls) {
-    if (old.isConnected) continue
-    reasonObserver.unobserve(old)
-    reasonEls.delete(old)
-  }
-  if (reasonEls.has(el)) return
-  reasonEls.add(el)
+  // Observing an already observed element is a no-op.
   reasonObserver.observe(el)
 }
 onBeforeUnmount(() => reasonObserver?.disconnect())
