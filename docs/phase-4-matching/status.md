@@ -1,6 +1,6 @@
 # Fáze 4 – Matching round: status
 
-**Stav:** postaveno 2026-09-29 (paralelně třemi agenty nad sdíleným kontraktem). API ověřené curlem včetně dvou živých AI kol, lint + typecheck čisté. **UI čeká na ruční proklik uživatelem** (T5).
+**Stav:** ✅ hotovo 2026-09-29 (paralelně třemi agenty nad sdíleným kontraktem). API ověřené curlem včetně dvou živých AI kol, lint + typecheck čisté, UI proklikané uživatelem bez nálezů.
 
 ## Úkoly
 
@@ -9,7 +9,7 @@
 - [x] T2 – `feat(ui): show participant match`
 - [x] T3 – `feat(admin): run matching rounds`
 - [x] T4 – ověření curlem, restart dev serveru, HANDOFF
-- [ ] T5 – ruční proklik UI uživatelem, případné opravy
+- [x] T5 – ruční proklik UI uživatelem (bez nálezů)
 
 ## Ověření (curl)
 
@@ -25,4 +25,4 @@
 
 ## Testovací data
 
-Organizátor `t1-match-test@example.com` / `testtest123`, event `t1-match-test` (5 účastníků, 2 kola). Tokeny: Jana `gvbZ--Yq0OcinDPMRytZo9A7maoyY_VE` (trojice), Tomáš `Ttpo3iiRVHoDMjVom3QxftSEPLuf3icm` (trojice se smazaným členem v 1. kole), Petr `rYxce-mz6fl_YoDz3ksDtqH5dodc2Ccr`, Lucie `SMs-CipIFlT_fGJnbIxD6dI6XWNeSNSa`. Po prokliku smazat uživatele (cascade).
+Organizátor `t1-match-test@example.com` / `testtest123`, event `t1-match-test` (5 účastníků, 2 kola). Tokeny: Jana `gvbZ--Yq0OcinDPMRytZo9A7maoyY_VE` (trojice), Tomáš `Ttpo3iiRVHoDMjVom3QxftSEPLuf3icm` (trojice se smazaným členem v 1. kole), Petr `rYxce-mz6fl_YoDz3ksDtqH5dodc2Ccr`, Lucie `SMs-CipIFlT_fGJnbIxD6dI6XWNeSNSa`. Nechat pro vývoj živé zdi (fáze 5), smazat až potom (uživatel, cascade).

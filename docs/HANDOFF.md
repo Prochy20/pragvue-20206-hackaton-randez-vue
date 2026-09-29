@@ -2,12 +2,12 @@
 
 Přepisuje se na konci každé fáze. Vstupní bod pro novou session.
 
-**Poslední update:** 2026-09-29, fáze 4 postavená, čeká na ruční proklik UI.
+**Poslední update:** 2026-09-29, fáze 4 hotová (proklik bez nálezů), jde se grilovat fáze 5.
 
 ## Kde jsme
 
-- Fáze 1 ✅, 2 ✅, 3 ✅, **4 postavená** (admin spouští kolo → jeden AI call → dvojice / trojice s `reason`, `diff`, icebreakerem; účastník přes polling vidí `✓ match found` → obrazovky 07 → 08 na `/e/<slug>/p/<token>/match`; admin tab Rounds). Detaily v [phase-4-matching/status.md](phase-4-matching/status.md).
-- Otevřené: **T5 – uživatel prokliká UI** (admin Rounds: Run matching round, výpis kol; profil účastníka: match found / next round; `/match`: 07 jen poprvé, 08 pár i trojice, removed člen, commit blok). Testovací event a tokeny ve `status.md`. Nálezy opravit, zapsat do `decisions.md`.
+- Fáze 1 ✅, 2 ✅, 3 ✅, 4 ✅ (admin spouští kolo → jeden AI call → dvojice / trojice s `reason`, `diff`, icebreakerem; účastník přes polling vidí `✓ match found` → obrazovky 07 → 08 na `/e/<slug>/p/<token>/match`; admin tab Rounds). Detaily v [phase-4-matching/status.md](phase-4-matching/status.md).
+- Proklik UI fáze 4 bez nálezů. Testovací event `t1-match-test` (5 lidí, 2 kola) zůstává jako data pro zeď.
 - Z fáze 3 opraveno po prokliku: dlouhé A/B možnosti se zalamují, plynulejší swipe (decisions #48–#49).
 - Další: **fáze 5 – živá zeď** (`/e/<slug>/wall`, polling, tituly → páry, tmavé téma). Zatím nevygrilovaná.
 
