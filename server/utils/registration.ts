@@ -43,8 +43,10 @@ export function buildAnswers(questionnaire: Questionnaire, input: Record<string,
       }
       continue
     }
+    // A choice answer that isn't a current option was picked from options the organizer has since edited
+    // (the client restarts the quiz). A forged one is rejected the same way, it never reaches the DB.
     if (question.type === 'choice' && !question.options?.includes(answer)) {
-      throw createError({ statusCode: 400, statusMessage: `Pick one of the options for "${question.label}"` })
+      throw createError({ statusCode: 400, statusMessage: QUESTIONNAIRE_CHANGED })
     }
     answers.push({ questionId: question.id, question: question.label, type: question.type, answer })
   }
