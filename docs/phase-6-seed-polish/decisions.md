@@ -53,3 +53,10 @@ Append-only.
     - `.playwright-mcp/` a `.claude/worktrees/` jsou v `.gitignore`.
 
 16. **Health check hlásí selhané migrace.** Nitro pluginy neawaituje, takže chyba migrace (např. server spuštěný mimo kořen repa → `Can't find meta/_journal.json`) byla jen unhandledRejection a `/api/health` dál vracel 200 nad DB bez tabulek. Plugin teď předá běh migrací do `server/utils/migrations.ts`, chybu zaloguje jako `[db] migration failed: …` a `/api/health` na výsledek počká: 200 až po úspěšných migracích a `select 1`, jinak 503. Tím odpadá i závod z #13 (health zelený před doběhnutím migrací). Bez `NUXT_DATABASE_URL` se migrace dál jen přeskočí. Ostatní endpointy na migrace nečekají. Ověřeno prod buildem: špatné cwd → 503, kořen repa → 200.
+
+17. **Ověřovací proklik (Playwright) – druhé kolo oprav:**
+    - **Line-clamp důvodů** se dřív aplikoval jen na poslední kartu stránky: ref callback prořezával odpojené elementy dřív, než se nové karty připojily. Teď `trackReason` jen volá `observe` a odpojené elementy odebírá až callback observeru. Když se nevejde ani jeden řádek, důvod se skryje.
+    - **Trojice na zdi:** avatar nad jménem, jméno se zalamuje jen mezi slovy (max 2 řádky). **AI titul pod jménem se u trojic nezobrazuje:** s titulem nezbylo na 1600/1920 místo na důvod a titul se stejně ořezával. Dvojice beze změny.
+    - **Hláška „questions changed“** zmizí po přechodu za první otázku (`watch(quizIndex)`), jiné chyby odeslání zůstávají.
+    - **`error.vue` pro 401/403:** 401 → „Permission denied.“ + `npm login →` (`?redirect=` jen u stránek, ne u `/api/*`), 403 → „Access denied.“. SSR stránka 401 nevyhodí, stránka se ukáže jen při otevření chráněného `/api/*` v prohlížeči.
+    - Avatary na stránce matche zůstávají s iniciálami (záměr, beze změny).

@@ -1,6 +1,6 @@
 # Fáze 6 – Seed + doladění stavů: status
 
-**Stav:** postaveno 2026-09-29. Lint + typecheck čisté, seed a produkční build ověřené. **Čeká na proklik UI a deploy na Coolify uživatelem** (T7).
+**Stav:** postaveno 2026-09-29, proklik přes Playwright hotový a nálezy opravené (decisions #14–#17). **Zbývá deploy na Coolify uživatelem** (T7) + 2 ruční kontroly níže.
 
 ## Úkoly
 
@@ -23,7 +23,11 @@
 | `/foo`, `/e/x/p/y/extra` → themed 404 | ✅ curl |
 | Admin bez loginu → `/login?redirect=…` | ✅ curl |
 | Registrace se starým dotazníkem → 400 `QUESTIONNAIRE_CHANGED` | ✅ curl |
-| Klientské chování (reset kvízu, stale token, refresh hláška, zeď 404, logout, error page tlačítko) | ⚠️ proklik uživatelem |
+| Klientské chování (reset kvízu, stale token, refresh hláška, zeď 404, logout, error page tlačítko) | ✅ Playwright (2 kola) |
+| Prod build nad prázdnou DB z worktree (migrace, signup, event, registrace s AI, 404, QR, restart) | ✅ |
+| `/api/health` = 503 při selhané migraci | ✅ prod build |
+| Hláška „questions changed“ zmizí po 1. otázce (#17) | ⚠️ ručně (Playwrightu blokovaný zápis dotazníku) |
+| `/api/events` odhlášeně v prohlížeči → „Permission denied.“ | ⚠️ ručně (curl ✅) |
 
 ## Proklik (T7)
 
