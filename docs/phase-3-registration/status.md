@@ -9,9 +9,9 @@
 - [x] T2 – `feat(auth): add organizer accounts`
 - [x] T3 – `refactor(admin): authorize by session instead of admin key`
 - [x] T4 – `feat(ui): list organizer events` + `fix(ui): add noopener noreferrer to external links`
-- [ ] T5 – kontrakt účastníka
-- [ ] T6 – AI profil
-- [ ] T7 – veřejné API účastníka
+- [x] T5 – `feat(shared): add registration contract and a/b questionnaire`
+- [x] T6 – `feat(ai): generate participant profile`
+- [x] T7 – `feat(api): add participant registration endpoints`
 - [ ] T8 – účastnické UI (holé)
 - [ ] T9 – ruční ověření, status, HANDOFF
 - [ ] Přestylování podle design handoffu (až dorazí)
