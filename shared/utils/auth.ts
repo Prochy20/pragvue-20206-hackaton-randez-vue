@@ -8,3 +8,10 @@ export const credentialsSchema = z.object({
 })
 
 export type Credentials = z.infer<typeof credentialsSchema>
+
+// Forgot-password flow without email: the server's NUXT_PASSWORD_RESET_KEY stands in for a reset link.
+export const passwordResetSchema = credentialsSchema.extend({
+  resetKey: z.string().trim().min(1, 'Enter the reset key')
+})
+
+export type PasswordReset = z.infer<typeof passwordResetSchema>

@@ -16,6 +16,8 @@ export default defineNuxtConfig({
     // Server-only; set via NUXT_DATABASE_URL and NUXT_ANTHROPIC_API_KEY. Checked lazily on first use.
     databaseUrl: '',
     anthropicApiKey: '',
+    // Optional NUXT_PASSWORD_RESET_KEY: enables /reset-password (no email here). Empty = disabled.
+    passwordResetKey: '',
     public: {
       // Optional NUXT_PUBLIC_SITE_URL, e.g. https://rendez-vue.example.com
       siteUrl: ''

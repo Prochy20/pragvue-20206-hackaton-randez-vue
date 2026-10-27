@@ -2,7 +2,7 @@
 import type { FormSubmitEvent } from '@nuxt/ui'
 
 const props = defineProps<{
-  mode: 'login' | 'signup'
+  mode: 'login' | 'signup' | 'reset'
 }>()
 
 const { fetch: refreshSession } = useUserSession()
@@ -16,20 +16,29 @@ const redirect = computed(() => {
 const loading = ref(false)
 const error = ref<string>()
 
-const copy = computed(() => props.mode === 'login'
-  ? { title: 'Log in', submit: 'Log in', switchText: 'No account yet?', switchLabel: 'Sign up', switchTo: '/signup' }
-  : { title: 'Create an account', submit: 'Sign up', switchText: 'Already have an account?', switchLabel: 'Log in', switchTo: '/login' })
+const COPY = {
+  login: { title: 'Log in', submit: 'Log in', switchText: 'No account yet?', switchLabel: 'Sign up', switchTo: '/signup', endpoint: '/api/auth/login' },
+  signup: { title: 'Create an account', submit: 'Sign up', switchText: 'Already have an account?', switchLabel: 'Log in', switchTo: '/login', endpoint: '/api/auth/signup' },
+  reset: { title: 'Reset your password', submit: 'Set new password', switchText: 'Remembered it?', switchLabel: 'Log in', switchTo: '/login', endpoint: '/api/auth/reset-password' }
+}
+const copy = computed(() => COPY[props.mode])
 
-const fields = [
-  { name: 'email', type: 'email' as const, label: 'Email', placeholder: 'you@example.com', required: true },
-  { name: 'password', type: 'password' as const, label: 'Password', placeholder: 'At least 8 characters', required: true }
-]
+const emailField = { name: 'email', type: 'email' as const, label: 'Email', placeholder: 'you@example.com', required: true }
+const passwordField = { name: 'password', type: 'password' as const, label: 'Password', placeholder: 'At least 8 characters', required: true }
+const fields = computed(() => props.mode === 'reset'
+  ? [
+      emailField,
+      { ...passwordField, label: 'New password' },
+      { name: 'resetKey', type: 'password' as const, label: 'Reset key', placeholder: 'Set by whoever runs this server', required: true }
+    ]
+  : [emailField, passwordField])
+const schema = computed(() => props.mode === 'reset' ? passwordResetSchema : credentialsSchema)
 
-async function onSubmit(event: FormSubmitEvent<Credentials>) {
+async function onSubmit(event: FormSubmitEvent<Credentials | PasswordReset>) {
   loading.value = true
   error.value = undefined
   try {
-    await $fetch(`/api/auth/${props.mode}`, { method: 'POST', body: event.data })
+    await $fetch(copy.value.endpoint, { method: 'POST', body: event.data })
     await refreshSession()
     await navigateTo(redirect.value ?? '/')
   } catch (e) {
@@ -55,7 +64,7 @@ async function onSubmit(event: FormSubmitEvent<Credentials>) {
 
     <UPageCard class="w-full max-w-md lg:justify-self-end">
       <UAuthForm
-        :schema="credentialsSchema"
+        :schema="schema"
         :fields="fields"
         :title="copy.title"
         :submit="{ label: copy.submit }"
@@ -80,6 +89,16 @@ async function onSubmit(event: FormSubmitEvent<Credentials>) {
           >
             {{ copy.switchLabel }}
           </ULink>
+          <template v-if="mode === 'login'">
+            <br>
+            Forgot your password?
+            <ULink
+              to="/reset-password"
+              class="font-medium text-primary"
+            >
+              Reset it
+            </ULink>
+          </template>
         </template>
       </UAuthForm>
     </UPageCard>
